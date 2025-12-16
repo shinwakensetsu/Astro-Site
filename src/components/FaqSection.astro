@@ -5,16 +5,21 @@ import { getFaqs } from "../lib/microcms";
 
 // ビルド時にmicroCMSからデータを取得
 // APIキーが設定されていない場合は空配列としてエラーを回避（開発用）
-let faqs: any[] = [];
+let qaList: any[] = [];
 try {
   if (import.meta.env.MICROCMS_API_KEY) {
-    const response = await getFaqs({ fields: ["id", "title", "body", "open"] });
-    faqs = response.contents;
+    // 繰り返しフィールド（title）を取得
+    const response = await getFaqs({ fields: ["id", "title", "open"] });
+    // 最初のコンテンツを取得（リスト形式APIで1つの記事として管理している想定）
+    const content = response.contents[0];
+    if (content && Array.isArray(content.title)) {
+      qaList = content.title;
+    }
   } else {
     console.warn("MICROCMS_API_KEY is not set. Using dummy data.");
     // ダミーデータ（APIキー未設定時用）
-    faqs = [
-      { id: "1", title: "【ダミー】APIキーを設定してください", body: "<p>環境変数 MICROCMS_API_KEY を設定すると、ここにはmicroCMSのデータが表示されます。</p>", open: true },
+    qaList = [
+      { fieldId: "qa", question: "【ダミー】APIキーを設定してください", answer: "<p>環境変数 MICROCMS_API_KEY を設定すると、ここにはmicroCMSのデータが表示されます。</p>" },
     ];
   }
 } catch (e) {
@@ -23,9 +28,9 @@ try {
 ---
 
 <Accordion controls={true}>
-  {faqs.map((faq) => (
-    <AccordionItem title={faq.title} open={faq.open}>
-      <div set:html={faq.body} />
+  {qaList.map((qa) => (
+    <AccordionItem title={qa.question} open={false}>
+      <div set:html={qa.answer} />
     </AccordionItem>
   ))}
 </Accordion>

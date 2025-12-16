@@ -23,16 +23,21 @@ const client = createClient({
 
 // --- 型定義 ---
 
-// FAQの型定義（microCMSのスキーマに合わせて調整してください）
+// FAQの型定義
+export type FaqQa = {
+  fieldId: "qa";
+  question: string;
+  answer: string;
+};
+
 export type Faq = {
   id: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
   revisedAt: string;
-  title: string;
-  body: string; // リッチエディタ想定（HTML）
-  open?: boolean; // 初期表示で開くかどうか
+  title: FaqQa[]; // 繰り返しフィールド（フィールドID: title）
+  open?: boolean;
 };
 
 export type FaqResponse = {
