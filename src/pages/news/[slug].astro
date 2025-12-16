@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getNews, type News } from '../../lib/microcms';
 
 export async function getStaticPaths() {
-  const response = await getNews({ limit: 1000 });
+  const response = await getNews({ limit: 100 });
   
   return response.contents.map((news) => ({
     params: { slug: news.slug },
