@@ -1,0 +1,64 @@
+---
+interface Props {
+  controls?: boolean;
+}
+
+const { controls = false } = Astro.props;
+---
+
+<div class="accordion-wrapper">
+  {controls && (
+    <div class="accordion-controls">
+      <button type="button" data-action="open-all">全て開く</button>
+      <button type="button" data-action="close-all">全て閉じる</button>
+    </div>
+  )}
+  
+  <ul class="accordion">
+    <slot />
+  </ul>
+</div>
+
+<script>
+  // ページ内のすべてのアコーディオンラッパーに対して処理を行う
+  document.querySelectorAll('.accordion-wrapper').forEach((wrapper) => {
+    const openBtn = wrapper.querySelector('[data-action="open-all"]');
+    const closeBtn = wrapper.querySelector('[data-action="close-all"]');
+    
+    if (openBtn && closeBtn) {
+      const details = wrapper.querySelectorAll('details');
+
+      openBtn.addEventListener('click', () => {
+        details.forEach((detail) => {
+          detail.open = true;
+        });
+      });
+
+      closeBtn.addEventListener('click', () => {
+        details.forEach((detail) => {
+          detail.open = false;
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  .accordion-controls {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .accordion-controls button {
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+  }
+
+  .accordion {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #ccc;
+  }
+</style>

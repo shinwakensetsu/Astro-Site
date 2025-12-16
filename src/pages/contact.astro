@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout>
+  <main>
+    <h1>お問い合わせ</h1>
+    <p class="description">
+      ご質問やご相談は、以下のフォームよりお気軽にお問い合わせください。
+    </p>
+    
+    <div class="form-container">
+      <ContactForm />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #666;
+  }
+
+  .form-container {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+  }
+</style>

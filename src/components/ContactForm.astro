@@ -1,0 +1,156 @@
+---
+interface Props {
+  action?: string; // 送信先URL（Formspreeなどが決まったら指定）
+}
+
+const { action = "#" } = Astro.props;
+---
+
+<form class="contact-form" action={action} method="POST" novalidate>
+  <div class="form-group">
+    <label for="name">お名前 <span class="required">*</span></label>
+    <input type="text" id="name" name="name" autocomplete="name" placeholder="山田 太郎" />
+    <p class="error-message" id="error-name"></p>
+  </div>
+
+  <div class="form-group">
+    <label for="email">メールアドレス <span class="required">*</span></label>
+    <input type="email" id="email" name="email" autocomplete="email" placeholder="example@email.com" />
+    <p class="error-message" id="error-email"></p>
+  </div>
+
+  <div class="form-group">
+    <label for="subject">件名</label>
+    <input type="text" id="subject" name="subject" autocomplete="off" placeholder="お問い合わせの件名" />
+    <p class="error-message" id="error-subject"></p>
+  </div>
+
+  <div class="form-group">
+    <label for="message">お問い合わせ内容 <span class="required">*</span></label>
+    <textarea id="message" name="message" autocomplete="off" rows="5" placeholder="ここにお問い合わせ内容を入力してください"></textarea>
+    <p class="error-message" id="error-message"></p>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="submit-btn">送信する</button>
+  </div>
+</form>
+
+<script>
+  import { contactSchema } from '../lib/contactSchema';
+  import { z } from 'zod';
+
+  const form = document.querySelector('.contact-form') as HTMLFormElement;
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      // エラーメッセージをリセット
+      document.querySelectorAll('.error-message').forEach((el) => {
+        el.textContent = '';
+      });
+      document.querySelectorAll('.has-error').forEach((el) => {
+        el.classList.remove('has-error');
+      });
+
+      // フォームデータを取得
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Zodでバリデーション
+      const result = contactSchema.safeParse(data);
+
+      if (!result.success) {
+        // バリデーションエラーがある場合、送信をキャンセル
+        e.preventDefault();
+
+        // エラーメッセージを表示
+        result.error.issues.forEach((issue) => {
+          const fieldName = issue.path[0];
+          const errorEl = document.getElementById(`error-${fieldName}`);
+          const inputEl = document.getElementById(`${fieldName}`);
+          
+          if (errorEl) {
+            errorEl.textContent = issue.message;
+          }
+          if (inputEl) {
+            inputEl.classList.add('has-error');
+          }
+        });
+      }
+      // バリデーション成功時はそのまま送信（action属性のURLへ）
+    });
+  }
+</script>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .required {
+    color: #e03131;
+    margin-left: 0.25rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: 2px solid #228be6;
+    border-color: transparent;
+  }
+  
+  /* エラースタイル */
+  .has-error {
+    border-color: #e03131;
+    background-color: #fff5f5;
+  }
+  
+  .has-error:focus {
+    outline-color: #e03131;
+  }
+
+  .error-message {
+    color: #e03131;
+    font-size: 0.875rem;
+    margin: 0;
+    min-height: 1.25em; /* エラーがない時も高さを確保してガタつきを防ぐなら設定 */
+  }
+
+  .submit-btn {
+    background-color: #228be6;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .submit-btn:hover {
+    background-color: #1c7ed6;
+  }
+</style>

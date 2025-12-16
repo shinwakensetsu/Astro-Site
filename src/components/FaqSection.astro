@@ -1,0 +1,31 @@
+---
+import Accordion from "./Accordion.astro";
+import AccordionItem from "./AccordionItem.astro";
+import { getFaqs } from "../lib/microcms";
+
+// ビルド時にmicroCMSからデータを取得
+// APIキーが設定されていない場合は空配列としてエラーを回避（開発用）
+let faqs: any[] = [];
+try {
+  if (import.meta.env.MICROCMS_API_KEY) {
+    const response = await getFaqs({ fields: ["id", "title", "body", "open"] });
+    faqs = response.contents;
+  } else {
+    console.warn("MICROCMS_API_KEY is not set. Using dummy data.");
+    // ダミーデータ（APIキー未設定時用）
+    faqs = [
+      { id: "1", title: "【ダミー】APIキーを設定してください", body: "<p>環境変数 MICROCMS_API_KEY を設定すると、ここにはmicroCMSのデータが表示されます。</p>", open: true },
+    ];
+  }
+} catch (e) {
+  console.error("Failed to fetch FAQs:", e);
+}
+---
+
+<Accordion controls={true}>
+  {faqs.map((faq) => (
+    <AccordionItem title={faq.title} open={faq.open}>
+      <div set:html={faq.body} />
+    </AccordionItem>
+  ))}
+</Accordion>

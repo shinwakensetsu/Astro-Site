@@ -1,6 +1,7 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import FaqSection from '../components/FaqSection.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -8,4 +9,30 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
 	<Welcome />
+	<section style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+		<h2>よくある質問</h2>
+		<FaqSection />
+	</section>
+
+	<section style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;">
+		<h2>お問い合わせ</h2>
+		<p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+		<a href="/contact" class="contact-link">お問い合わせフォームへ</a>
+	</section>
 </Layout>
+
+<style>
+	.contact-link {
+		display: inline-block;
+		background-color: #228be6;
+		color: white;
+		padding: 0.75rem 1.5rem;
+		text-decoration: none;
+		border-radius: 4px;
+		font-weight: bold;
+		margin-top: 1rem;
+	}
+	.contact-link:hover {
+		background-color: #1c7ed6;
+	}
+</style>

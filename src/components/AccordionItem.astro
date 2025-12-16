@@ -1,0 +1,103 @@
+---
+interface Props {
+  title: string;
+  name?: string; // 排他制御（アコーディオン動作）を行いたい場合に指定
+  open?: boolean;
+}
+
+const { title, name, open = false } = Astro.props;
+---
+
+<li class="accordion-item">
+  <details class="js-accordion-details" name={name} open={open}>
+    <summary class="accordion-summary js-accordion-summary">{title}</summary>
+    <div class="accordion-content js-accordion-content">
+      <div class="accordion-content-inner">
+        <slot />
+      </div>
+    </div>
+  </details>
+</li>
+
+<script>
+  // アニメーションの時間とイージング
+  const animTiming = {
+    duration: 300,
+    easing: "ease-in-out",
+  };
+
+  // アコーディオンを閉じるときのキーフレーム
+  const closingAnimation = (answer: HTMLElement) => [
+    {
+      height: answer.offsetHeight + "px",
+      opacity: 1,
+    },
+    {
+      height: 0,
+      opacity: 0,
+    },
+  ];
+
+  // アコーディオンを開くときのキーフレーム
+  const openingAnimation = (answer: HTMLElement) => [
+    {
+      height: 0,
+      opacity: 0,
+    },
+    {
+      height: answer.offsetHeight + "px",
+      opacity: 1,
+    },
+  ];
+
+  document.querySelectorAll(".js-accordion-details").forEach(function (el) {
+    const summary = el.querySelector(".js-accordion-summary");
+    const answer = el.querySelector(".js-accordion-content");
+
+    if (!summary || !answer) return;
+
+    summary.addEventListener("click", (event) => {
+      // デフォルトの挙動を無効化
+      event.preventDefault();
+      
+      // 型アサーション
+      const answerEl = answer as HTMLElement;
+
+      // detailsのopen属性を判定
+      if (el.getAttribute("open") !== null) {
+        // アコーディオンを閉じるときの処理
+        const closingAnim = answerEl.animate(closingAnimation(answerEl), animTiming);
+
+        closingAnim.onfinish = () => {
+          // アニメーションの完了後にopen属性を取り除く
+          el.removeAttribute("open");
+        };
+      } else {
+        // open属性を付与
+        el.setAttribute("open", "true");
+        // アコーディオンを開くときの処理
+        const openingAnim = answerEl.animate(openingAnimation(answerEl), animTiming);
+      }
+    });
+  });
+</script>
+
+<style>
+  .accordion-item {
+    /* リストマーカーを消すなどの基本スタイル */
+  }
+  
+  .accordion-summary {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.5rem 0;
+  }
+
+  .accordion-content {
+    overflow: hidden;
+  }
+
+  .accordion-content-inner {
+    padding: 0.5rem 0 1rem;
+  }
+</style>

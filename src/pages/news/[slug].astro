@@ -1,0 +1,261 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getNews, type News } from '../../lib/microcms';
+
+export async function getStaticPaths() {
+  const response = await getNews({ limit: 1000 });
+  
+  return response.contents.map((news) => ({
+    params: { slug: news.slug },
+    props: { news },
+  }));
+}
+
+const { news } = Astro.props;
+
+// カテゴリーごとの色
+const categoryColors: Record<string, string> = {
+  'お知らせ': '#0066cc',
+  'プレスリリース': '#00a859',
+  'イベント': '#ff9500',
+  'その他': '#999',
+};
+
+// 日付フォーマット関数
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+}
+---
+
+<Layout title={news.title} description={news.excerpt}>
+  <!-- ページヘッダー -->
+  <section class="page-header">
+    <div class="container">
+      <div class="news-meta">
+        <time class="news-date" datetime={news.publishedDate}>
+          {formatDate(news.publishedDate)}
+        </time>
+        <span 
+          class="news-category" 
+          style={`background-color: ${categoryColors[news.category]};`}
+        >
+          {news.category}
+        </span>
+      </div>
+      <h1 class="page-title">{news.title}</h1>
+    </div>
+  </section>
+  
+  <!-- サムネイル -->
+  {news.thumbnail && (
+    <section class="thumbnail">
+      <div class="container">
+        <img src={news.thumbnail.url} alt={news.title} />
+      </div>
+    </section>
+  )}
+  
+  <!-- 本文 -->
+  <section class="news-content">
+    <div class="container">
+      <div class="content" set:html={news.content} />
+    </div>
+  </section>
+  
+  <!-- ナビゲーション -->
+  <section class="navigation">
+    <div class="container">
+      <a href="/news" class="back-link">← お知らせ一覧へ戻る</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ページヘッダー */
+  .page-header {
+    background: #f8f9fa;
+    padding: 60px 0;
+  }
+  
+  .news-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .news-date {
+    font-size: 0.875rem;
+    color: #999;
+    font-weight: 500;
+  }
+  
+  .news-category {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.4;
+    max-width: 900px;
+  }
+  
+  /* サムネイル */
+  .thumbnail {
+    padding: 40px 0;
+  }
+  
+  .thumbnail img {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* 本文 */
+  .news-content {
+    padding: 60px 0 80px;
+  }
+  
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .content :global(h2) {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 60px 0 20px;
+    color: #1a1a1a;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e5e5;
+  }
+  
+  .content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: #333;
+  }
+  
+  .content :global(h4) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 30px 0 12px;
+    color: #333;
+  }
+  
+  .content :global(p) {
+    line-height: 2;
+    margin-bottom: 24px;
+    color: #666;
+    font-size: 1.0625rem;
+  }
+  
+  .content :global(ul),
+  .content :global(ol) {
+    margin: 24px 0;
+    padding-left: 30px;
+  }
+  
+  .content :global(li) {
+    line-height: 2;
+    color: #666;
+    margin-bottom: 12px;
+  }
+  
+  .content :global(blockquote) {
+    border-left: 4px solid #0066cc;
+    padding-left: 20px;
+    margin: 30px 0;
+    color: #555;
+    font-style: italic;
+  }
+  
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 40px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .content :global(a) {
+    color: #0066cc;
+    text-decoration: underline;
+  }
+  
+  .content :global(a:hover) {
+    text-decoration: none;
+  }
+  
+  .content :global(code) {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: 'Monaco', 'Courier New', monospace;
+  }
+  
+  .content :global(pre) {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 30px 0;
+  }
+  
+  .content :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+  
+  /* ナビゲーション */
+  .navigation {
+    padding: 40px 0 80px;
+    border-top: 1px solid #e5e5e5;
+  }
+  
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: #0066cc;
+    font-weight: 600;
+    transition: transform 0.3s;
+  }
+  
+  .back-link:hover {
+    transform: translateX(-5px);
+  }
+  
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 1.75rem;
+    }
+    
+    .news-content {
+      padding: 40px 0 60px;
+    }
+    
+    .content :global(h2) {
+      font-size: 1.5rem;
+    }
+    
+    .content :global(h3) {
+      font-size: 1.25rem;
+    }
+  }
+</style>
