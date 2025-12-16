@@ -1,9 +1,24 @@
 import { createClient, type MicroCMSQueries, type MicroCMSImage, type MicroCMSDate } from "microcms-js-sdk";
 
+const serviceDomain = import.meta.env.MICROCMS_SERVICE_DOMAIN;
+const apiKey = import.meta.env.MICROCMS_API_KEY;
+
+if (!serviceDomain) {
+  console.error("❌ [Error] MICROCMS_SERVICE_DOMAIN is missing. Please check your environment variables.");
+} else {
+  console.log(`✅ MICROCMS_SERVICE_DOMAIN is set: ${serviceDomain}`);
+}
+
+if (!apiKey) {
+  console.error("❌ [Error] MICROCMS_API_KEY is missing. Please check your environment variables.");
+} else {
+  console.log("✅ MICROCMS_API_KEY is set (hidden)");
+}
+
 // 環境変数から取得
 const client = createClient({
-  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-  apiKey: import.meta.env.MICROCMS_API_KEY,
+  serviceDomain: serviceDomain || "MISSING_DOMAIN",
+  apiKey: apiKey || "MISSING_KEY",
 });
 
 // --- 型定義 ---
