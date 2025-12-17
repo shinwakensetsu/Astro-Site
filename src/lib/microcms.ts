@@ -47,26 +47,7 @@ export type FaqResponse = {
   contents: Faq[];
 };
 
-// --- API取得関数 ---
-
-// FAQ一覧を取得
-export const getFaqs = async (queries?: MicroCMSQueries) => {
-  return await client.get<FaqResponse>({ endpoint: "faq", queries });
-};
-
-// 詳細を取得する場合（例：ブログなど）
-export const getFaqDetail = async (
-  contentId: string,
-  queries?: MicroCMSQueries
-) => {
-  return await client.getListDetail<Faq>({
-    endpoint: "faq",
-    contentId,
-    queries,
-  });
-};
-
-// --- ニュース関連 ---
+// ニュース関連
 
 export type News = {
   id: string;
@@ -100,6 +81,33 @@ export type NewsPage = {
   subtitle: string;
 };
 
+// トップページ関連
+
+export type TopPage = {
+  heroImage?: MicroCMSImage;
+  heroTitle?: string;
+  heroDescription?: string;
+} & MicroCMSDate;
+
+// --- API取得関数 ---
+
+// FAQ一覧を取得
+export const getFaqs = async (queries?: MicroCMSQueries) => {
+  return await client.get<FaqResponse>({ endpoint: "faq", queries });
+};
+
+// 詳細を取得する場合（例：ブログなど）
+export const getFaqDetail = async (
+  contentId: string,
+  queries?: MicroCMSQueries
+) => {
+  return await client.getListDetail<Faq>({
+    endpoint: "faq",
+    contentId,
+    queries,
+  });
+};
+
 // ニュース一覧を取得
 export const getNews = async (queries?: MicroCMSQueries) => {
   return await client.get<NewsResponse>({ endpoint: "news", queries });
@@ -120,4 +128,9 @@ export const getNewsDetail = async (
 // ニュースページ情報を取得
 export const getNewsPage = async (queries?: MicroCMSQueries) => {
   return await client.getObject<NewsPage>({ endpoint: "news-page", queries });
+};
+
+// トップページ情報を取得
+export const getTopPage = async (queries?: MicroCMSQueries) => {
+  return await client.getObject<TopPage>({ endpoint: "top-page", queries });
 };

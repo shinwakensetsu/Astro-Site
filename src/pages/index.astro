@@ -2,12 +2,34 @@
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import FaqSection from '../components/FaqSection.astro';
+import { getTopPage } from '../lib/microcms';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// microCMSからトップページのデータを取得
+// ガイド: 複数のAPIを呼び出す場合は、Promise.allを使用すると並列で取得でき、パフォーマンスが向上します。
+// 例:
+// const [topPageData, newsData] = await Promise.all([
+//   getTopPage(),
+//   getNews({ limit: 3 })
+// ]);
+
+const topPage = await getTopPage();
 ---
 
 <Layout>
+	{
+		topPage.heroImage && (
+			<div class="hero-image-container">
+				<img
+					src={topPage.heroImage.url}
+					alt={topPage.heroTitle || "Top Image"}
+					width={topPage.heroImage.width}
+					height={topPage.heroImage.height}
+					class="hero-image"
+				/>
+				{topPage.heroTitle && <h1 class="hero-title">{topPage.heroTitle}</h1>}
+			</div>
+		)
+	}
 	<Welcome />
 	<section style="padding: 2rem; max-width: 800px; margin: 0 auto;">
 		<h2>よくある質問</h2>
@@ -34,5 +56,32 @@ import FaqSection from '../components/FaqSection.astro';
 	}
 	.contact-link:hover {
 		background-color: #1c7ed6;
+	}
+
+	.hero-image-container {
+		position: relative;
+		width: 100%;
+		max-height: 400px;
+		overflow: hidden;
+		margin-bottom: 2rem;
+	}
+
+	.hero-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero-title {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: white;
+		font-size: 3rem;
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+		margin: 0;
+		width: 100%;
+		text-align: center;
 	}
 </style>
