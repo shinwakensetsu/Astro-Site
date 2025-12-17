@@ -132,5 +132,6 @@ export const getNewsPage = async (queries?: MicroCMSQueries) => {
 
 // トップページ情報を取得
 export const getTopPage = async (queries?: MicroCMSQueries) => {
-  return await client.getObject<TopPage>({ endpoint: "top-page", queries });
+  const response = await client.getList<TopPage>({ endpoint: "top-page", queries });
+  return response.contents[0];
 };
