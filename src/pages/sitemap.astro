@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteStructure } from '../lib/site-data';
+---
+
+<Layout>
+  <main>
+    <h1>サイトマップ</h1>
+    <div class="sitemap-container">
+      <ul>
+        {siteStructure.map((item) => (
+          <li>
+            {item.href ? (
+              <a href={item.href}>
+                {item.label}
+                {item.labelEn && <span class="en">{item.labelEn}</span>}
+              </a>
+            ) : (
+              <span class="category-label">
+                {item.label}
+                {item.labelEn && <span class="en">{item.labelEn}</span>}
+              </span>
+            )}
+
+            {item.children && (
+              <ul class="sub-menu">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.href}>{child.label}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .sitemap-container {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sitemap-container > ul > li {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+  }
+
+  .sitemap-container > ul > li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: inline-block;
+  }
+
+  a:hover {
+    color: #228be6;
+    text-decoration: underline;
+  }
+
+  .category-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .en {
+    font-size: 0.8rem;
+    color: #888;
+    margin-left: 0.5rem;
+    font-weight: normal;
+  }
+
+  .sub-menu {
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .sub-menu li {
+    margin-bottom: 0.25rem;
+    border: none;
+    padding: 0;
+  }
+
+  .sub-menu a {
+    font-size: 0.95rem;
+    font-weight: normal;
+    color: #555;
+  }
+  
+  .sub-menu a:hover {
+    color: #228be6;
+  }
+</style>

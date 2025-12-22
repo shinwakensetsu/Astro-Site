@@ -4,6 +4,7 @@ import { getNews, type News } from '../../lib/microcms';
 
 export async function getStaticPaths() {
   const response = await getNews({ limit: 100 });
+  if (!response) return [];
   
   return response.contents.map((news) => ({
     params: { slug: news.slug },

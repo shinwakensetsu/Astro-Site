@@ -1,3 +1,8 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -8,7 +13,9 @@
 		<title>Astro Basics</title>
 	</head>
 	<body>
+		<Header />
 		<slot />
+		<Footer />
 	</body>
 </html>
 
@@ -22,6 +29,10 @@
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+	body {
+		/* ヘッダーの高さ分だけ余白を確保（概算値、必要に応じて調整） */
+		padding-top: 160px; 
 	}
 	html {
 		font-family: system-ui, sans-serif;

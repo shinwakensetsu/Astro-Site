@@ -1,0 +1,244 @@
+---
+import { siteStructure } from '../lib/site-data';
+
+// サブナビ（上部）に表示する項目
+const subNavLabels = ['お問い合わせ・ご相談', 'サイトマップ'];
+const subNavItems = siteStructure.filter(item => subNavLabels.includes(item.label));
+
+// グローバルナビ（下部）に表示する項目
+const globalNavItems = siteStructure.filter(item => !subNavLabels.includes(item.label));
+---
+
+<!--head start-->
+<div class="header-wrapper">
+  <header>
+    <div class="header-top">
+      <h1>
+        <a href="/">
+          <!-- 画像がないためプレースホルダー表示 -->
+          <div class="logo-placeholder">
+            <span class="logo-text-jp">社寺建築の伸和建設株式会社</span>
+            <span class="logo-text-en">SHINWA CONSTRUCTION CO.,LTD.</span>
+          </div>
+          <!-- 
+          <img
+            src="/img/logo.gif"
+            alt="京都 社寺建築の伸和建設株式会社 SHINWA CONSTRUCTION CO.,LTD."
+          />
+          -->
+        </a>
+      </h1>
+
+      <nav class="sub-nav" aria-label="お問い合わせ・サイトマップ">
+        <ul>
+          {subNavItems.map(item => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="global-nav" aria-label="グローバルナビゲーション">
+      <ul>
+        {globalNavItems.map(item => (
+          <li>
+            {item.children ? (
+              <details>
+                <summary>
+                  {item.label}
+                  {item.labelEn && <span lang="en">{item.labelEn}</span>}
+                </summary>
+                <ul>
+                  {item.children.map(child => (
+                    <li><a href={child.href}>{child.label}</a></li>
+                  ))}
+                </ul>
+              </details>
+            ) : (
+              <a href={item.href}>
+                {item.label}
+                {item.labelEn && <span lang="en">{item.labelEn}</span>}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </header>
+</div>
+<!--/head end-->
+
+<script>
+  import { setupAutoCloseDetails } from '../lib/details-utils';
+  
+  // ドロップダウンメニュー（details）の制御
+  // フォーカスが外れたら閉じる（支援技術のカーソル移動対応）
+  setupAutoCloseDetails('details');
+</script>
+
+<style>
+  /* ユーザー要望のプロパティを活かした固定配置 */
+  .header-wrapper {
+    position: fixed;
+    inset: 0 0 auto 0; /* 上左右0、下はautoにして高さを制限 */
+    /* place-self: center; は fixed 要素には効かないため、中身の配置で調整 */
+    z-index: 1000;
+    background-color: #333; /* 画像の背景色に近い色 */
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+  }
+
+  /* 上段: ロゴとサブナビ */
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 1rem;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  h1 a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .logo-placeholder {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #666;
+    padding: 0.5rem;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .logo-text-jp {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .logo-text-en {
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+ .sub-nav {
+    place-self: normal;
+  }
+  .sub-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .sub-nav a {
+    color: #ccc;
+    text-decoration: none;
+  }
+  
+  .sub-nav a:hover {
+    color: #fff;
+  }
+
+  /* 下段: グローバルナビ */
+  .global-nav {
+    background: linear-gradient(to bottom, #444, #222);
+    border-top: 1px solid #555;
+  }
+
+  .global-nav > ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between; /* 均等配置 */
+  }
+
+  .global-nav > ul > li {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #555;
+    position: relative; /* ドロップダウン用 */
+  }
+
+  .global-nav > ul > li:first-child {
+    border-left: 1px solid #555;
+  }
+
+  .global-nav a,
+  .global-nav summary {
+    display: block;
+    padding: 0.8rem 0;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none; /* summaryの三角を消す */
+  }
+  
+  .global-nav summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .global-nav span[lang="en"] {
+    display: block;
+    font-size: 0.75rem;
+    color: #aaa;
+    font-weight: normal;
+    margin-top: 0.2rem;
+  }
+
+  .global-nav a:hover,
+  .global-nav details[open] summary {
+    background-color: #555;
+  }
+
+  /* ドロップダウンメニュー */
+  .global-nav details {
+    position: relative;
+  }
+
+  .global-nav details ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    min-width: 200px; /* 少し広げる */
+    background-color: #333;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1001;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: none; /* 初期状態は非表示（detailsの開閉に任せるが、CSSで制御も可） */
+  }
+  
+  /* detailsが開いているときは表示 */
+  .global-nav details[open] ul {
+    display: block;
+  }
+
+  .global-nav details ul li {
+    border-bottom: 1px solid #444;
+  }
+
+  .global-nav details ul li a {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  .global-nav details ul li a:hover {
+    background-color: #444;
+  }
+</style>

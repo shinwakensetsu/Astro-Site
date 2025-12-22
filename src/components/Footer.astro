@@ -1,0 +1,71 @@
+---
+import { siteStructure } from '../lib/site-data';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+  <nav aria-label="フッターナビゲーション">
+    <ul class="footer-nav">
+      {siteStructure.map((item) => {
+        // リンク先の決定: item.href があればそれを使用、なければ children[0].href を使用
+        const href = item.href ?? item.children?.[0]?.href;
+        
+        // リンク先がない場合はレンダリングしない（またはspanで表示するなど、要件に合わせて調整）
+        if (!href) return null;
+
+        return (
+          <li>
+            <a href={href}>
+              {item.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+  
+  <div class="copyright">
+    <small>&copy; {currentYear} SHINWA CONSTRUCTION CO.,LTD.</small>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background-color: #333;
+    color: #fff;
+    padding: 2rem 1rem;
+    margin-top: auto; /* Layoutでflexを使用している場合、最下部に押し下げる */
+  }
+
+  .footer-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+    gap: 1.5rem;
+  }
+
+  .footer-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  .footer-nav a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  .copyright {
+    text-align: center;
+    color: #999;
+    font-size: 0.8rem;
+    border-top: 1px solid #444;
+    padding-top: 1.5rem;
+  }
+</style>

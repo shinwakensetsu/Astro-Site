@@ -10,10 +10,13 @@ try {
   if (import.meta.env.MICROCMS_API_KEY) {
     // 繰り返しフィールド（title）を取得
     const response = await getFaqs({ fields: ["id", "title", "open"] });
-    // 最初のコンテンツを取得（リスト形式APIで1つの記事として管理している想定）
-    const content = response.contents[0];
-    if (content && Array.isArray(content.title)) {
-      qaList = content.title;
+    
+    if (response) {
+      // 最初のコンテンツを取得（リスト形式APIで1つの記事として管理している想定）
+      const content = response.contents[0];
+      if (content && Array.isArray(content.title)) {
+        qaList = content.title;
+      }
     }
   } else {
     console.warn("MICROCMS_API_KEY is not set. Using dummy data.");

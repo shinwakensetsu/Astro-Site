@@ -93,7 +93,12 @@ export type TopPage = {
 
 // FAQ一覧を取得
 export const getFaqs = async (queries?: MicroCMSQueries) => {
-  return await client.get<FaqResponse>({ endpoint: "faq", queries });
+  try {
+    return await client.get<FaqResponse>({ endpoint: "faq", queries });
+  } catch (error) {
+    console.error("Failed to fetch FAQs:", error);
+    return null;
+  }
 };
 
 // 詳細を取得する場合（例：ブログなど）
@@ -101,16 +106,26 @@ export const getFaqDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-  return await client.getListDetail<Faq>({
-    endpoint: "faq",
-    contentId,
-    queries,
-  });
+  try {
+    return await client.getListDetail<Faq>({
+      endpoint: "faq",
+      contentId,
+      queries,
+    });
+  } catch (error) {
+    console.error(`Failed to fetch FAQ detail (${contentId}):`, error);
+    return null;
+  }
 };
 
 // ニュース一覧を取得
 export const getNews = async (queries?: MicroCMSQueries) => {
-  return await client.get<NewsResponse>({ endpoint: "news", queries });
+  try {
+    return await client.get<NewsResponse>({ endpoint: "news", queries });
+  } catch (error) {
+    console.error("Failed to fetch News:", error);
+    return null;
+  }
 };
 
 // ニュース詳細を取得
@@ -118,20 +133,35 @@ export const getNewsDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-  return await client.getListDetail<News>({
-    endpoint: "news",
-    contentId,
-    queries,
-  });
+  try {
+    return await client.getListDetail<News>({
+      endpoint: "news",
+      contentId,
+      queries,
+    });
+  } catch (error) {
+    console.error(`Failed to fetch News detail (${contentId}):`, error);
+    return null;
+  }
 };
 
 // ニュースページ情報を取得
 export const getNewsPage = async (queries?: MicroCMSQueries) => {
-  return await client.getObject<NewsPage>({ endpoint: "news-page", queries });
+  try {
+    return await client.getObject<NewsPage>({ endpoint: "news-page", queries });
+  } catch (error) {
+    console.error("Failed to fetch News Page info:", error);
+    return null;
+  }
 };
 
 // トップページ情報を取得
 export const getTopPage = async (queries?: MicroCMSQueries) => {
-  const response = await client.getList<TopPage>({ endpoint: "top-page", queries });
-  return response.contents[0];
+  try {
+    const response = await client.getList<TopPage>({ endpoint: "top-page", queries });
+    return response.contents[0] || null;
+  } catch (error) {
+    console.error("Failed to fetch Top Page:", error);
+    return null;
+  }
 };

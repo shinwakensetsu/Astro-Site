@@ -3,29 +3,22 @@ import Layout from '../../layouts/Layout.astro';
 import { getNews, getNewsPage, type News, type NewsPage } from '../../lib/microcms';
 
 // ページ情報の取得
-let page: NewsPage;
-try {
-  page = await getNewsPage();
-} catch (e) {
-  // エラー時やエンドポイントがない場合のフォールバック
-  page = {
-    createdAt: '', updatedAt: '', publishedAt: '', revisedAt: '',
-    pageTitle: 'お知らせ',
-    pageDescription: '最新の情報をお届けします。',
-    subtitle: 'News'
-  };
-}
+const pageData = await getNewsPage();
+const page: NewsPage = pageData || {
+  createdAt: '', updatedAt: '', publishedAt: '', revisedAt: '',
+  pageTitle: 'お知らせ',
+  pageDescription: '最新の情報をお届けします。',
+  subtitle: 'News'
+};
 
 // ニュース一覧の取得
 let newsList: News[] = [];
-try {
-  const response = await getNews({ 
-    orders: '-publishedDate',
-    limit: 100,
-  });
+const response = await getNews({ 
+  orders: '-publishedDate',
+  limit: 100,
+});
+if (response) {
   newsList = response.contents;
-} catch (e) {
-  console.error("Failed to fetch news:", e);
 }
 
 // カテゴリーごとの色
