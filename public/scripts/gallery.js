@@ -26,6 +26,7 @@ function initGalleryModal() {
   var dialog = document.getElementById("gallery-modal");
   if (!dialog) return;
 
+  var figure = dialog.querySelector(".gallery-modal__figure");
   var img = dialog.querySelector(".gallery-modal__img");
   var caption = dialog.querySelector(".gallery-modal__caption");
   var closeBtn = dialog.querySelector(".gallery-modal__close");
@@ -38,22 +39,24 @@ function initGalleryModal() {
     var text = btn.dataset.text || "";
 
     img.classList.remove("is-loaded");
+    figure.classList.add("is-loading");
     img.src = src;
     img.alt = "";
     caption.textContent = text;
     dialog.showModal();
 
-    var showImage = function () {
-      img.classList.add("is-loaded");
+    var revealImage = function () {
+      figure.classList.remove("is-loading");
+      setTimeout(function () {
+        img.classList.add("is-loaded");
+      }, 50);
     };
-    var waitForOpen = function () {
-      if (img.complete) {
-        showImage();
-      } else {
-        img.onload = showImage;
-      }
-    };
-    setTimeout(waitForOpen, 800);
+
+    if (img.complete) {
+      revealImage();
+    } else {
+      img.onload = revealImage;
+    }
   });
 
   closeBtn.addEventListener("click", function () {
