@@ -22,3 +22,18 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Python virtual environments
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+
+# Working / scratch files
+work/
+
+# Claude Code state
+.claude/
+
+# Stray CSS (not part of project)
+media.css
+uni.css

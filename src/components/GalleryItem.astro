@@ -1,0 +1,128 @@
+---
+interface Props {
+  title: string;
+  src: string;
+  thumbnail: string;
+  text: string;
+  category: string;
+  layout?: "single" | "grid-2" | "grid-3";
+}
+
+const {
+  title,
+  src,
+  thumbnail,
+  text,
+  category,
+  layout = "grid-3",
+} = Astro.props;
+const srcFile = src.replace("img/", "");
+const thumbFile = thumbnail.replace("img/", "");
+
+const thumbPath = `/images/works/${thumbFile}`;
+const fullPath = `/images/works/${srcFile}`;
+
+// single/grid-2 レイアウトではフルサイズ画像を表示
+const displayPath = layout === "grid-3" ? thumbPath : fullPath;
+
+// text を「寺名+建築物名」と「それ以降」に分離
+const normalize = (s: string) =>
+  s
+    .replace(/^>/, "")
+    .replace(/[\s\u3000]+/g, " ")
+    .trim();
+const normalizedTitle = normalize(title);
+const normalizedText = normalize(text);
+
+let textLine1 = normalizedTitle;
+let textLine2 = "";
+
+if (normalizedText.startsWith(normalizedTitle)) {
+  textLine2 = normalizedText.slice(normalizedTitle.length).trim();
+}
+---
+
+<button
+  class:list={["gallery-item", `gallery-item--${layout}`]}
+  data-src={fullPath}
+  data-text={text}
+  data-title={title}
+  data-category={category}
+  type="button"
+>
+  <img
+    src={displayPath}
+    alt={title}
+    loading="lazy"
+    width="180"
+    data-fallback={fullPath}
+  />
+  <span class="gallery-item__text">
+    <span class="gallery-item__text-name">{textLine1}</span>
+    {textLine2 && <span class="gallery-item__text-detail">{textLine2}</span>}
+  </span>
+</button>
+
+<style>
+  .gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+    height: 100%;
+  }
+
+  .gallery-item:hover,
+  .gallery-item:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .gallery-item__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    text-align: left;
+    align-items: flex-start;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .gallery-item__text-name {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .gallery-item__text-detail {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* Single (1-column) layout */
+  .gallery-item--single {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gallery-item--single img {
+    width: 100%;
+  }
+</style>

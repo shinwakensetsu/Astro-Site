@@ -1,46 +1,38 @@
-# Astro Starter Kit: Basics
+# Astro-Site
 
-```sh
-npm create astro@latest -- --template basics
+microCMS と連携した Astro ベースのウェブサイトプロジェクト。
+
+## クイックスタート
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+開発サーバー: http://localhost:4321
 
-## 🚀 Project Structure
+## 環境変数
 
-Inside of your Astro project, you'll see the following folders and files:
+`.env` を作成し、以下を設定してください（`.env.example` を参照）。
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```env
+MICROCMS_SERVICE_DOMAIN=your-service-domain
+MICROCMS_API_KEY=your-api-key
+SITE_URL=http://localhost:4321
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## コマンド
 
-## 🧞 Commands
+| コマンド          | 説明             |
+| ----------------- | ---------------- |
+| `npm run dev`     | 開発サーバー起動 |
+| `npm run build`   | 本番ビルド       |
+| `npm run preview` | ビルドプレビュー |
 
-All commands are run from the root of the project, from a terminal:
+## ドキュメント
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+詳細情報は [`docs/`](./docs/) を参照:
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [プロジェクト概要](./docs/README.md)
+- [開発ガイド](./docs/DEVELOPMENT.md)
+- [ディレクトリ構成](./docs/STRUCTURE.md)

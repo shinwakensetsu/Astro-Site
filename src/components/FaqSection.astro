@@ -2,10 +2,18 @@
 import Accordion from "./Accordion.astro";
 import AccordionItem from "./AccordionItem.astro";
 import { getFaqs } from "../lib/microcms";
+import { sanitizeHtml } from "../utils/htmlSanitizer";
+
+// FAQ Q&A item type
+interface FaqQa {
+  fieldId: string;
+  question: string;
+  answer: string;
+}
 
 // ビルド時にmicroCMSからデータを取得
 // APIキーが設定されていない場合は空配列としてエラーを回避（開発用）
-let qaList: any[] = [];
+let qaList: FaqQa[] = [];
 try {
   if (import.meta.env.MICROCMS_API_KEY) {
     // 繰り返しフィールド（title）を取得
@@ -19,7 +27,12 @@ try {
     console.warn("MICROCMS_API_KEY is not set. Using dummy data.");
     // ダミーデータ（APIキー未設定時用）
     qaList = [
-      { fieldId: "qa", question: "【ダミー】APIキーを設定してください", answer: "<p>環境変数 MICROCMS_API_KEY を設定すると、ここにはmicroCMSのデータが表示されます。</p>" },
+      {
+        fieldId: "qa",
+        question: "【ダミー】APIキーを設定してください",
+        answer:
+          "<p>環境変数 MICROCMS_API_KEY を設定すると、ここにはmicroCMSのデータが表示されます。</p>",
+      },
     ];
   }
 } catch (e) {
@@ -28,9 +41,11 @@ try {
 ---
 
 <Accordion controls={true}>
-  {qaList.map((qa) => (
-    <AccordionItem title={qa.question} open={false}>
-      <div set:html={qa.answer} />
-    </AccordionItem>
-  ))}
+  {
+    qaList.map((qa) => (
+      <AccordionItem title={qa.question} open={false}>
+        <div set:html={sanitizeHtml(qa.answer)} />
+      </AccordionItem>
+    ))
+  }
 </Accordion>

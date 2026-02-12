@@ -1,24 +1,29 @@
-import { createClient, type MicroCMSQueries, type MicroCMSImage, type MicroCMSDate } from "microcms-js-sdk";
+import {
+  createClient,
+  type MicroCMSQueries,
+  type MicroCMSImage,
+  type MicroCMSDate,
+} from "microcms-js-sdk";
 
 const serviceDomain = import.meta.env.MICROCMS_SERVICE_DOMAIN;
 const apiKey = import.meta.env.MICROCMS_API_KEY;
 
 if (!serviceDomain) {
-  console.error("❌ [Error] MICROCMS_SERVICE_DOMAIN is missing. Please check your environment variables.");
-} else {
-  console.log(`✅ MICROCMS_SERVICE_DOMAIN is set: ${serviceDomain}`);
+  throw new Error(
+    "MICROCMS_SERVICE_DOMAIN is not set. Please check your environment variables.",
+  );
 }
 
 if (!apiKey) {
-  console.error("❌ [Error] MICROCMS_API_KEY is missing. Please check your environment variables.");
-} else {
-  console.log("✅ MICROCMS_API_KEY is set (hidden)");
+  throw new Error(
+    "MICROCMS_API_KEY is not set. Please check your environment variables.",
+  );
 }
 
-// 環境変数から取得
+// microCMS クライアント
 const client = createClient({
-  serviceDomain: serviceDomain || "MISSING_DOMAIN",
-  apiKey: apiKey || "MISSING_KEY",
+  serviceDomain,
+  apiKey,
 });
 
 // --- 型定義 ---
@@ -99,7 +104,7 @@ export const getFaqs = async (queries?: MicroCMSQueries) => {
 // 詳細を取得する場合（例：ブログなど）
 export const getFaqDetail = async (
   contentId: string,
-  queries?: MicroCMSQueries
+  queries?: MicroCMSQueries,
 ) => {
   return await client.getListDetail<Faq>({
     endpoint: "faq",
@@ -116,7 +121,7 @@ export const getNews = async (queries?: MicroCMSQueries) => {
 // ニュース詳細を取得
 export const getNewsDetail = async (
   contentId: string,
-  queries?: MicroCMSQueries
+  queries?: MicroCMSQueries,
 ) => {
   return await client.getListDetail<News>({
     endpoint: "news",
@@ -132,6 +137,9 @@ export const getNewsPage = async (queries?: MicroCMSQueries) => {
 
 // トップページ情報を取得
 export const getTopPage = async (queries?: MicroCMSQueries) => {
-  const response = await client.getList<TopPage>({ endpoint: "top-page", queries });
+  const response = await client.getList<TopPage>({
+    endpoint: "top-page",
+    queries,
+  });
   return response.contents[0];
 };

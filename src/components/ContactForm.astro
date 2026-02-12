@@ -8,27 +8,71 @@ const { action = "#" } = Astro.props;
 
 <form class="contact-form" action={action} method="POST" novalidate>
   <div class="form-group">
-    <label for="name">お名前 <span class="required">*</span></label>
-    <input type="text" id="name" name="name" autocomplete="name" placeholder="山田 太郎" />
-    <p class="error-message" id="error-name"></p>
+    <label for="name"
+      >お名前 <span class="required" aria-hidden="true">*</span></label
+    >
+    <input
+      type="text"
+      id="name"
+      name="name"
+      autocomplete="name"
+      placeholder="山田 太郎"
+      required
+      aria-required="true"
+      aria-describedby="error-name"
+    />
+    <p class="error-message" id="error-name" role="alert" aria-live="polite">
+    </p>
   </div>
 
   <div class="form-group">
-    <label for="email">メールアドレス <span class="required">*</span></label>
-    <input type="email" id="email" name="email" autocomplete="email" placeholder="example@email.com" />
-    <p class="error-message" id="error-email"></p>
+    <label for="email"
+      >メールアドレス <span class="required" aria-hidden="true">*</span></label
+    >
+    <input
+      type="email"
+      id="email"
+      name="email"
+      autocomplete="email"
+      placeholder="example@email.com"
+      required
+      aria-required="true"
+      aria-describedby="error-email"
+    />
+    <p class="error-message" id="error-email" role="alert" aria-live="polite">
+    </p>
   </div>
 
   <div class="form-group">
     <label for="subject">件名</label>
-    <input type="text" id="subject" name="subject" autocomplete="off" placeholder="お問い合わせの件名" />
-    <p class="error-message" id="error-subject"></p>
+    <input
+      type="text"
+      id="subject"
+      name="subject"
+      autocomplete="off"
+      placeholder="お問い合わせの件名"
+      aria-describedby="error-subject"
+    />
+    <p class="error-message" id="error-subject" role="alert" aria-live="polite">
+    </p>
   </div>
 
   <div class="form-group">
-    <label for="message">お問い合わせ内容 <span class="required">*</span></label>
-    <textarea id="message" name="message" autocomplete="off" rows="5" placeholder="ここにお問い合わせ内容を入力してください"></textarea>
-    <p class="error-message" id="error-message"></p>
+    <label for="message"
+      >お問い合わせ内容 <span class="required" aria-hidden="true">*</span
+      ></label
+    >
+    <textarea
+      id="message"
+      name="message"
+      autocomplete="off"
+      rows="5"
+      placeholder="ここにお問い合わせ内容を入力してください"
+      required
+      aria-required="true"
+      aria-describedby="error-message"></textarea>
+    <p class="error-message" id="error-message" role="alert" aria-live="polite">
+    </p>
   </div>
 
   <div class="form-actions">
@@ -37,19 +81,19 @@ const { action = "#" } = Astro.props;
 </form>
 
 <script>
-  import { contactSchema } from '../lib/contactSchema';
-  import { z } from 'zod';
+  import { contactSchema } from "../lib/contactSchema";
 
-  const form = document.querySelector('.contact-form') as HTMLFormElement;
+  const form = document.querySelector(".contact-form") as HTMLFormElement;
 
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener("submit", (e) => {
       // エラーメッセージをリセット
-      document.querySelectorAll('.error-message').forEach((el) => {
-        el.textContent = '';
+      document.querySelectorAll(".error-message").forEach((el) => {
+        el.textContent = "";
       });
-      document.querySelectorAll('.has-error').forEach((el) => {
-        el.classList.remove('has-error');
+      document.querySelectorAll(".has-error").forEach((el) => {
+        el.classList.remove("has-error");
+        el.removeAttribute("aria-invalid");
       });
 
       // フォームデータを取得
@@ -63,19 +107,35 @@ const { action = "#" } = Astro.props;
         // バリデーションエラーがある場合、送信をキャンセル
         e.preventDefault();
 
+        // Track the first error field for focus
+        let firstErrorField: HTMLElement | null = null;
+
         // エラーメッセージを表示
         result.error.issues.forEach((issue) => {
           const fieldName = issue.path[0];
           const errorEl = document.getElementById(`error-${fieldName}`);
-          const inputEl = document.getElementById(`${fieldName}`);
-          
+          const inputEl = document.getElementById(
+            `${fieldName}`,
+          ) as HTMLElement;
+
           if (errorEl) {
             errorEl.textContent = issue.message;
           }
           if (inputEl) {
-            inputEl.classList.add('has-error');
+            inputEl.classList.add("has-error");
+            inputEl.setAttribute("aria-invalid", "true");
+
+            // Track first error field
+            if (!firstErrorField) {
+              firstErrorField = inputEl;
+            }
           }
         });
+
+        // Focus on the first error field for accessibility
+        if (firstErrorField && "focus" in firstErrorField) {
+          (firstErrorField as HTMLElement).focus();
+        }
       }
       // バリデーション成功時はそのまま送信（action属性のURLへ）
     });
@@ -120,15 +180,22 @@ const { action = "#" } = Astro.props;
     outline: 2px solid #228be6;
     border-color: transparent;
   }
-  
+
   /* エラースタイル */
   .has-error {
     border-color: #e03131;
     background-color: #fff5f5;
   }
-  
+
   .has-error:focus {
     outline-color: #e03131;
+  }
+
+  /* ARIA invalid styling */
+  input[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    border-color: #e03131;
+    background-color: #fff5f5;
   }
 
   .error-message {
@@ -136,6 +203,10 @@ const { action = "#" } = Astro.props;
     font-size: 0.875rem;
     margin: 0;
     min-height: 1.25em; /* エラーがない時も高さを確保してガタつきを防ぐなら設定 */
+  }
+
+  .error-message:not(:empty) {
+    padding: 0.25rem 0;
   }
 
   .submit-btn {
@@ -152,5 +223,10 @@ const { action = "#" } = Astro.props;
 
   .submit-btn:hover {
     background-color: #1c7ed6;
+  }
+
+  .submit-btn:focus {
+    outline: 2px solid #228be6;
+    outline-offset: 2px;
   }
 </style>

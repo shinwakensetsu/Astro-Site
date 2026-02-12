@@ -1,45 +1,40 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getNews, getNewsPage, type News, type NewsPage } from '../../lib/microcms';
+import Layout from "../../layouts/Layout.astro";
+import {
+  getNews,
+  getNewsPage,
+  type News,
+  type NewsPage,
+} from "../../lib/microcms";
+import { formatDate, categoryColors } from "../../utils/formatters";
 
 // ページ情報の取得
 let page: NewsPage;
 try {
   page = await getNewsPage();
-} catch (e) {
+} catch {
   // エラー時やエンドポイントがない場合のフォールバック
   page = {
-    createdAt: '', updatedAt: '', publishedAt: '', revisedAt: '',
-    pageTitle: 'お知らせ',
-    pageDescription: '最新の情報をお届けします。',
-    subtitle: 'News'
+    createdAt: "",
+    updatedAt: "",
+    publishedAt: "",
+    revisedAt: "",
+    pageTitle: "お知らせ",
+    pageDescription: "最新の情報をお届けします。",
+    subtitle: "News",
   };
 }
 
 // ニュース一覧の取得
 let newsList: News[] = [];
 try {
-  const response = await getNews({ 
-    orders: '-publishedDate',
+  const response = await getNews({
+    orders: "-publishedDate",
     limit: 100,
   });
   newsList = response.contents;
 } catch (e) {
   console.error("Failed to fetch news:", e);
-}
-
-// カテゴリーごとの色
-const categoryColors: Record<string, string> = {
-  'お知らせ': '#0066cc',
-  'プレスリリース': '#00a859',
-  'イベント': '#ff9500',
-  'その他': '#999',
-};
-
-// 日付フォーマット関数
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 }
 ---
 
@@ -51,39 +46,41 @@ function formatDate(dateString: string): string {
       <p class="page-description">{page.pageDescription}</p>
     </div>
   </section>
-  
+
   <!-- お知らせ一覧 -->
   <section class="news">
     <div class="container">
       <p class="subtitle">{page.subtitle}</p>
-      
+
       <div class="news-list">
-        {newsList.map((news) => (
-          <article class="news-item">
-            <a href={`/news/${news.slug}`}>
-              <div class="news-meta">
-                <time class="news-date" datetime={news.publishedDate}>
-                  {formatDate(news.publishedDate)}
-                </time>
-                <span 
-                  class="news-category" 
-                  style={`background-color: ${categoryColors[news.category]};`}
-                >
-                  {news.category}
-                </span>
-              </div>
-              <h2 class="news-title">{news.title}</h2>
-              {news.excerpt && (
-                <p class="news-excerpt">{news.excerpt}</p>
-              )}
-            </a>
-          </article>
-        ))}
+        {
+          newsList.map((news) => (
+            <article class="news-item">
+              <a href={`/news/${news.slug}`}>
+                <div class="news-meta">
+                  <time class="news-date" datetime={news.publishedDate}>
+                    {formatDate(news.publishedDate)}
+                  </time>
+                  <span
+                    class="news-category"
+                    style={`background-color: ${categoryColors[news.category]};`}
+                  >
+                    {news.category}
+                  </span>
+                </div>
+                <h2 class="news-title">{news.title}</h2>
+                {news.excerpt && <p class="news-excerpt">{news.excerpt}</p>}
+              </a>
+            </article>
+          ))
+        }
       </div>
-      
-      {newsList.length === 0 && (
-        <p class="no-news">現在、お知らせはありません。</p>
-      )}
+
+      {
+        newsList.length === 0 && (
+          <p class="no-news">現在、お知らせはありません。</p>
+        )
+      }
     </div>
   </section>
 </Layout>
@@ -96,25 +93,25 @@ function formatDate(dateString: string): string {
     padding: 80px 0;
     text-align: center;
   }
-  
+
   .page-title {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 16px;
   }
-  
+
   .page-description {
     font-size: 1.125rem;
     opacity: 0.95;
     max-width: 600px;
     margin: 0 auto;
   }
-  
+
   /* お知らせ一覧 */
   .news {
     padding: 80px 0;
   }
-  
+
   .subtitle {
     text-align: center;
     font-size: 1.125rem;
@@ -122,12 +119,12 @@ function formatDate(dateString: string): string {
     margin-bottom: 60px;
     line-height: 1.8;
   }
-  
+
   .news-list {
     max-width: 900px;
     margin: 0 auto;
   }
-  
+
   .news-item {
     background: #fff;
     border-radius: 8px;
@@ -136,25 +133,25 @@ function formatDate(dateString: string): string {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: all 0.3s;
   }
-  
+
   .news-item:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
   }
-  
+
   .news-meta {
     display: flex;
     gap: 16px;
     align-items: center;
     margin-bottom: 12px;
   }
-  
+
   .news-date {
     font-size: 0.875rem;
     color: #999;
     font-weight: 500;
   }
-  
+
   .news-category {
     display: inline-block;
     padding: 4px 12px;
@@ -163,7 +160,7 @@ function formatDate(dateString: string): string {
     color: #fff;
     font-weight: 600;
   }
-  
+
   .news-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -171,34 +168,34 @@ function formatDate(dateString: string): string {
     margin-bottom: 8px;
     line-height: 1.6;
   }
-  
+
   .news-excerpt {
     color: #666;
     line-height: 1.8;
     font-size: 0.9375rem;
   }
-  
+
   .no-news {
     text-align: center;
     color: #999;
     padding: 60px 0;
     font-size: 1.125rem;
   }
-  
+
   /* レスポンシブ */
   @media (max-width: 768px) {
     .page-title {
       font-size: 2rem;
     }
-    
+
     .news {
       padding: 60px 0;
     }
-    
+
     .news-item {
       padding: 24px;
     }
-    
+
     .news-title {
       font-size: 1.125rem;
     }

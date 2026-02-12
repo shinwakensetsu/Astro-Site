@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Gallery from "../components/Gallery.astro";
+---
+
+<Layout
+  title="施工事例"
+  description="施工事例ギャラリー — 塔・伽藍・神社・門・鐘楼・収蔵庫・教会"
+>
+  <main>
+    <div class="page-hero">
+      <h1 class="page-title">施工事例</h1>
+    </div>
+    <Gallery />
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  .page-hero {
+    background: url("/images/works/003_jinja_001heiannaihai-l.jpg") center /
+      100% auto no-repeat;
+    position: relative;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+  }
+
+  .page-title {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      background-size: cover;
+    }
+  }
+</style>

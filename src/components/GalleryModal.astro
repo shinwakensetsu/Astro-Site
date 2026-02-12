@@ -1,0 +1,134 @@
+---
+/* GalleryModal: a single <dialog> reused for all gallery items */
+---
+
+<dialog id="gallery-modal" class="gallery-modal">
+  <div class="gallery-modal__inner">
+    <button class="gallery-modal__close" type="button" aria-label="閉じる"
+      >&times;</button
+    >
+    <figure class="gallery-modal__figure">
+      <div class="gallery-modal__img-wrap">
+        <img class="gallery-modal__img" src="" alt="" />
+      </div>
+      <figcaption class="gallery-modal__caption"></figcaption>
+    </figure>
+  </div>
+</dialog>
+
+<style>
+  /* Dialog open/close animation */
+  .gallery-modal {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s ease,
+      display 0.9s ease allow-discrete;
+  }
+
+  .gallery-modal[open] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @starting-style {
+    .gallery-modal[open] {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  .gallery-modal::backdrop {
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    transition:
+      background 0.9s ease,
+      backdrop-filter 0.9s ease,
+      display 0.9s ease allow-discrete;
+  }
+
+  .gallery-modal[open]::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+  }
+
+  @starting-style {
+    .gallery-modal[open]::backdrop {
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  .gallery-modal__inner {
+    position: relative;
+    background: #1a1c22;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .gallery-modal__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .gallery-modal__close:hover {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  .gallery-modal__figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* White background frame appears first, image fades in on top */
+  .gallery-modal__img-wrap {
+    background: #fff;
+    padding: 5px;
+    margin: 0;
+    line-height: 0;
+  }
+
+  .gallery-modal__img {
+    display: block;
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .gallery-modal__img.is-loaded {
+    opacity: 1;
+  }
+
+  .gallery-modal__caption {
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+  }
+</style>

@@ -59,14 +59,17 @@ const { title, name, open = false } = Astro.props;
     summary.addEventListener("click", (event) => {
       // デフォルトの挙動を無効化
       event.preventDefault();
-      
+
       // 型アサーション
       const answerEl = answer as HTMLElement;
 
       // detailsのopen属性を判定
       if (el.getAttribute("open") !== null) {
         // アコーディオンを閉じるときの処理
-        const closingAnim = answerEl.animate(closingAnimation(answerEl), animTiming);
+        const closingAnim = answerEl.animate(
+          closingAnimation(answerEl),
+          animTiming,
+        );
 
         closingAnim.onfinish = () => {
           // アニメーションの完了後にopen属性を取り除く
@@ -76,7 +79,7 @@ const { title, name, open = false } = Astro.props;
         // open属性を付与
         el.setAttribute("open", "true");
         // アコーディオンを開くときの処理
-        const openingAnim = answerEl.animate(openingAnimation(answerEl), animTiming);
+        answerEl.animate(openingAnimation(answerEl), animTiming);
       }
     });
   });
@@ -86,7 +89,7 @@ const { title, name, open = false } = Astro.props;
   .accordion-item {
     /* リストマーカーを消すなどの基本スタイル */
   }
-  
+
   .accordion-summary {
     cursor: pointer;
     font-weight: bold;

@@ -1,7 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import FaqSection from '../components/FaqSection.astro';
-import { getTopPage } from '../lib/microcms';
+import Layout from "../layouts/Layout.astro";
+import FaqSection from "../components/FaqSection.astro";
+import { getTopPage } from "../lib/microcms";
+import { optimizeImageUrl, imagePresets } from "../utils/imageOptimizer";
 
 // microCMSからトップページのデータを取得
 // ガイド: 複数のAPIを呼び出す場合は、Promise.allを使用すると並列で取得でき、パフォーマンスが向上します。
@@ -15,91 +16,103 @@ const topPage = await getTopPage();
 ---
 
 <Layout>
-	{
-		topPage && (
-			<div class="hero-container">
-				{topPage.heroImage && (
-					<div class="hero-image-wrapper">
-						<img
-							src={topPage.heroImage.url}
-							alt={topPage.heroTitle || "Top Image"}
-							width={topPage.heroImage.width}
-							height={topPage.heroImage.height}
-							class="hero-image"
-						/>
-					</div>
-				)}
-				<div class="hero-content">
-					{topPage.heroTitle && <h1 class="hero-title">{topPage.heroTitle}</h1>}
-					{topPage.heroDescription && <p class="hero-description">{topPage.heroDescription}</p>}
-				</div>
-			</div>
-	
-		)
-	}
-	<section style="padding: 2rem; max-width: 800px; margin: 0 auto;">
-		<h2>よくある質問</h2>
-		<FaqSection />
-	</section>
+  {
+    topPage && (
+      <div class="hero-container">
+        {topPage.heroImage && (
+          <div class="hero-image-wrapper">
+            <img
+              src={optimizeImageUrl(topPage.heroImage.url, imagePresets.hero)}
+              alt={topPage.heroTitle || "Top Image"}
+              width={topPage.heroImage.width}
+              height={topPage.heroImage.height}
+              class="hero-image"
+              loading="eager"
+            />
+          </div>
+        )}
+        <div class="hero-content">
+          {topPage.heroTitle && <h1 class="hero-title">{topPage.heroTitle}</h1>}
+          {topPage.heroDescription && (
+            <p class="hero-description">{topPage.heroDescription}</p>
+          )}
+        </div>
+      </div>
+    )
+  }
+  <section style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+    <h2>よくある質問</h2>
+    <FaqSection />
+  </section>
 
-	<section style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;">
-		<h2>お問い合わせ</h2>
-		<p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
-		<a href="/contact" class="contact-link">お問い合わせフォームへ</a>
-	</section>
+  <section
+    style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;"
+  >
+    <h2>施工事例</h2>
+    <p>これまでの施工事例をご覧いただけます。</p>
+    <a href="/works" class="contact-link">施工事例を見る</a>
+  </section>
+
+  <section
+    style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;"
+  >
+    <h2>お問い合わせ</h2>
+    <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+    <a href="/contact" class="contact-link">お問い合わせフォームへ</a>
+  </section>
 </Layout>
 
 <style>
-	.contact-link {
-		display: inline-block;
-		background-color: #228be6;
-		color: white;
-		padding: 0.75rem 1.5rem;
-		text-decoration: none;
-		border-radius: 4px;
-		font-weight: bold;
-		margin-top: 1rem;
-	}
-	.contact-link:hover {
-		background-color: #1c7ed6;
-	}
+  .contact-link {
+    display: inline-block;
+    background-color: #228be6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  .contact-link:hover {
+    background-color: #1c7ed6;
+  }
 
-	.hero-container {
-		margin-bottom: 2rem;
-	}
+  .hero-container {
+    margin-bottom: 2rem;
+  }
 
-	.hero-image-wrapper {
-		width: 100%;
-		max-width: 100vw;
-		max-height: 100vh;
-		overflow: hidden;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+  .hero-image-wrapper {
+    width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-	.hero-image {
-		width: auto;
-		height: auto;
-		display: block;
-	}
+  .hero-image {
+    width: auto;
+    height: auto;
+    display: block;
+  }
 
-	.hero-content {
-		max-width: 800px;
-		margin: 0 auto;
-		padding: 1.5rem;
-		text-align: center;
-	}
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    text-align: center;
+  }
 
-	.hero-title {
-		font-size: 2.5rem;
-		margin: 0 0 1rem;
-		color: #ffffff;
-	}
+  .hero-title {
+    font-size: 2.5rem;
+    margin: 0 0 1rem;
+    color: #ffffff;
+  }
 
-	.hero-description {
-		font-size: 1.1rem;
-		color: #c0c0c0;
-		line-height: 1.6;
-	}
+  .hero-description {
+    font-size: 1.1rem;
+    color: #c0c0c0;
+    line-height: 1.6;
+  }
 </style>

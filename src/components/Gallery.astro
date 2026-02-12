@@ -1,0 +1,270 @@
+---
+import GalleryItem from "./GalleryItem.astro";
+import GalleryModal from "./GalleryModal.astro";
+import worksData from "../data/works.json";
+
+const { categories, items } = worksData;
+
+// Build category data with first item's thumbnail
+const catNav = categories
+  .map((cat) => {
+    const catItems = items.filter((i) => i.category === cat.id);
+    const firstThumb = catItems[0]?.thumbnail?.replace("img/", "") ?? "";
+    return { ...cat, firstThumb, count: catItems.length };
+  })
+  .filter((c) => c.count > 0);
+
+// Group consecutive items by layout within a category
+function groupByLayout(catItems: typeof items) {
+  const groups: { layout: string; items: typeof items }[] = [];
+  for (const item of catItems) {
+    const layout = (item.layout as string | undefined) || "single";
+    const last = groups[groups.length - 1];
+    if (last && last.layout === layout) {
+      last.items.push(item);
+    } else {
+      groups.push({ layout, items: [item] });
+    }
+  }
+  return groups;
+}
+---
+
+<section class="gallery">
+  <div class="gallery__layout">
+    <!-- Sidebar: category switches -->
+    <nav class="gallery__sidebar" aria-label="カテゴリ切替">
+      <ul class="gallery__cat-list">
+        {
+          catNav.map((cat, i) => (
+            <li>
+              <button
+                class:list={["gallery__cat-btn", { "is-active": i === 0 }]}
+                data-filter={cat.id}
+                type="button"
+              >
+                <img
+                  class="gallery__cat-thumb"
+                  src={`/images/works/${cat.firstThumb}`}
+                  alt=""
+                  loading="lazy"
+                />
+                <span class="gallery__cat-label">
+                  <strong>{cat.label}</strong>
+                  <small>{cat.labelEn}</small>
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <div class="gallery__main">
+      {
+        categories.map((cat, i) => {
+          const catItems = items.filter((item) => item.category === cat.id);
+          if (catItems.length === 0) return null;
+          const layoutGroups = groupByLayout(catItems);
+          return (
+            <div
+              class:list={["gallery__section", { "is-hidden": i !== 0 }]}
+              data-category={cat.id}
+            >
+              <h3 class="gallery__heading">
+                {cat.label}
+                <span>{cat.labelEn}</span>
+              </h3>
+              {layoutGroups.map((group) => (
+                <div class={`gallery__grid gallery__grid--${group.layout}`}>
+                  {group.items.map((item) => (
+                    <GalleryItem
+                      title={item.title}
+                      src={item.src}
+                      thumbnail={item.thumbnail}
+                      text={item.text}
+                      category={item.category}
+                      layout={
+                        (item.layout as
+                          | "single"
+                          | "grid-2"
+                          | "grid-3"
+                          | undefined) || "single"
+                      }
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <GalleryModal />
+</section>
+
+<style>
+  .gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  /* Two-column layout */
+  .gallery__layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .gallery__sidebar {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .gallery__cat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gallery__cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+  }
+
+  .gallery__cat-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .gallery__cat-btn.is-active {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .gallery__cat-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .gallery__cat-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+
+  .gallery__cat-label strong {
+    font-size: 1.2rem;
+    color: #fff;
+  }
+
+  .gallery__cat-label small {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  /* Main */
+  .gallery__section {
+    margin-bottom: 2.5rem;
+    animation: fadeIn 0.9s ease;
+  }
+
+  .gallery__section.is-hidden {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .gallery__heading {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    padding: 0.6rem 1rem;
+    background: rgba(128, 90, 180, 0.2);
+    border-radius: 6px;
+  }
+
+  .gallery__heading span {
+    margin-left: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  /* Grid */
+  .gallery__grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .gallery__grid:last-child {
+    margin-bottom: 0;
+  }
+
+  .gallery__grid--single {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery__grid--grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery__grid--grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Mobile: sidebar on top */
+  @media (max-width: 768px) {
+    .gallery__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery__sidebar {
+      position: static;
+    }
+
+    .gallery__cat-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding-bottom: 0.5rem;
+    }
+  }
+</style>
+
+<script is:inline src="/scripts/gallery.js"></script>
