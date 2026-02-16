@@ -13,7 +13,15 @@ export interface ImageOptions {
   /** 画像形式 */
   format?: "auto" | "webp" | "avif" | "png" | "jpg";
   /** フィット方法 */
-  fit?: "crop" | "max" | "fill";
+  fit?:
+    | "clip"
+    | "clamp"
+    | "crop"
+    | "fill"
+    | "fillmax"
+    | "max"
+    | "min"
+    | "scale";
 }
 
 /**
@@ -71,7 +79,7 @@ export function generateSrcSet(
  */
 export const imagePresets = {
   /** ヒーロー画像（大きめ、高品質） */
-  hero: { width: 1920, quality: 85, format: "auto" as const },
+  hero: { fit: "crop", height: 400, quality: 85, format: "auto" as const },
   /** サムネイル（記事一覧用） */
   thumbnail: { width: 800, quality: 80, format: "auto" as const },
   /** カード画像（小さめ） */
