@@ -15,11 +15,16 @@ export function formatDate(dateString: string): string {
 }
 
 /**
- * カテゴリーごとの表示色
+ * カテゴリ名 → CSS modifier クラス識別子
+ * 色は global.css の --color-cat-* トークンで定義
  */
-export const categoryColors: Record<string, string> = {
-  お知らせ: "#0066cc",
-  プレスリリース: "#00a859",
-  イベント: "#ff9500",
-  その他: "#999",
+const categoryClassMap: Record<string, string> = {
+  お知らせ: "notice",
+  プレスリリース: "press",
+  イベント: "event",
+  その他: "other",
 };
+
+export function getCategoryClass(category: string): string {
+  return categoryClassMap[category] || "other";
+}

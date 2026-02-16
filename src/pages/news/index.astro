@@ -6,7 +6,7 @@ import {
   type News,
   type NewsPage,
 } from "../../lib/microcms";
-import { formatDate, categoryColors } from "../../utils/formatters";
+import NewsMeta from "../../components/NewsMeta.astro";
 
 // ページ情報の取得
 let page: NewsPage;
@@ -57,17 +57,10 @@ try {
           newsList.map((news) => (
             <article class="news-item">
               <a href={`/news/${news.slug}`}>
-                <div class="news-meta">
-                  <time class="news-date" datetime={news.publishedDate}>
-                    {formatDate(news.publishedDate)}
-                  </time>
-                  <span
-                    class="news-category"
-                    style={`background-color: ${categoryColors[news.category]};`}
-                  >
-                    {news.category}
-                  </span>
-                </div>
+                <NewsMeta
+                  publishedDate={news.publishedDate}
+                  category={news.category}
+                />
                 <h2 class="news-title">{news.title}</h2>
                 {news.excerpt && <p class="news-excerpt">{news.excerpt}</p>}
               </a>
@@ -86,118 +79,99 @@ try {
 </Layout>
 
 <style>
-  /* ページヘッダー */
   .page-header {
-    background: linear-gradient(135deg, #0066cc, #0051a3);
-    color: #fff;
-    padding: 80px 0;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-primary-dark)
+    );
+    color: var(--color-white);
+    padding: var(--space-20) 0;
     text-align: center;
   }
 
   .page-title {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 16px;
+    font-size: var(--text-5xl);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-4);
   }
 
   .page-description {
-    font-size: 1.125rem;
+    font-size: var(--text-lg);
     opacity: 0.95;
-    max-width: 600px;
+    max-width: var(--width-description);
     margin: 0 auto;
   }
 
-  /* お知らせ一覧 */
   .news {
-    padding: 80px 0;
+    padding: var(--space-20) 0;
   }
 
   .subtitle {
     text-align: center;
-    font-size: 1.125rem;
-    color: #666;
-    margin-bottom: 60px;
-    line-height: 1.8;
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-16);
+    line-height: var(--leading-relaxed);
   }
 
   .news-list {
-    max-width: 900px;
+    max-width: var(--width-news);
     margin: 0 auto;
   }
 
   .news-item {
-    background: #fff;
-    border-radius: 8px;
-    padding: 30px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s;
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+    margin-bottom: var(--space-5);
+    box-shadow: var(--shadow-md);
+    transition:
+      box-shadow var(--duration-normal) var(--easing-default),
+      transform var(--duration-normal) var(--easing-default);
   }
 
   .news-item:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 
-  .news-meta {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-
-  .news-date {
-    font-size: 0.875rem;
-    color: #999;
-    font-weight: 500;
-  }
-
-  .news-category {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    color: #fff;
-    font-weight: 600;
-  }
-
   .news-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin-bottom: 8px;
-    line-height: 1.6;
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-normal);
   }
 
   .news-excerpt {
-    color: #666;
-    line-height: 1.8;
-    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    font-size: var(--text-base);
   }
 
   .no-news {
     text-align: center;
-    color: #999;
-    padding: 60px 0;
-    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    padding: var(--space-16) 0;
+    font-size: var(--text-lg);
   }
 
-  /* レスポンシブ */
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .page-title {
-      font-size: 2rem;
+      font-size: var(--text-4xl);
     }
 
     .news {
-      padding: 60px 0;
+      padding: var(--space-16) 0;
     }
 
     .news-item {
-      padding: 24px;
+      padding: var(--space-6);
     }
 
     .news-title {
-      font-size: 1.125rem;
+      font-size: var(--text-lg);
     }
   }
 </style>

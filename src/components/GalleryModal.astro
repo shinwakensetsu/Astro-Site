@@ -27,9 +27,9 @@
     opacity: 0;
     transform: scale(0.95);
     transition:
-      opacity 0.9s ease,
-      transform 0.9s ease,
-      display 0.9s ease allow-discrete;
+      opacity var(--duration-slow) ease,
+      transform var(--duration-slow) ease,
+      display var(--duration-slow) ease allow-discrete;
   }
 
   .gallery-modal[open] {
@@ -48,13 +48,13 @@
     background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(0px);
     transition:
-      background 0.9s ease,
-      backdrop-filter 0.9s ease,
-      display 0.9s ease allow-discrete;
+      background var(--duration-slow) ease,
+      backdrop-filter var(--duration-slow) ease,
+      display var(--duration-slow) ease allow-discrete;
   }
 
   .gallery-modal[open]::backdrop {
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
   }
 
@@ -67,15 +67,16 @@
 
   .gallery-modal__inner {
     position: relative;
-    background: #1a1c22;
+    background: var(--color-bg);
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
   }
 
   .gallery-modal__close {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: var(--space-2);
+    right: var(--space-2);
     z-index: 1;
     display: flex;
     align-items: center;
@@ -84,16 +85,16 @@
     height: 2.25rem;
     border: none;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--color-white);
+    font-size: var(--text-2xl);
     line-height: 1;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background var(--duration-fast) var(--easing-default);
   }
 
   .gallery-modal__close:hover {
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.75);
   }
 
   .gallery-modal__figure {
@@ -108,9 +109,8 @@
     overflow: hidden;
   }
 
-  /* White background frame appears first, image fades in on top */
   .gallery-modal__img-wrap {
-    background: #fff;
+    background: var(--color-bg-secondary);
     padding: 5px;
     margin: 0;
     line-height: 0;
@@ -123,7 +123,7 @@
     object-fit: contain;
     margin: 0 auto;
     opacity: 0;
-    transition: opacity 1.2s ease;
+    transition: opacity 1s ease;
   }
 
   .gallery-modal__img.is-loaded {
@@ -131,10 +131,10 @@
   }
 
   .gallery-modal__caption {
-    padding: 1rem 1.25rem;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-secondary);
     text-align: center;
   }
 </style>

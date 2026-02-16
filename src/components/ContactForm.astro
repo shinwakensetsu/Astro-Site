@@ -146,87 +146,85 @@ const { action = "#" } = Astro.props;
   .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    max-width: 600px;
+    gap: var(--space-6);
+    max-width: var(--width-description);
     margin: 0 auto;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   label {
-    font-weight: bold;
+    font-weight: var(--weight-bold);
   }
 
   .required {
-    color: #e03131;
-    margin-left: 0.25rem;
+    color: var(--color-error);
+    margin-left: var(--space-1);
   }
 
   input,
   textarea {
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
     font-family: inherit;
   }
 
   input:focus,
   textarea:focus {
-    outline: 2px solid #228be6;
+    outline: 2px solid var(--color-primary);
     border-color: transparent;
   }
 
-  /* エラースタイル */
   .has-error {
-    border-color: #e03131;
-    background-color: #fff5f5;
+    border-color: var(--color-error);
+    background-color: var(--color-error-bg);
   }
 
   .has-error:focus {
-    outline-color: #e03131;
+    outline-color: var(--color-error);
   }
 
-  /* ARIA invalid styling */
   input[aria-invalid="true"],
   textarea[aria-invalid="true"] {
-    border-color: #e03131;
-    background-color: #fff5f5;
+    border-color: var(--color-error);
+    background-color: var(--color-error-bg);
   }
 
   .error-message {
-    color: #e03131;
-    font-size: 0.875rem;
+    color: var(--color-error);
+    font-size: var(--text-sm);
     margin: 0;
-    min-height: 1.25em; /* エラーがない時も高さを確保してガタつきを防ぐなら設定 */
+    min-height: 1.25em;
   }
 
   .error-message:not(:empty) {
-    padding: 0.25rem 0;
+    padding: var(--space-1) 0;
   }
 
   .submit-btn {
-    background-color: #228be6;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: var(--space-3) var(--space-8);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color var(--duration-fast) var(--easing-default);
   }
 
   .submit-btn:hover {
-    background-color: #1c7ed6;
+    background-color: var(--color-primary-dark);
   }
 
   .submit-btn:focus {
-    outline: 2px solid #228be6;
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 </style>

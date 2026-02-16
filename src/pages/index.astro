@@ -1,18 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import FaqSection from "../components/FaqSection.astro";
-import { getTopPage } from "../lib/microcms";
+import NewsSection from "../components/NewsSection.astro";
+import { getTopPage, getNews, type News } from "../lib/microcms";
 import { optimizeImageUrl, imagePresets } from "../utils/imageOptimizer";
 
-// microCMSからトップページのデータを取得
-// ガイド: 複数のAPIを呼び出す場合は、Promise.allを使用すると並列で取得でき、パフォーマンスが向上します。
-// 例:
-// const [topPageData, newsData] = await Promise.all([
-//   getTopPage(),
-//   getNews({ limit: 3 })
-// ]);
-
-const topPage = await getTopPage();
+// microCMSからトップページのデータとニュースを並列取得
+const [topPage, newsResponse] = await Promise.all([
+  getTopPage(),
+  getNews({ orders: "-publishedDate", limit: 5 }).catch(() => ({
+    contents: [] as News[],
+  })),
+]);
+const newsList = newsResponse.contents;
 ---
 
 <Layout>
@@ -40,22 +40,20 @@ const topPage = await getTopPage();
       </div>
     )
   }
-  <section style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+  <NewsSection newsList={newsList} />
+
+  <section class="section-block">
     <h2>よくある質問</h2>
     <FaqSection />
   </section>
 
-  <section
-    style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;"
-  >
+  <section class="section-block section-block--center">
     <h2>施工事例</h2>
     <p>これまでの施工事例をご覧いただけます。</p>
     <a href="/works" class="contact-link">施工事例を見る</a>
   </section>
 
-  <section
-    style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;"
-  >
+  <section class="section-block section-block--center">
     <h2>お問い合わせ</h2>
     <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
     <a href="/contact" class="contact-link">お問い合わせフォームへ</a>
@@ -65,20 +63,22 @@ const topPage = await getTopPage();
 <style>
   .contact-link {
     display: inline-block;
-    background-color: #228be6;
-    color: white;
-    padding: 0.75rem 1.5rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--space-3) var(--space-6);
     text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
-    margin-top: 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: var(--weight-bold);
+    margin-top: var(--space-4);
+    transition: background-color var(--duration-fast) var(--easing-default);
   }
   .contact-link:hover {
-    background-color: #1c7ed6;
+    background-color: var(--color-primary-dark);
+    text-decoration: none;
   }
 
   .hero-container {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .hero-image-wrapper {
@@ -98,21 +98,31 @@ const topPage = await getTopPage();
   }
 
   .hero-content {
-    max-width: 800px;
+    max-width: var(--width-content);
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: var(--space-6);
     text-align: center;
   }
 
   .hero-title {
-    font-size: 2.5rem;
-    margin: 0 0 1rem;
-    color: #ffffff;
+    font-size: var(--text-4xl);
+    margin: 0 0 var(--space-4);
+    color: var(--color-text);
   }
 
   .hero-description {
-    font-size: 1.1rem;
-    color: #c0c0c0;
-    line-height: 1.6;
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  .section-block {
+    padding: var(--space-8);
+    max-width: var(--width-content);
+    margin: 0 auto;
+  }
+
+  .section-block--center {
+    text-align: center;
   }
 </style>

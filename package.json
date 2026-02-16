@@ -13,7 +13,9 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint:no-inline-style": "! grep -rn 'style\\s*=' src/pages src/components --include='*.astro' | grep -v 'inline-ok'",
+    "lint:no-inline-style:rg": "! rg -n 'style\\s*=' src/pages src/components -g '*.astro' | rg -v 'inline-ok'"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
