@@ -1,0 +1,83 @@
+---
+// src/pages/thanks.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="送信完了" description="お問い合わせを受け付けました。">
+  <main class="thanks-page">
+    <div class="thanks-page__card">
+      <h1 class="thanks-page__title">お問い合わせありがとうございます</h1>
+      <p class="thanks-page__message">
+        お問い合わせ内容を受け付けました。<br />
+        3営業日以内に担当者よりご連絡いたします。
+      </p>
+      <p class="thanks-page__note">
+        ※しばらく経っても連絡がない場合は、お手数ですがお電話にてお問い合わせください。
+      </p>
+      <a href="/" class="thanks-page__link">トップページへ戻る</a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .thanks-page {
+    padding: var(--space-12) var(--space-4);
+    max-width: var(--width-content);
+    margin: 0 auto;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .thanks-page__card {
+    text-align: center;
+    background: var(--color-bg-secondary);
+    padding: var(--space-10) var(--space-6);
+    border-radius: var(--radius-md);
+    max-width: var(--width-description);
+  }
+
+  .thanks-page__title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .thanks-page__message {
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+
+  .thanks-page__note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    line-height: var(--leading-relaxed);
+  }
+
+  .thanks-page__link {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--space-3) var(--space-8);
+    border-radius: var(--radius-sm);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    transition: background-color var(--duration-fast) var(--easing-default);
+  }
+
+  .thanks-page__link:hover {
+    background-color: var(--color-primary-dark);
+    text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .thanks-page__title {
+      font-size: var(--text-2xl);
+    }
+
+    .thanks-page__card {
+      padding: var(--space-12) var(--space-10);
+    }
+  }
+</style>

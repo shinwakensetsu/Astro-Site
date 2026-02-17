@@ -1,43 +1,859 @@
 ---
 // src/pages/contact.astro
 import Layout from "../layouts/Layout.astro";
-import ContactForm from "../components/ContactForm.astro";
 ---
 
-<Layout>
-  <main>
-    <h1>お問い合わせ</h1>
-    <p class="description">
+<Layout
+  title="お問い合わせ"
+  description="ご質問やご相談は、お問い合わせフォームよりお気軽にご連絡ください。"
+>
+  <main class="contact-page">
+    <h1 class="contact-page__title">お問い合わせ</h1>
+    <p class="contact-page__description">
       ご質問やご相談は、以下のフォームよりお気軽にお問い合わせください。
     </p>
 
-    <div class="form-container">
-      <ContactForm action="/api/contact" />
+    <div class="contact-form__container">
+      <form
+        class="contact-form"
+        action="https://ssgform.com/s/gq1kv0ZvHNKt"
+        method="post"
+        novalidate
+      >
+        <!-- エラーサマリー -->
+        <div
+          id="error-summary"
+          class="contact-form__error-summary"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          <p class="contact-form__error-heading">入力内容をご確認ください</p>
+          <ul id="error-list" class="contact-form__error-list"></ul>
+        </div>
+
+        <p class="contact-form__intro">
+          ※お送りいただいた内容をもとに担当者より折り返しご連絡のうえ、詳しい内容をおうかがいしてからご提案・お見積もりをいたします。
+        </p>
+
+        <!-- 基本情報 -->
+        <fieldset class="contact-form__section">
+          <legend class="contact-form__legend">基本情報</legend>
+
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                氏名
+                <span class="contact-form__required">（必須）</span>
+              </span>
+              <input
+                class="contact-form__input"
+                type="text"
+                id="name"
+                name="氏名"
+                autocomplete="name"
+                required
+                aria-required="true"
+                aria-describedby="name-error"
+              />
+            </label>
+            <p
+              class="contact-form__error"
+              id="name-error"
+              role="alert"
+              aria-live="polite"
+            >
+            </p>
+          </div>
+
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                フリガナ
+                <span class="contact-form__optional">(任意)</span>
+              </span>
+              <input
+                class="contact-form__input"
+                type="text"
+                id="furigana"
+                name="フリガナ"
+                autocomplete="off"
+              />
+            </label>
+          </div>
+
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                会社名・社寺名
+                <span class="contact-form__required">（必須）</span>
+              </span>
+              <input
+                class="contact-form__input"
+                type="text"
+                id="company"
+                name="会社名・社寺名"
+                autocomplete="organization"
+                required
+                aria-required="true"
+                aria-describedby="company-error"
+              />
+            </label>
+            <p
+              class="contact-form__error"
+              id="company-error"
+              role="alert"
+              aria-live="polite"
+            >
+            </p>
+          </div>
+        </fieldset>
+
+        <!-- 連絡先 -->
+        <fieldset class="contact-form__section">
+          <legend class="contact-form__legend">ご連絡先</legend>
+
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                電話番号
+                <span class="contact-form__required">（必須）</span>
+              </span>
+              <input
+                class="contact-form__input"
+                type="tel"
+                id="tel"
+                name="電話番号"
+                autocomplete="tel"
+                placeholder="090-1234-5678"
+                required
+                aria-required="true"
+                aria-describedby="tel-error"
+              />
+            </label>
+            <p
+              class="contact-form__error"
+              id="tel-error"
+              role="alert"
+              aria-live="polite"
+            >
+            </p>
+          </div>
+
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                メールアドレス
+                <span class="contact-form__optional">(任意)</span>
+              </span>
+              <input
+                class="contact-form__input"
+                type="email"
+                id="email"
+                name="メールアドレス"
+                autocomplete="email"
+                aria-describedby="email-error"
+              />
+            </label>
+            <p
+              class="contact-form__error"
+              id="email-error"
+              role="alert"
+              aria-live="polite"
+            >
+            </p>
+          </div>
+
+          <fieldset class="contact-form__group contact-form__sub-fieldset">
+            <legend class="contact-form__sub-legend">
+              ご希望の連絡方法
+              <span class="contact-form__optional">(任意)</span>
+            </legend>
+            <div class="contact-form__radio-group">
+              <label class="contact-form__radio-label">
+                <input
+                  class="contact-form__radio"
+                  type="radio"
+                  name="ご希望の連絡方法"
+                  value="お電話"
+                  id="method-tel"
+                  aria-controls="time-slot-group"
+                />
+                お電話
+              </label>
+              <label class="contact-form__radio-label">
+                <input
+                  class="contact-form__radio"
+                  type="radio"
+                  name="ご希望の連絡方法"
+                  value="メール"
+                  id="method-email"
+                />
+                メール
+              </label>
+            </div>
+
+            <div class="contact-form__group" id="time-slot-group" hidden>
+              <label>
+                <span class="contact-form__label"> ご希望の連絡時間帯 </span>
+                <input
+                  class="contact-form__input"
+                  type="text"
+                  id="time-slot"
+                  name="ご希望の連絡時間帯"
+                  placeholder="例：平日午前、15時以降 など"
+                />
+              </label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <!-- お問い合わせ内容 -->
+        <fieldset class="contact-form__section">
+          <legend class="contact-form__legend">お問い合わせ内容</legend>
+
+          <fieldset class="contact-form__group contact-form__sub-fieldset">
+            <legend class="contact-form__sub-legend">
+              種別
+              <span class="contact-form__required">（必須）</span>
+            </legend>
+            <div class="contact-form__radio-group" id="inquiry-type-group">
+              <label class="contact-form__radio-label">
+                <input
+                  class="contact-form__radio"
+                  type="radio"
+                  name="お問い合わせ内容"
+                  value="施工のご依頼・ご相談・お見積もり"
+                  id="inquiry-construction"
+                  required
+                  aria-required="true"
+                  aria-controls="construction-fields"
+                />
+                施工のご依頼・ご相談・お見積もり
+              </label>
+              <label class="contact-form__radio-label">
+                <input
+                  class="contact-form__radio"
+                  type="radio"
+                  name="お問い合わせ内容"
+                  value="その他のお問い合わせ"
+                  id="inquiry-other"
+                />
+                その他のお問い合わせ（採用／協力会社／メディア／その他）
+              </label>
+            </div>
+            <p
+              class="contact-form__error"
+              id="inquiry-error"
+              role="alert"
+              aria-live="polite"
+            >
+            </p>
+          </fieldset>
+
+          <!-- 施工選択時の追加設問 -->
+          <div
+            id="construction-fields"
+            class="contact-form__conditional"
+            hidden
+          >
+            <p class="contact-form__guide">
+              以下の項目は任意です。わかる範囲でご入力ください。
+            </p>
+
+            <div class="contact-form__group">
+              <label>
+                <span class="contact-form__label">
+                  施工種別
+                  <span class="contact-form__required">（必須）</span>
+                </span>
+                <select
+                  class="contact-form__select"
+                  id="construction-type"
+                  name="施工種別"
+                  aria-describedby="construction-type-help construction-type-error"
+                >
+                  <option value="">選択してください</option>
+                  <option value="新築">新築</option>
+                  <option value="修理・改修">修理・改修</option>
+                  <option value="制作">制作</option>
+                  <option value="その他・ご相談">その他・ご相談</option>
+                </select>
+              </label>
+              <p class="contact-form__help" id="construction-type-help">
+                詳細が不明な場合は「その他・ご相談」をお選びください
+              </p>
+              <p
+                class="contact-form__error"
+                id="construction-type-error"
+                role="alert"
+                aria-live="polite"
+              >
+              </p>
+            </div>
+
+            <div class="contact-form__group">
+              <label>
+                <span class="contact-form__label">
+                  施工予定地
+                  <span class="contact-form__optional">(任意)</span>
+                </span>
+                <input
+                  class="contact-form__input"
+                  type="text"
+                  id="location"
+                  name="施工予定地"
+                  placeholder="例：京都市"
+                />
+              </label>
+            </div>
+
+            <div class="contact-form__group">
+              <label>
+                <span class="contact-form__label">
+                  着工のご希望時期
+                  <span class="contact-form__optional">(任意)</span>
+                </span>
+                <input
+                  class="contact-form__input"
+                  type="text"
+                  id="desired-date"
+                  name="着工のご希望時期"
+                  placeholder="例：◯年春頃／◯年◯月の大祭以降 など"
+                />
+              </label>
+            </div>
+
+            <div class="contact-form__group">
+              <label>
+                <span class="contact-form__label">
+                  ご予算目安
+                  <span class="contact-form__optional">(任意)</span>
+                </span>
+                <select
+                  class="contact-form__select"
+                  id="budget"
+                  name="ご予算目安"
+                >
+                  <option value="">選択してください</option>
+                  <option value="〜300万円">〜300万円</option>
+                  <option value="〜500万円">〜500万円</option>
+                  <option value="〜1000万円">〜1000万円</option>
+                  <option value="それ以上">それ以上</option>
+                  <option value="わからない・相談したい"
+                    >わからない・相談したい</option
+                  >
+                </select>
+              </label>
+            </div>
+
+            <fieldset class="contact-form__group contact-form__sub-fieldset">
+              <legend class="contact-form__sub-legend">
+                文化財指定の有無
+                <span class="contact-form__optional">(任意)</span>
+              </legend>
+              <div class="contact-form__radio-group">
+                <label class="contact-form__radio-label">
+                  <input
+                    class="contact-form__radio"
+                    type="radio"
+                    name="文化財指定の有無"
+                    value="あり"
+                  />
+                  あり
+                </label>
+                <label class="contact-form__radio-label">
+                  <input
+                    class="contact-form__radio"
+                    type="radio"
+                    name="文化財指定の有無"
+                    value="なし"
+                  />
+                  なし
+                </label>
+                <label class="contact-form__radio-label">
+                  <input
+                    class="contact-form__radio"
+                    type="radio"
+                    name="文化財指定の有無"
+                    value="わからない"
+                  />
+                  わからない
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- お問い合わせ詳細 -->
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                お問い合わせ詳細
+                <span class="contact-form__optional">(任意)</span>
+              </span>
+              <textarea
+                class="contact-form__textarea"
+                id="detail"
+                name="お問い合わせ詳細"
+                rows="6"
+                placeholder="現在のお困りごと、工事を検討されている理由、行事との兼ね合いなど"
+              ></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="contact-form__actions">
+          <button type="submit" class="contact-form__submit">送信する</button>
+        </div>
+      </form>
     </div>
   </main>
 </Layout>
 
+<script>
+  const form = document.querySelector(".contact-form") as HTMLFormElement;
+  const errorSummary = document.getElementById(
+    "error-summary",
+  ) as HTMLDivElement;
+  const errorList = document.getElementById("error-list") as HTMLUListElement;
+
+  // --- 条件分岐: 連絡方法 → 時間帯 ---
+  const methodRadios = document.querySelectorAll<HTMLInputElement>(
+    'input[name="ご希望の連絡方法"]',
+  );
+  const timeSlotGroup = document.getElementById(
+    "time-slot-group",
+  ) as HTMLDivElement;
+
+  methodRadios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      if (radio.value === "お電話") {
+        timeSlotGroup.hidden = false;
+      } else {
+        timeSlotGroup.hidden = true;
+        const timeInput = document.getElementById(
+          "time-slot",
+        ) as HTMLInputElement;
+        if (timeInput) timeInput.value = "";
+      }
+    });
+  });
+
+  // --- 条件分岐: お問い合わせ内容 → 施工詳細 ---
+  const inquiryRadios = document.querySelectorAll<HTMLInputElement>(
+    'input[name="お問い合わせ内容"]',
+  );
+  const constructionFields = document.getElementById(
+    "construction-fields",
+  ) as HTMLDivElement;
+  const constructionTypeSelect = document.getElementById(
+    "construction-type",
+  ) as HTMLSelectElement;
+
+  inquiryRadios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      const isConstruction = radio.value === "施工のご依頼・ご相談・お見積もり";
+      constructionFields.hidden = !isConstruction;
+
+      if (isConstruction) {
+        constructionTypeSelect.setAttribute("required", "");
+        constructionTypeSelect.setAttribute("aria-required", "true");
+      } else {
+        constructionTypeSelect.removeAttribute("required");
+        constructionTypeSelect.removeAttribute("aria-required");
+        // 非表示時にフィールドをリセット
+        constructionTypeSelect.value = "";
+        constructionFields
+          .querySelectorAll<HTMLInputElement>("input")
+          .forEach((input) => {
+            if (input.type === "radio" || input.type === "checkbox") {
+              input.checked = false;
+            } else {
+              input.value = "";
+            }
+          });
+        constructionFields
+          .querySelectorAll<HTMLSelectElement>("select")
+          .forEach((select) => {
+            select.value = "";
+          });
+      }
+    });
+  });
+
+  // --- バリデーション ---
+  interface ValidationError {
+    fieldId: string;
+    message: string;
+  }
+
+  function validateForm(): ValidationError[] {
+    const errors: ValidationError[] = [];
+
+    // 氏名
+    const name = (
+      document.getElementById("name") as HTMLInputElement
+    ).value.trim();
+    if (!name) {
+      errors.push({ fieldId: "name", message: "氏名を入力してください" });
+    }
+
+    // 会社名・社寺名
+    const company = (
+      document.getElementById("company") as HTMLInputElement
+    ).value.trim();
+    if (!company) {
+      errors.push({
+        fieldId: "company",
+        message: "会社名・社寺名を入力してください",
+      });
+    }
+
+    // 電話番号
+    const tel = (
+      document.getElementById("tel") as HTMLInputElement
+    ).value.trim();
+    if (!tel) {
+      errors.push({ fieldId: "tel", message: "電話番号を入力してください" });
+    }
+
+    // メールアドレス（任意だが、入力されていれば形式チェック）
+    const email = (
+      document.getElementById("email") as HTMLInputElement
+    ).value.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.push({
+        fieldId: "email",
+        message: "正しいメールアドレスの形式で入力してください",
+      });
+    }
+
+    // お問い合わせ内容
+    const inquiryChecked = document.querySelector<HTMLInputElement>(
+      'input[name="お問い合わせ内容"]:checked',
+    );
+    if (!inquiryChecked) {
+      errors.push({
+        fieldId: "inquiry-construction",
+        message: "お問い合わせ内容を選択してください",
+      });
+    }
+
+    // 施工種別（施工選択時のみ）
+    if (inquiryChecked?.value === "施工のご依頼・ご相談・お見積もり") {
+      const constructionType = constructionTypeSelect.value;
+      if (!constructionType) {
+        errors.push({
+          fieldId: "construction-type",
+          message: "施工種別を選択してください",
+        });
+      }
+    }
+
+    return errors;
+  }
+
+  function clearErrors(): void {
+    document.querySelectorAll(".contact-form__error").forEach((el) => {
+      el.textContent = "";
+    });
+    document.querySelectorAll("[aria-invalid]").forEach((el) => {
+      el.setAttribute("aria-invalid", "false");
+    });
+    errorSummary.hidden = true;
+    errorList.innerHTML = "";
+  }
+
+  function showErrors(errors: ValidationError[]): void {
+    // 個別エラー
+    errors.forEach(({ fieldId, message }) => {
+      const errorEl = document.getElementById(`${fieldId}-error`);
+      const fieldEl = document.getElementById(fieldId);
+      if (errorEl) errorEl.textContent = message;
+      if (fieldEl) fieldEl.setAttribute("aria-invalid", "true");
+    });
+
+    // エラーサマリー
+    errorList.innerHTML = "";
+    errors.forEach(({ fieldId, message }) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `#${fieldId}`;
+      a.textContent = message;
+      li.appendChild(a);
+      errorList.appendChild(li);
+    });
+    errorSummary.hidden = false;
+
+    // 先頭にスクロール & フォーカス
+    errorSummary.scrollIntoView({ behavior: "smooth", block: "center" });
+    const firstField = document.getElementById(errors[0].fieldId);
+    if (firstField) {
+      setTimeout(() => firstField.focus(), 300);
+    }
+  }
+
+  form.addEventListener("submit", (e) => {
+    clearErrors();
+    const errors = validateForm();
+
+    if (errors.length > 0) {
+      e.preventDefault();
+      showErrors(errors);
+    }
+    // 検証OKならそのまま SSGform へ POST
+  });
+</script>
+
 <style>
-  main {
-    padding: var(--space-8);
+  /* ===== Page layout ===== */
+  .contact-page {
+    padding: var(--space-8) var(--space-4);
     max-width: var(--width-content);
     margin: 0 auto;
   }
 
-  h1 {
+  .contact-page__title {
+    font-size: var(--text-2xl);
     text-align: center;
     margin-bottom: var(--space-4);
   }
 
-  .description {
+  .contact-page__description {
     text-align: center;
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-10);
     color: var(--color-text-secondary);
   }
 
-  .form-container {
+  /* ===== Form container ===== */
+  .contact-form__container {
     background: var(--color-bg-secondary);
-    padding: var(--space-8);
+    padding: var(--space-6);
     border-radius: var(--radius-md);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: var(--width-description);
+    margin: 0 auto;
+  }
+
+  .contact-form__intro {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ===== Error summary ===== */
+  .contact-form__error-summary {
+    background: var(--color-error-bg);
+    border: 1px solid var(--color-error);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+  }
+
+  .contact-form__error-heading {
+    font-weight: var(--weight-bold);
+    color: var(--color-error);
+    margin-bottom: var(--space-2);
+  }
+
+  .contact-form__error-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .contact-form__error-list a {
+    color: var(--color-error);
+    font-size: var(--text-sm);
+    text-decoration: underline;
+  }
+
+  /* ===== Sections (fieldset) ===== */
+  .contact-form__section {
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .contact-form__legend {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-primary);
+    margin-bottom: var(--space-2);
+    width: 100%;
+  }
+
+  .contact-form__sub-fieldset {
+    border: none;
+    padding: 0;
+  }
+
+  .contact-form__sub-legend {
+    font-weight: var(--weight-bold);
+  }
+
+  /* ===== Form group ===== */
+  .contact-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-form__group > label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-form__label {
+    font-weight: var(--weight-bold);
+  }
+
+  .contact-form__required {
+    color: var(--color-error);
+    margin-left: var(--space-1);
+  }
+
+  .contact-form__optional {
+    color: var(--color-text-muted);
+    font-weight: var(--weight-normal);
+    font-size: var(--text-sm);
+    margin-left: var(--space-1);
+  }
+
+  /* ===== Inputs ===== */
+  .contact-form__input,
+  .contact-form__textarea,
+  .contact-form__select {
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color var(--duration-fast) var(--easing-default);
+  }
+
+  .contact-form__input::placeholder,
+  .contact-form__textarea::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .contact-form__input[aria-invalid="true"],
+  .contact-form__textarea[aria-invalid="true"],
+  .contact-form__select[aria-invalid="true"] {
+    border-color: var(--color-error);
+    background-color: var(--color-error-bg);
+  }
+
+  .contact-form__textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  .contact-form__select {
+    cursor: pointer;
+  }
+
+  /* ===== Radio group ===== */
+  .contact-form__radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-form__radio-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    line-height: var(--leading-normal);
+  }
+
+  .contact-form__radio {
+    accent-color: var(--color-primary);
+  }
+
+  /* ===== Help & Error text ===== */
+  .contact-form__help {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+
+  .contact-form__error {
+    color: var(--color-error);
+    font-size: var(--text-sm);
+    margin: 0;
+    min-height: 0;
+  }
+
+  .contact-form__error:empty {
+    display: none;
+  }
+
+  /* ===== Guide text (conditional section) ===== */
+  .contact-form__guide {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    background: var(--color-bg-tertiary);
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ===== Conditional fields ===== */
+  .contact-form__conditional {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .contact-form__conditional[hidden] {
+    display: none;
+  }
+
+  /* ===== Submit ===== */
+  .contact-form__actions {
+    text-align: center;
+  }
+
+  .contact-form__submit {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--space-3) var(--space-10);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    transition: background-color var(--duration-fast) var(--easing-default);
+  }
+
+  .contact-form__submit:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  /* ===== Responsive ===== */
+  @media (min-width: 768px) {
+    .contact-page {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .contact-page__title {
+      font-size: var(--text-3xl);
+    }
+
+    .contact-form__container {
+      padding: var(--space-10);
+    }
   }
 </style>

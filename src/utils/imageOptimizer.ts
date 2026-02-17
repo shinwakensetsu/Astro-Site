@@ -86,4 +86,4 @@ export const imagePresets = {
   card: { width: 400, quality: 75, format: "auto" as const },
   /** OG画像（SNS共有用） */
   ogImage: { width: 1200, height: 630, quality: 85, format: "auto" as const },
-};
+} as const;

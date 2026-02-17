@@ -22,10 +22,7 @@ const newsList = newsResponse.contents;
         {topPage.heroImage && (
           <div class="hero-image-wrapper">
             <img
-              src={optimizeImageUrl(topPage.heroImage.url, {
-                fit: "clamp",
-                ...imagePresets.hero,
-              })}
+              src={optimizeImageUrl(topPage.heroImage.url, imagePresets.hero)}
               alt={topPage.heroTitle || "Top Image"}
               width={topPage.heroImage.width}
               height={topPage.heroImage.height}
