@@ -25,7 +25,7 @@ import Layout from "../layouts/Layout.astro";
           id="error-summary"
           class="contact-form__error-summary"
           role="alert"
-          aria-live="assertive"
+          tabindex="-1"
           hidden
         >
           <p class="contact-form__error-heading">入力内容をご確認ください</p>
@@ -46,6 +46,7 @@ import Layout from "../layouts/Layout.astro";
                 氏名
                 <span class="contact-form__required">（必須）</span>
               </span>
+              <span class="contact-form__error" id="name-error"> </span>
               <input
                 class="contact-form__input"
                 type="text"
@@ -57,13 +58,6 @@ import Layout from "../layouts/Layout.astro";
                 aria-describedby="name-error"
               />
             </label>
-            <p
-              class="contact-form__error"
-              id="name-error"
-              role="alert"
-              aria-live="polite"
-            >
-            </p>
           </div>
 
           <div class="contact-form__group">
@@ -88,6 +82,7 @@ import Layout from "../layouts/Layout.astro";
                 会社名・社寺名
                 <span class="contact-form__required">（必須）</span>
               </span>
+              <span class="contact-form__error" id="company-error"> </span>
               <input
                 class="contact-form__input"
                 type="text"
@@ -99,13 +94,6 @@ import Layout from "../layouts/Layout.astro";
                 aria-describedby="company-error"
               />
             </label>
-            <p
-              class="contact-form__error"
-              id="company-error"
-              role="alert"
-              aria-live="polite"
-            >
-            </p>
           </div>
         </fieldset>
 
@@ -119,6 +107,7 @@ import Layout from "../layouts/Layout.astro";
                 電話番号
                 <span class="contact-form__required">（必須）</span>
               </span>
+              <span class="contact-form__error" id="tel-error"> </span>
               <input
                 class="contact-form__input"
                 type="tel"
@@ -131,13 +120,6 @@ import Layout from "../layouts/Layout.astro";
                 aria-describedby="tel-error"
               />
             </label>
-            <p
-              class="contact-form__error"
-              id="tel-error"
-              role="alert"
-              aria-live="polite"
-            >
-            </p>
           </div>
 
           <div class="contact-form__group">
@@ -155,13 +137,7 @@ import Layout from "../layouts/Layout.astro";
                 aria-describedby="email-error"
               />
             </label>
-            <p
-              class="contact-form__error"
-              id="email-error"
-              role="alert"
-              aria-live="polite"
-            >
-            </p>
+            <p class="contact-form__error" id="email-error"></p>
           </div>
 
           <fieldset class="contact-form__group contact-form__sub-fieldset">
@@ -177,7 +153,6 @@ import Layout from "../layouts/Layout.astro";
                   name="ご希望の連絡方法"
                   value="お電話"
                   id="method-tel"
-                  aria-controls="time-slot-group"
                 />
                 お電話
               </label>
@@ -212,11 +187,15 @@ import Layout from "../layouts/Layout.astro";
         <fieldset class="contact-form__section">
           <legend class="contact-form__legend">お問い合わせ内容</legend>
 
-          <fieldset class="contact-form__group contact-form__sub-fieldset">
+          <fieldset
+            class="contact-form__group contact-form__sub-fieldset"
+            id="inquiry-fieldset"
+          >
             <legend class="contact-form__sub-legend">
-              種別
+              お問い合わせの種別
               <span class="contact-form__required">（必須）</span>
             </legend>
+            <span class="contact-form__error" id="inquiry-error"> </span>
             <div class="contact-form__radio-group" id="inquiry-type-group">
               <label class="contact-form__radio-label">
                 <input
@@ -227,7 +206,6 @@ import Layout from "../layouts/Layout.astro";
                   id="inquiry-construction"
                   required
                   aria-required="true"
-                  aria-controls="construction-fields"
                 />
                 施工のご依頼・ご相談・お見積もり
               </label>
@@ -242,14 +220,9 @@ import Layout from "../layouts/Layout.astro";
                 その他のお問い合わせ（採用／協力会社／メディア／その他）
               </label>
             </div>
-            <p
-              class="contact-form__error"
-              id="inquiry-error"
-              role="alert"
-              aria-live="polite"
-            >
-            </p>
           </fieldset>
+
+          <p id="field-error-live" class="sr-only" aria-live="polite"></p>
 
           <!-- 施工選択時の追加設問 -->
           <div
@@ -258,7 +231,7 @@ import Layout from "../layouts/Layout.astro";
             hidden
           >
             <p class="contact-form__guide">
-              以下の項目は任意です。わかる範囲でご入力ください。
+              施工種別以外の項目は任意です。わかる範囲でご入力ください。
             </p>
 
             <div class="contact-form__group">
@@ -266,6 +239,8 @@ import Layout from "../layouts/Layout.astro";
                 <span class="contact-form__label">
                   施工種別
                   <span class="contact-form__required">（必須）</span>
+                </span>
+                <span class="contact-form__error" id="construction-type-error">
                 </span>
                 <select
                   class="contact-form__select"
@@ -282,13 +257,6 @@ import Layout from "../layouts/Layout.astro";
               </label>
               <p class="contact-form__help" id="construction-type-help">
                 詳細が不明な場合は「その他・ご相談」をお選びください
-              </p>
-              <p
-                class="contact-form__error"
-                id="construction-type-error"
-                role="alert"
-                aria-live="polite"
-              >
               </p>
             </div>
 
@@ -416,6 +384,12 @@ import Layout from "../layouts/Layout.astro";
     "error-summary",
   ) as HTMLDivElement;
   const errorList = document.getElementById("error-list") as HTMLUListElement;
+  const fieldErrorLive = document.getElementById(
+    "field-error-live",
+  ) as HTMLParagraphElement;
+  const inquiryFieldset = document.getElementById(
+    "inquiry-fieldset",
+  ) as HTMLFieldSetElement;
 
   // --- 条件分岐: 連絡方法 → 時間帯 ---
   const methodRadios = document.querySelectorAll<HTMLInputElement>(
@@ -427,10 +401,9 @@ import Layout from "../layouts/Layout.astro";
 
   methodRadios.forEach((radio) => {
     radio.addEventListener("change", () => {
-      if (radio.value === "お電話") {
-        timeSlotGroup.hidden = false;
-      } else {
-        timeSlotGroup.hidden = true;
+      const isTel = radio.value === "お電話";
+      timeSlotGroup.hidden = !isTel;
+      if (!isTel) {
         const timeInput = document.getElementById(
           "time-slot",
         ) as HTMLInputElement;
@@ -562,15 +535,27 @@ import Layout from "../layouts/Layout.astro";
     });
     errorSummary.hidden = true;
     errorList.innerHTML = "";
+    fieldErrorLive.textContent = "";
+    inquiryFieldset.removeAttribute("aria-describedby");
+    inquiryFieldset.removeAttribute("aria-invalid");
   }
 
   function showErrors(errors: ValidationError[]): void {
     // 個別エラー
     errors.forEach(({ fieldId, message }) => {
-      const errorEl = document.getElementById(`${fieldId}-error`);
+      const errorId =
+        fieldId === "inquiry-construction"
+          ? "inquiry-error"
+          : `${fieldId}-error`;
+      const errorEl = document.getElementById(errorId);
       const fieldEl = document.getElementById(fieldId);
       if (errorEl) errorEl.textContent = message;
       if (fieldEl) fieldEl.setAttribute("aria-invalid", "true");
+
+      if (fieldId === "inquiry-construction") {
+        inquiryFieldset.setAttribute("aria-describedby", "inquiry-error");
+        inquiryFieldset.setAttribute("aria-invalid", "true");
+      }
     });
 
     // エラーサマリー
@@ -584,13 +569,11 @@ import Layout from "../layouts/Layout.astro";
       errorList.appendChild(li);
     });
     errorSummary.hidden = false;
+    fieldErrorLive.textContent = errors[0]?.message ?? "";
 
-    // 先頭にスクロール & フォーカス
-    errorSummary.scrollIntoView({ behavior: "smooth", block: "center" });
-    const firstField = document.getElementById(errors[0].fieldId);
-    if (firstField) {
-      setTimeout(() => firstField.focus(), 300);
-    }
+    // サマリーへフォーカスしてから、ユーザーがリンクで各項目へ移動
+    errorSummary.scrollIntoView({ block: "start" });
+    errorSummary.focus();
   }
 
   form.addEventListener("submit", (e) => {
@@ -752,6 +735,13 @@ import Layout from "../layouts/Layout.astro";
   .contact-form__select[aria-invalid="true"] {
     border-color: var(--color-error);
     background-color: var(--color-error-bg);
+  }
+
+  #inquiry-fieldset[aria-invalid="true"] .contact-form__radio-group {
+    border: 1px solid var(--color-error);
+    background-color: var(--color-error-bg);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
   }
 
   .contact-form__textarea {
