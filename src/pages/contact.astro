@@ -108,13 +108,13 @@ import Layout from "../layouts/Layout.astro";
                 <span class="contact-form__required">（必須）</span>
               </span>
               <span class="contact-form__error" id="tel-error"> </span>
+              <span>例：090-1234-5678</span>
               <input
                 class="contact-form__input"
                 type="tel"
                 id="tel"
                 name="電話番号"
                 autocomplete="tel"
-                placeholder="090-1234-5678"
                 required
                 aria-required="true"
                 aria-describedby="tel-error"
@@ -170,13 +170,17 @@ import Layout from "../layouts/Layout.astro";
 
             <div class="contact-form__group" id="time-slot-group" hidden>
               <label>
-                <span class="contact-form__label"> ご希望の連絡時間帯 </span>
+                <span class="contact-form__label">
+                  ご希望の連絡時間帯<span class="contact-form__optional"
+                    >(任意)</span
+                  ></span
+                >
+                <span>例：平日午前、15時以降 など</span>
                 <input
                   class="contact-form__input"
                   type="text"
                   id="time-slot"
                   name="ご希望の連絡時間帯"
-                  placeholder="例：平日午前、15時以降 など"
                 />
               </label>
             </div>
@@ -266,12 +270,13 @@ import Layout from "../layouts/Layout.astro";
                   施工予定地
                   <span class="contact-form__optional">(任意)</span>
                 </span>
+                <span>例：京都市内／◯◯県の神社 など</span>
                 <input
                   class="contact-form__input"
                   type="text"
                   id="location"
                   name="施工予定地"
-                  placeholder="例：京都市"
+                  autocomplete="off"
                 />
               </label>
             </div>
@@ -282,12 +287,13 @@ import Layout from "../layouts/Layout.astro";
                   着工のご希望時期
                   <span class="contact-form__optional">(任意)</span>
                 </span>
+                <span>例：◯年春頃／◯年◯月の大祭以降 など</span>
                 <input
                   class="contact-form__input"
                   type="text"
                   id="desired-date"
                   name="着工のご希望時期"
-                  placeholder="例：◯年春頃／◯年◯月の大祭以降 など"
+                  autocomplete="off"
                 />
               </label>
             </div>
@@ -359,13 +365,15 @@ import Layout from "../layouts/Layout.astro";
                 お問い合わせ詳細
                 <span class="contact-form__optional">(任意)</span>
               </span>
+              <span
+                >現在のお困りごと、工事を検討されている理由、行事との兼ね合いなど、ご要望や背景をできるだけ詳しくご記入ください。</span
+              >
               <textarea
                 class="contact-form__textarea"
                 id="detail"
                 name="お問い合わせ詳細"
                 rows="6"
-                placeholder="現在のお困りごと、工事を検討されている理由、行事との兼ね合いなど"
-              ></textarea>
+                autocomplete="off"></textarea>
             </label>
           </div>
         </fieldset>
@@ -625,7 +633,7 @@ import Layout from "../layouts/Layout.astro";
 
   .contact-form__intro {
     font-size: var(--text-sm);
-    color: var(--color-text-muted);
+    color: var(--color-text-black);
     line-height: var(--leading-relaxed);
   }
 
@@ -688,6 +696,7 @@ import Layout from "../layouts/Layout.astro";
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    margin-top: 10px;
   }
 
   .contact-form__group > label {
@@ -706,7 +715,7 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .contact-form__optional {
-    color: var(--color-text-muted);
+    color: var(--color-text-black);
     font-weight: var(--weight-normal);
     font-size: var(--text-sm);
     margin-left: var(--space-1);
@@ -727,7 +736,7 @@ import Layout from "../layouts/Layout.astro";
 
   .contact-form__input::placeholder,
   .contact-form__textarea::placeholder {
-    color: var(--color-text-muted);
+    color: var(--color-text-black);
   }
 
   .contact-form__input[aria-invalid="true"],
@@ -792,9 +801,10 @@ import Layout from "../layouts/Layout.astro";
 
   /* ===== Guide text (conditional section) ===== */
   .contact-form__guide {
-    color: var(--color-text-muted);
+    color: var(--color-white);
     font-size: var(--text-sm);
-    background: var(--color-bg-tertiary);
+    font-weight: var(--weight-bold);
+    background: var(--color-gray-600);
     padding: var(--space-3);
     border-radius: var(--radius-sm);
     line-height: var(--leading-relaxed);

@@ -4,9 +4,9 @@
 
 :root {
   /* --- Brand Colors --- */
-  --color-primary:         #0066cc;
-  --color-primary-dark:    #0051a3;
-  --color-primary-light:   #338fdd;
+  --color-primary:         #437D8C;
+  --color-primary-dark:    #335F6B;
+  --color-primary-light:   #97D5E6;
 
   /* --- Grayscale --- */
   --color-white:           #ffffff;
@@ -27,10 +27,10 @@
   --color-text-secondary:  var(--color-gray-700);
   --color-text-muted:      var(--color-gray-600);
   --color-bg:              var(--color-white);
-  --color-bg-secondary:    var(--color-gray-50);
-  --color-bg-tertiary:     var(--color-gray-100);
-  --color-border:          var(--color-gray-300);
-  --color-border-light:    var(--color-gray-200);
+  --color-bg-secondary:    var(--color-gray-100);
+  --color-bg-tertiary:     var(--color-gray-400);
+  --color-border:          var(--color-gray-600);
+  --color-border-light:    var(--color-gray-300);
 
   /* --- Status Colors --- */
   --color-success:         #00a859;
