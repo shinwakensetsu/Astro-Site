@@ -1,0 +1,8 @@
+#:schema node_modules/wrangler/config-schema.json
+
+name = "astro-site"
+pages_build_output_dir = "./dist"
+compatibility_date = "2025-04-01"
+
+[vars]
+# 環境変数はCloudflareダッシュボードで設定（シークレットはここに書かない）
