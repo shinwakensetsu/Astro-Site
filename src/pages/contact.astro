@@ -55,7 +55,6 @@ import Layout from "../layouts/Layout.astro";
                 autocomplete="name"
                 required
                 aria-required="true"
-                aria-describedby="name-error"
               />
             </label>
           </div>
@@ -91,7 +90,6 @@ import Layout from "../layouts/Layout.astro";
                 autocomplete="organization"
                 required
                 aria-required="true"
-                aria-describedby="company-error"
               />
             </label>
           </div>
@@ -117,7 +115,6 @@ import Layout from "../layouts/Layout.astro";
                 autocomplete="tel"
                 required
                 aria-required="true"
-                aria-describedby="tel-error"
               />
             </label>
           </div>
@@ -126,18 +123,19 @@ import Layout from "../layouts/Layout.astro";
             <label>
               <span class="contact-form__label">
                 メールアドレス
-                <span class="contact-form__optional">(任意)</span>
+                <span class="contact-form__required">（必須）</span>
               </span>
+              <span class="contact-form__error" id="email-error"> </span>
               <input
                 class="contact-form__input"
                 type="email"
                 id="email"
                 name="メールアドレス"
                 autocomplete="email"
-                aria-describedby="email-error"
+                required
+                aria-required="true"
               />
             </label>
-            <p class="contact-form__error" id="email-error"></p>
           </div>
 
           <fieldset class="contact-form__group contact-form__sub-fieldset">
@@ -199,7 +197,7 @@ import Layout from "../layouts/Layout.astro";
               お問い合わせの種別
               <span class="contact-form__required">（必須）</span>
             </legend>
-            <span class="contact-form__error" id="inquiry-error"> </span>
+            <span class="contact-form__error" id="inquiry-error"></span>
             <div class="contact-form__radio-group" id="inquiry-type-group">
               <label class="contact-form__radio-label">
                 <input
@@ -246,11 +244,13 @@ import Layout from "../layouts/Layout.astro";
                 </span>
                 <span class="contact-form__error" id="construction-type-error">
                 </span>
+                <p class="contact-form__help" id="construction-type-help">
+                  詳細が不明な場合は「その他・ご相談」をお選びください
+                </p>
                 <select
                   class="contact-form__select"
                   id="construction-type"
                   name="施工種別"
-                  aria-describedby="construction-type-help construction-type-error"
                 >
                   <option value="">選択してください</option>
                   <option value="新築">新築</option>
@@ -259,9 +259,6 @@ import Layout from "../layouts/Layout.astro";
                   <option value="その他・ご相談">その他・ご相談</option>
                 </select>
               </label>
-              <p class="contact-form__help" id="construction-type-help">
-                詳細が不明な場合は「その他・ご相談」をお選びください
-              </p>
             </div>
 
             <div class="contact-form__group">
@@ -399,6 +396,17 @@ import Layout from "../layouts/Layout.astro";
     "inquiry-fieldset",
   ) as HTMLFieldSetElement;
 
+  // --- Enterキーによる意図しない送信を防止（送信ボタンのみ許可） ---
+  form.addEventListener("keydown", (e) => {
+    if (
+      e.key === "Enter" &&
+      (e.target as HTMLElement).tagName !== "TEXTAREA" &&
+      (e.target as HTMLElement).tagName !== "BUTTON"
+    ) {
+      e.preventDefault();
+    }
+  });
+
   // --- 条件分岐: 連絡方法 → 時間帯 ---
   const methodRadios = document.querySelectorAll<HTMLInputElement>(
     'input[name="ご希望の連絡方法"]',
@@ -498,11 +506,16 @@ import Layout from "../layouts/Layout.astro";
       errors.push({ fieldId: "tel", message: "電話番号を入力してください" });
     }
 
-    // メールアドレス（任意だが、入力されていれば形式チェック）
+    // メールアドレス（必須 + 形式チェック）
     const email = (
       document.getElementById("email") as HTMLInputElement
     ).value.trim();
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!email) {
+      errors.push({
+        fieldId: "email",
+        message: "メールアドレスを入力してください",
+      });
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errors.push({
         fieldId: "email",
         message: "正しいメールアドレスの形式で入力してください",
@@ -767,6 +780,7 @@ import Layout from "../layouts/Layout.astro";
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    margin-top: 5px;
   }
 
   .contact-form__radio-label {
@@ -783,7 +797,7 @@ import Layout from "../layouts/Layout.astro";
 
   /* ===== Help & Error text ===== */
   .contact-form__help {
-    color: var(--color-text-muted);
+    color: var(--color-text-black);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
   }
