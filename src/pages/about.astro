@@ -1,0 +1,94 @@
+---
+// src/pages/about.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="会社概要" description="会社概要ページです。">
+  <main class="about-page">
+    <h1 class="about-page__title">会社概要</h1>
+
+    <div class="about-page__content">
+      <table class="about-page__table">
+        <tbody>
+          <tr>
+            <th>会社名</th>
+            <td>株式会社サンプル</td>
+          </tr>
+          <tr>
+            <th>所在地</th>
+            <td>〒000-0000 京都府京都市○○区○○町0-0</td>
+          </tr>
+          <tr>
+            <th>設立</th>
+            <td>昭和○○年○月</td>
+          </tr>
+          <tr>
+            <th>代表者</th>
+            <td>代表取締役 山田 太郎</td>
+          </tr>
+          <tr>
+            <th>事業内容</th>
+            <td>社寺建築の設計・施工・修繕</td>
+          </tr>
+          <tr>
+            <th>電話番号</th>
+            <td>000-000-0000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .about-page {
+    padding: var(--space-8) var(--space-4);
+    max-width: var(--width-content);
+    margin: 0 auto;
+  }
+
+  .about-page__title {
+    font-size: var(--text-2xl);
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .about-page__content {
+    max-width: var(--width-description);
+    margin: 0 auto;
+  }
+
+  .about-page__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .about-page__table th,
+  .about-page__table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border-light);
+    text-align: left;
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-page__table th {
+    font-weight: var(--weight-bold);
+    white-space: nowrap;
+    width: 8rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 768px) {
+    .about-page {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .about-page__title {
+      font-size: var(--text-3xl);
+    }
+
+    .about-page__table th {
+      width: 10rem;
+    }
+  }
+</style>
