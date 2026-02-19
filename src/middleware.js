@@ -21,8 +21,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Content-Security-Policy（microCMS + YouTube + SSGform 対応）
   // dev モードでは Astro dev toolbar がインラインスクリプトを注入するため 'unsafe-inline' を許可
   const scriptSrc = import.meta.env.DEV
-    ? "script-src 'self' 'unsafe-inline'"
-    : "script-src 'self'";
+    ? "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com"
+    : "script-src 'self' https://www.google.com https://www.gstatic.com";
 
   response.headers.set(
     "Content-Security-Policy",
@@ -33,7 +33,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       "img-src 'self' data: https: *.microcms.io *.microcms-assets.io i.ytimg.com",
       "font-src 'self'",
       "connect-src 'self' *.microcms.io *.ssgform.com",
-      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self' https://*.ssgform.com",
