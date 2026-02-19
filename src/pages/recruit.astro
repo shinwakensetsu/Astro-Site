@@ -1,0 +1,40 @@
+---
+// src/pages/recruit.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="採用情報" description="採用情報ページです。">
+  <main class="recruit-page">
+    <h1 class="recruit-page__title">採用情報</h1>
+    <p class="recruit-page__placeholder">このページは準備中です。</p>
+  </main>
+</Layout>
+
+<style>
+  .recruit-page {
+    padding: var(--space-8) var(--space-4);
+    max-width: var(--width-content);
+    margin: 0 auto;
+  }
+
+  .recruit-page__title {
+    font-size: var(--text-2xl);
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .recruit-page__placeholder {
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .recruit-page {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .recruit-page__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

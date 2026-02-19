@@ -1,0 +1,40 @@
+---
+// src/pages/services.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="仕事内容" description="仕事内容のご紹介ページです。">
+  <main class="services-page">
+    <h1 class="services-page__title">仕事内容</h1>
+    <p class="services-page__placeholder">このページは準備中です。</p>
+  </main>
+</Layout>
+
+<style>
+  .services-page {
+    padding: var(--space-8) var(--space-4);
+    max-width: var(--width-content);
+    margin: 0 auto;
+  }
+
+  .services-page__title {
+    font-size: var(--text-2xl);
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .services-page__placeholder {
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .services-page {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .services-page__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

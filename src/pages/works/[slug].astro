@@ -1,0 +1,57 @@
+---
+// src/pages/works/[slug].astro
+import Layout from "../../layouts/Layout.astro";
+
+// TODO: microCMS から施工事例データを取得
+export function getStaticPaths() {
+  return [{ params: { slug: "sample" } }];
+}
+
+const { slug } = Astro.params;
+---
+
+<Layout title="施工事例詳細" description="施工事例の詳細ページです。">
+  <main class="works-detail">
+    <h1 class="works-detail__title">施工事例詳細</h1>
+    <p class="works-detail__placeholder">
+      このページは準備中です。（slug: {slug}）
+    </p>
+    <a href="/works" class="works-detail__back-link">施工事例一覧に戻る</a>
+  </main>
+</Layout>
+
+<style>
+  .works-detail {
+    padding: var(--space-8) var(--space-4);
+    max-width: var(--width-content);
+    margin: 0 auto;
+  }
+
+  .works-detail__title {
+    font-size: var(--text-2xl);
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .works-detail__placeholder {
+    text-align: center;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .works-detail__back-link {
+    display: block;
+    text-align: center;
+    color: var(--color-primary);
+  }
+
+  @media (min-width: 768px) {
+    .works-detail {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .works-detail__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

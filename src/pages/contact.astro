@@ -16,6 +16,7 @@ import Layout from "../layouts/Layout.astro";
     <div class="contact-form__container">
       <form
         class="contact-form"
+        id="contact-form"
         action="https://ssgform.com/s/gq1kv0ZvHNKt"
         method="post"
         novalidate
@@ -376,9 +377,15 @@ import Layout from "../layouts/Layout.astro";
         </fieldset>
 
         <div class="contact-form__actions">
-          <button type="submit" class="contact-form__submit">送信する</button>
+          <button
+            class="contact-form__submit g-recaptcha"
+            data-sitekey="6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI"
+            data-callback="onSubmit"
+            data-action="submit">送信する</button
+          >
         </div>
       </form>
+      <script is:inline src="https://www.google.com/recaptcha/api.js"></script>
     </div>
   </main>
 </Layout>
@@ -597,6 +604,7 @@ import Layout from "../layouts/Layout.astro";
     errorSummary.focus();
   }
 
+  // --- フォールバック: reCAPTCHA 未読み込み時のセーフティネット ---
   form.addEventListener("submit", (e) => {
     clearErrors();
     const errors = validateForm();
@@ -605,8 +613,19 @@ import Layout from "../layouts/Layout.astro";
       e.preventDefault();
       showErrors(errors);
     }
-    // 検証OKならそのまま SSGform へ POST
   });
+
+  // --- reCAPTCHA v3 callback（グローバル公開） ---
+  (window as Record<string, unknown>).onSubmit = function () {
+    clearErrors();
+    const errors = validateForm();
+
+    if (errors.length > 0) {
+      showErrors(errors);
+      return;
+    }
+    form.submit();
+  };
 </script>
 
 <style>
