@@ -103,17 +103,12 @@
     flex-direction: column;
   }
 
-  .gallery-modal__figure.is-loading {
-    visibility: hidden;
-    height: 0;
-    overflow: hidden;
-  }
-
   .gallery-modal__img-wrap {
     background: var(--color-bg-secondary);
     padding: 5px;
     margin: 0;
     line-height: 0;
+    overflow: hidden;
   }
 
   .gallery-modal__img {
@@ -122,12 +117,20 @@
     max-height: 75vh;
     object-fit: contain;
     margin: 0 auto;
-    opacity: 0;
-    transition: opacity 1s ease;
+    transition:
+      filter 600ms ease,
+      transform 600ms ease,
+      opacity 600ms ease;
+  }
+
+  .gallery-modal__img.is-lqip {
+    filter: blur(10px);
+    transform: scale(1.02);
   }
 
   .gallery-modal__img.is-loaded {
-    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
   }
 
   .gallery-modal__caption {

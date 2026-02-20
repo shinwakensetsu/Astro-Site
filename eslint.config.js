@@ -43,6 +43,7 @@ export default [
         document: "readonly",
         setTimeout: "readonly",
         HTMLElement: "readonly",
+        Image: "readonly",
       },
     },
   },

@@ -21,42 +21,62 @@ function initGalleryFallback() {
   }
 }
 
-/** GalleryModal: open/close dialog for full-size image viewing */
+/** GalleryModal: LQIP-based dialog for full-size image viewing */
 function initGalleryModal() {
   var dialog = document.getElementById("gallery-modal");
   if (!dialog) return;
 
-  var figure = dialog.querySelector(".gallery-modal__figure");
+  var imgWrap = dialog.querySelector(".gallery-modal__img-wrap");
   var img = dialog.querySelector(".gallery-modal__img");
   var caption = dialog.querySelector(".gallery-modal__caption");
   var closeBtn = dialog.querySelector(".gallery-modal__close");
+  var preloader = null;
 
   document.addEventListener("click", function (e) {
     var btn = e.target.closest(".gallery-item");
     if (!btn) return;
 
-    var src = btn.dataset.src || "";
+    var fullSrc = btn.dataset.src || "";
     var text = btn.dataset.text || "";
 
+    // Get thumbnail element from clicked item
+    var thumb = btn.querySelector("img");
+    var thumbSrc = thumb ? thumb.currentSrc || thumb.src : fullSrc;
+
+    // Calculate aspect ratio from loaded thumbnail
+    var w = thumb && thumb.naturalWidth;
+    var h = thumb && thumb.naturalHeight;
+    if (w && h) {
+      imgWrap.style.aspectRatio = w + " / " + h;
+    } else {
+      imgWrap.style.aspectRatio = "";
+    }
+
+    // Step 1: Show thumbnail as LQIP with blur
     img.classList.remove("is-loaded");
-    figure.classList.add("is-loading");
-    img.src = src;
+    img.classList.add("is-lqip");
+    img.src = thumbSrc;
     img.alt = "";
     caption.textContent = text;
     dialog.showModal();
 
-    var revealImage = function () {
-      figure.classList.remove("is-loading");
+    // Step 2: Preload full-size image in background
+    if (preloader) {
+      preloader.onload = null;
+      preloader = null;
+    }
+    preloader = new Image();
+    preloader.onload = function () {
+      // Step 3: Swap to full-size and remove blur
+      img.src = fullSrc;
+      img.classList.remove("is-lqip");
+      imgWrap.style.aspectRatio = "";
       setTimeout(function () {
         img.classList.add("is-loaded");
       }, 50);
+      preloader = null;
     };
-
-    if (img.complete) {
-      revealImage();
-    } else {
-      img.onload = revealImage;
-    }
+    preloader.src = fullSrc;
   });
 
   closeBtn.addEventListener("click", function () {
@@ -69,6 +89,12 @@ function initGalleryModal() {
 
   dialog.addEventListener("close", function () {
     img.classList.remove("is-loaded");
+    img.classList.remove("is-lqip");
+    imgWrap.style.aspectRatio = "";
+    if (preloader) {
+      preloader.onload = null;
+      preloader = null;
+    }
     img.onload = null;
     img.src = "";
   });
