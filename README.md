@@ -33,6 +33,7 @@ SITE_URL=http://localhost:4321
 
 詳細情報は [`docs/`](./docs/) を参照:
 
-- [プロジェクト概要](./docs/README.md)
-- [開発ガイド](./docs/DEVELOPMENT.md)
-- [ディレクトリ構成](./docs/STRUCTURE.md)
+- [プロジェクト概要](./work/docs/README.md)
+- [開発ガイド](./work/docs/DEVELOPMENT.md)
+- [ディレクトリ構成](./work/docs/STRUCTURE.md)
+- [CSS設計](./work/docs/css-rules.md)

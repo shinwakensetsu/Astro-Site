@@ -1,0 +1,118 @@
+﻿---
+import { sitemapColumns } from "../data/sitemap";
+
+interface Props {
+  variant?: "drawer" | "footer";
+  ariaLabel?: string;
+}
+
+const { variant = "drawer", ariaLabel = "サイトマップ" } = Astro.props;
+const headingTag = variant === "footer" ? "h3" : "h2";
+---
+
+<nav class={`sitemap sitemap--${variant}`} aria-label={ariaLabel}>
+  {
+    sitemapColumns.map((column) => (
+      <div class="sitemap__col">
+        {column.sections.map((section) => {
+          const HeadingTag = headingTag;
+
+          return (
+            <section class="sitemap__section">
+              <HeadingTag class="sitemap__heading">
+                <a href={section.heading.href}>{section.heading.label}</a>
+              </HeadingTag>
+
+              {section.links && section.links.length > 0 && (
+                <ul class="sitemap__list">
+                  {section.links.map((link) => (
+                    <li>
+                      <a href={link.href}>{link.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          );
+        })}
+      </div>
+    ))
+  }
+</nav>
+
+<style>
+  .sitemap {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sitemap__col {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .sitemap__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sitemap__heading {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    font-weight: var(--weight-bold);
+  }
+
+  .sitemap__heading a,
+  .sitemap__list a {
+    color: var(--color-gray-900);
+    text-decoration: none;
+  }
+
+  .sitemap__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sitemap__list a {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: var(--weight-normal);
+  }
+
+  .sitemap--footer .sitemap__heading a,
+  .sitemap--footer .sitemap__list a {
+    color: var(--color-white);
+  }
+
+  .sitemap--footer {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  @media (min-width: 1441px) {
+    .sitemap--footer {
+      min-width: 700px;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    .sitemap {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .sitemap {
+      grid-template-columns: 1fr;
+    }
+
+    .sitemap__list a {
+      font-size: 1.125rem;
+    }
+  }
+</style>

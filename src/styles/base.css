@@ -105,3 +105,8 @@ select {
   margin-inline: auto;
   padding-inline: var(--space-4);
 }
+
+/* Utility: radius 20px */
+.u-radius-20 {
+  border-radius: 20px;
+}

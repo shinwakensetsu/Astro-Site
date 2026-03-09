@@ -616,7 +616,7 @@ import Layout from "../layouts/Layout.astro";
   });
 
   // --- reCAPTCHA v3 callback（グローバル公開） ---
-  (window as Record<string, unknown>).onSubmit = function () {
+  (window as unknown as Record<string, unknown>).onSubmit = function () {
     clearErrors();
     const errors = validateForm();
 
