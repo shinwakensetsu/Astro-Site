@@ -238,6 +238,7 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
   .site-header__nav-list {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 1em;
     list-style: none;
   }
@@ -251,11 +252,17 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     font-weight: 300;
     line-height: 1.2;
     letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 
   .site-header__menu-button {
     width: 3.75rem;
     height: 3.75rem;
+    min-width: 3.75rem;
+    min-height: 3.75rem;
+    max-width: 3.75rem;
+    max-height: 3.75rem;
+    flex-shrink: 0;
     border-radius: 50%;
     border: 1px solid var(--color-white);
     display: inline-flex;
@@ -421,9 +428,9 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
   }
 
   .site-footer__contact-table td {
-    font-size: 1.625rem;
     overflow-wrap: anywhere;
     word-break: break-word;
+    vertical-align: top;
   }
 
   .site-footer__contact-table a {
@@ -432,7 +439,6 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     text-decoration: none;
     line-height: 1.2;
     text-align: left;
-    vertical-align: top;
   }
 
   .site-footer__contact-table th {
@@ -515,7 +521,7 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     }
 
     .site-header__logo {
-      width: min(18.875rem, 52vw);
+      width: clamp(10rem, 20vw, 18.875rem);
     }
 
     .site-header__nav-list {
@@ -603,7 +609,7 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     .site-header__nav {
       display: none;
     }
@@ -614,10 +620,6 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
 
     .site-footer__contact-table th {
       width: 3.25rem;
-    }
-
-    .site-footer__contact-table td {
-      font-size: 1.125rem;
     }
   }
 </style>
