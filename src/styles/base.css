@@ -16,7 +16,7 @@ dialog {
 }
 
 html {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 100%;
   line-height: var(--leading-normal);
   color: var(--color-text);
