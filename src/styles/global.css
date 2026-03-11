@@ -17,6 +17,7 @@
   --color-gray-200:        #e9ecef;
   --color-gray-300:        #DBDBDB;
   --color-gray-400:        #B9B9B9;
+  --color-gray-500:        #5C5C5C;
   --color-gray-600:        #6c757d;
   --color-gray-700:        #4B4B4B;
   --color-gray-900:        #1F1F1F;
@@ -96,6 +97,7 @@
   --width-news:       900px;
   --width-wide:       1000px;
   --width-max:        1200px;
+  --width-layout:     1440px;
 
   /* --- Border Radius --- */
   --radius-sm:    4px;

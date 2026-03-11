@@ -1,0 +1,63 @@
+---
+interface Props {
+  class?: string;
+  width?: string | number;
+  height?: string | number;
+  "aria-label"?: string;
+  "aria-hidden"?: "true" | "false";
+}
+
+const {
+  class: className,
+  width,
+  height,
+  "aria-label": ariaLabel,
+  "aria-hidden": ariaHidden,
+} = Astro.props;
+---
+
+<svg
+  class={className}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 72 72"
+  width={width}
+  height={height}
+  aria-label={ariaLabel}
+  aria-hidden={ariaHidden ?? (ariaLabel ? undefined : "true")}
+  role={ariaLabel ? "img" : undefined}
+  fill="none"
+>
+  <circle cx="36" cy="36" r="36"></circle>
+  <path d="M19 36H54" stroke-width="2"></path>
+  <path d="M45 31L53.6603 36" stroke-width="2"></path>
+  <path d="M45 41L53.6603 36" stroke-width="2"></path>
+</svg>
+
+<style>
+  svg {
+    display: block;
+  }
+
+  circle {
+    fill: var(--color-primary-light);
+    transition: fill var(--duration-fast) var(--easing-default);
+  }
+
+  path {
+    stroke: var(--color-gray-500);
+    transition: stroke var(--duration-fast) var(--easing-default);
+  }
+
+  /* hover / focus: SVG直接 または 親インタラクティブ要素経由 */
+  svg:hover circle,
+  :global(:is(a, button):hover) svg circle,
+  :global(:is(a, button):focus-visible) svg circle {
+    fill: var(--color-gray-500);
+  }
+
+  svg:hover path,
+  :global(:is(a, button):hover) svg path,
+  :global(:is(a, button):focus-visible) svg path {
+    stroke: var(--color-primary-light);
+  }
+</style>

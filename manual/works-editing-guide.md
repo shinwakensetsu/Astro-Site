@@ -348,3 +348,49 @@ npm run preview
 ### CSP エラーがコンソールに出る
 
 開発サーバーでは Astro dev toolbar のインラインスクリプトに対する CSP エラーが表示される場合がありますが、`middleware.js` で dev 環境のみ `unsafe-inline` を許可しているため動作に影響はありません。本番ビルドでは `public/_headers` のポリシーが適用されます。
+
+---
+
+## 9. 開発者向け実装ルール
+
+### 9.1 背景画像の設定方法
+
+**外部 URL（microCMS などの変数展開）を `style` 属性に直接埋め込んではいけません。**
+
+本番 CSP では `style-src 'unsafe-inline'` を許可していないため、`style=""` に変数を展開すると背景画像がブロックされます。
+
+#### NG パターン
+
+```astro
+<!-- style 属性に直接展開 → CSP でブロックされる -->
+<div style={`background-image: url(${imageUrl});`}></div>
+```
+
+#### OK パターン（`data-bg-url` + JS）
+
+```astro
+<!-- data 属性でURLを渡す -->
+<div class="my-image js-bg-image" data-bg-url={imageUrl}></div>
+```
+
+```typescript
+// Astro の <script> ブロックで JS DOM プロパティ経由でセット
+// element.style.backgroundImage の代入は CSP style-src の対象外
+document.querySelectorAll<HTMLElement>(".js-bg-image").forEach((el) => {
+  const url = el.dataset.bgUrl;
+  if (url) el.style.backgroundImage = `url(${url})`;
+});
+```
+
+**なぜ安全か：** HTML の `style=""` 属性（インラインスタイル）は CSP `style-src-attr` で制御されますが、JS の `element.style.backgroundImage = ...` は DOM プロパティへの代入であり CSP の適用外です。
+
+#### 静的な背景色・CSS クラスで完結する場合
+
+CSS でハードコードする背景画像やクラスベースのスタイルは制限の対象外です。
+
+```css
+/* OK: 外部 CSS ファイル内は style-src-elem の対象 → 'self' で許可済み */
+.hero__image {
+  background-image: url("/images/hero.webp");
+}
+```

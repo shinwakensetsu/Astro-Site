@@ -1,11 +1,8 @@
 ---
 // src/pages/works/[slug].astro
-import Layout from "../../layouts/Layout.astro";
+export const prerender = false;
 
-// TODO: microCMS から施工事例データを取得
-export function getStaticPaths() {
-  return [{ params: { slug: "sample" } }];
-}
+import Layout from "../../layouts/Layout.astro";
 
 const { slug } = Astro.params;
 ---

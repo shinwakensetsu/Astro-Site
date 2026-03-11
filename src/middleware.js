@@ -19,19 +19,34 @@ export const onRequest = defineMiddleware(async (context, next) => {
   );
 
   // Content-Security-Policy（microCMS + YouTube + SSGform 対応）
-  // dev モードでは Astro dev toolbar がインラインスクリプトを注入するため 'unsafe-inline' を許可
-  const scriptSrc = import.meta.env.DEV
+  // dev モードでは Astro dev toolbar / HMR がインラインスタイル・スクリプトを注入するため
+  // 'unsafe-inline' を許可。本番では不要（Astro が外部 CSS としてバンドル）。
+  const isDev = import.meta.env.DEV;
+
+  const scriptSrc = isDev
     ? "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com"
     : "script-src 'self' https://www.google.com https://www.gstatic.com";
+
+  // style-src: style 属性（inline）のフォールバック。背景画像は JS DOM 経由でセットするため
+  // 本番では 'unsafe-inline' 不要。
+  // style-src-elem: <style> 要素と <link rel="stylesheet">。Astro は本番で外部 CSS に抽出。
+  const styleSrc = isDev
+    ? "style-src 'self' 'unsafe-inline'"
+    : "style-src 'self'";
+
+  const styleSrcElem = isDev
+    ? "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com"
+    : "style-src-elem 'self' https://fonts.googleapis.com";
 
   response.headers.set(
     "Content-Security-Policy",
     [
       "default-src 'self'",
       scriptSrc,
-      "style-src 'self' 'unsafe-inline'",
+      styleSrc,
+      styleSrcElem,
       "img-src 'self' data: https: *.microcms.io *.microcms-assets.io i.ytimg.com",
-      "font-src 'self'",
+      "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self' *.microcms.io *.ssgform.com",
       "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com",
       "frame-ancestors 'none'",

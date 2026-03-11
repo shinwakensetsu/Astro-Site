@@ -1,20 +1,19 @@
 ---
+export const prerender = false;
+
 import Layout from "../../layouts/Layout.astro";
 import { getNews } from "../../lib/microcms";
 import { sanitizeHtml } from "../../utils/htmlSanitizer";
 import NewsMeta from "../../components/NewsMeta.astro";
 import { optimizeImageUrl, imagePresets } from "../../utils/imageOptimizer";
 
-export async function getStaticPaths() {
-  const response = await getNews({ limit: 100 });
+const { slug } = Astro.params;
+const response = await getNews({ filters: `slug[equals]${slug}` });
+const news = response.contents[0];
 
-  return response.contents.map((news) => ({
-    params: { slug: news.slug },
-    props: { news },
-  }));
+if (!news) {
+  return Astro.redirect("/news");
 }
-
-const { news } = Astro.props;
 ---
 
 <Layout title={news.title} description={news.excerpt}>

@@ -1,9 +1,8 @@
 ---
 import "../styles/global.css";
 import "../styles/base.css";
-import konkaikoumyoujiImage from "../assets/img/konkaikoumyouji.webp";
-import shinwaConstructionLogo from "../assets/SVG/shinwa-construction-logo.svg";
 import Sitemap from "../components/Sitemap.astro";
+import ShinwaLogo from "../components/ShinwaLogo.astro";
 
 // Site configuration constants
 const SITE_NAME = "サイト名";
@@ -114,8 +113,8 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
       >
         <div class="site-drawer__inner">
           <div
-            class="site-drawer__image u-radius-20"
-            style={`background-image: url(${konkaikoumyoujiImage.src});`}
+            class="site-drawer__image u-radius-20 js-bg-image"
+            data-bg-url="/images/konkaikoumyouji.webp"
             aria-hidden="true"
           >
           </div>
@@ -146,8 +145,8 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
 
         <div class="site-footer__container--2">
           <div
-            class="site-footer__image"
-            style={`background-image: url(${konkaikoumyoujiImage.src});`}
+            class="site-footer__image js-bg-image"
+            data-bg-url="/images/konkaikoumyouji.webp"
             aria-hidden="true"
           >
           </div>
@@ -180,11 +179,9 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
         </div>
 
         <div class="site-footer__container--4">
-          <img
-            src={shinwaConstructionLogo.src}
-            alt="伸和建設株式会社"
-            class="site-footer__brand-logo"
-          />
+          <div class="site-footer__brand-logo">
+            <ShinwaLogo aria-label="伸和建設株式会社" />
+          </div>
         </div>
       </div>
 
@@ -483,11 +480,9 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     align-self: end;
   }
 
-  .site-footer__brand-logo {
+  .site-footer__brand-logo :global(svg) {
     width: 136px;
-    aspect-ratio: 1;
     height: auto;
-    object-fit: contain;
   }
 
   @supports not (aspect-ratio: 1) {
@@ -630,6 +625,14 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
 </style>
 
 <script>
+  // data-bg-url 属性で指定された背景画像を JS 経由でセット。
+  // style 属性に直接展開すると CSP の style-src に抵触するため、
+  // JS の DOM プロパティ経由で設定することで unsafe-inline を不要にする。
+  document.querySelectorAll<HTMLElement>(".js-bg-image").forEach((el) => {
+    const url = el.dataset.bgUrl;
+    if (url) el.style.backgroundImage = `url(${url})`;
+  });
+
   const menuButton = document.querySelector(".js-menu-toggle");
   const drawer = document.getElementById("global-drawer");
   const closeTriggers =

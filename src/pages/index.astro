@@ -57,7 +57,7 @@ const newsList = newsResponse.contents;
       </div>
     </div>
     <div class="news__body">
-      <div class="news__body-wrapper">
+      <div class="news__body-inner">
         {
           newsList.length > 0 ? (
             <ul class="news__list">
@@ -220,14 +220,12 @@ const newsList = newsResponse.contents;
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- 仕事内容 -->
-    <div
-      class="heritage__services"
-      id="services"
-      aria-labelledby="services-heading"
-    >
-      <h3 class="heritage__services-heading" id="services-heading">仕事内容</h3>
+  <!-- ===================== 3.5 仕事内容 ===================== -->
+  <section class="services" id="services" aria-labelledby="services-heading">
+    <div class="services__inner">
+      <h2 class="services__heading" id="services-heading">仕事内容</h2>
 
       <div class="services__content">
         <div class="services__banners">
@@ -400,7 +398,7 @@ const newsList = newsResponse.contents;
     object-position: center;
   }
 
-  /* ロゴ: 上中央 / top 70px */
+  /* ロゴ: 上中央 */
   .hero__logo-wrap {
     position: absolute;
     top: 70px;
@@ -411,21 +409,28 @@ const newsList = newsResponse.contents;
   }
 
   .hero__logo-wrap :global(svg) {
-    width: 223px;
+    width: clamp(110px, 15.5vw, 223px);
     height: auto;
   }
 
-  /* コピー: 左上 / top・left 60px */
+  /* コピー: 左上（1440px以下で bottom 基準に切替） */
   .hero__copy {
     position: absolute;
-    top: 60px;
-    left: 60px;
+    top: clamp(20px, 5vw, 60px);
+    left: clamp(16px, 5vw, 60px);
     line-height: var(--leading-tight);
     z-index: 1;
   }
 
+  @media (max-width: 1440px) {
+    .hero__copy {
+      top: auto;
+      bottom: clamp(20px, 5vw, 60px);
+    }
+  }
+
   .hero__copy-main {
-    font-size: 3.75rem; /* 60px */
+    font-size: clamp(1.5rem, 5vw, 3.75rem);
     line-height: var(--leading-tight);
     color: var(--color-white);
   }
@@ -435,7 +440,7 @@ const newsList = newsResponse.contents;
   }
 
   .hero__copy-sub {
-    font-size: 1.125rem; /* 18px */
+    font-size: clamp(0.75rem, 1.5vw, 1.125rem);
     line-height: var(--leading-relaxed);
     margin: 0;
     color: var(--color-white);
@@ -460,10 +465,10 @@ const newsList = newsResponse.contents;
   }
 
   .news__header-inner {
-    max-width: var(--width-max);
+    max-width: var(--width-layout);
     width: 100%;
     margin-inline: auto;
-    padding-inline: var(--space-4);
+    padding-inline: var(--space-6);
   }
 
   .news__heading {
@@ -480,16 +485,15 @@ const newsList = newsResponse.contents;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-inline: var(--space-4);
+    padding-inline: var(--space-6);
     padding-block: var(--space-4);
   }
 
-  .news__body-wrapper {
+  .news__body-inner {
     box-sizing: border-box;
     --news-thumb-size: clamp(120px, 24vw, 180px);
     width: 100%;
     max-width: var(--width-layout);
-    padding-right: 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
@@ -606,7 +610,7 @@ const newsList = newsResponse.contents;
   }
 
   @container (max-width: 768px) {
-    .news__body-wrapper {
+    .news__body-inner {
       --news-thumb-size: 120px;
     }
 
@@ -795,13 +799,14 @@ const newsList = newsResponse.contents;
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
-    padding: 200px var(--space-6) 0 0;
+    padding: 200px var(--space-6) 0 var(--space-6);
   }
 
   .heritage__more {
     pointer-events: auto;
     width: fit-content;
     margin-left: auto;
+    margin-right: -1rem;
   }
 
   /* --- 下部: 画像2枚 + テキスト --- */
@@ -847,12 +852,6 @@ const newsList = newsResponse.contents;
   }
 
   /* --- Heritage レスポンシブ --- */
-  @media (max-width: 1440px) {
-    .heritage__content-inner {
-      padding-top: 50px;
-    }
-  }
-
   @media (max-width: 768px) {
     .heritage__tower-area {
       min-height: 70vh;
@@ -886,14 +885,14 @@ const newsList = newsResponse.contents;
   }
 
   /* ---------- 3.5 Services (仕事内容) ---------- */
-  .heritage__services {
+  .services__inner {
     max-width: var(--width-layout);
     margin-inline: auto;
     padding-block: var(--space-16);
     padding-inline: var(--space-6);
   }
 
-  .heritage__services-heading {
+  .services__heading {
     font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
     margin: 0 0 var(--space-8);
     color: var(--color-dark);
@@ -930,27 +929,30 @@ const newsList = newsResponse.contents;
   /* 縦長バナー */
   .services__banners {
     --services-banner-fs: 2.5rem; /* 40px */
+    --banner-w: clamp(120px, 15.8vw, 228px);
+    --banner-h: clamp(400px, 43.2vw, 622px);
+    --banner-gap: clamp(16px, 3.8vw, 55px);
     display: flex;
     flex-direction: row-reverse;
-    gap: 55px;
+    gap: var(--banner-gap);
     flex: 1;
     isolation: isolate;
   }
 
   .services__banner:nth-child(2) {
-    margin-top: 20px;
+    margin-top: clamp(10px, 1.4vw, 20px);
   }
   .services__banner:nth-child(3) {
-    margin-top: 40px;
+    margin-top: clamp(20px, 2.8vw, 40px);
   }
   .services__banner:nth-child(4) {
-    margin-top: 60px;
+    margin-top: clamp(30px, 4.2vw, 60px);
   }
 
   .services__banner {
     position: relative;
-    width: 228px;
-    height: 622px;
+    width: var(--banner-w);
+    height: var(--banner-h);
     background-color: var(--color-dark);
     border-radius: 20px 0;
     display: flex;
@@ -998,15 +1000,16 @@ const newsList = newsResponse.contents;
 
   .services__banner-label {
     writing-mode: vertical-rl;
-    font-size: var(--services-banner-fs);
+    font-size: clamp(1.5rem, 2.8vw, var(--services-banner-fs));
     color: var(--color-white);
     letter-spacing: 0.2em;
+    white-space: nowrap;
   }
 
   .services__banner-dash {
     display: block;
     width: 1px;
-    height: calc(622px * 0.7);
+    height: calc(var(--banner-h) * 0.6);
     background-color: var(--color-white);
   }
 
@@ -1022,7 +1025,7 @@ const newsList = newsResponse.contents;
     }
 
     .services__banners {
-      gap: 20px;
+      --banner-gap: 20px;
       width: 100%;
     }
 
@@ -1040,7 +1043,7 @@ const newsList = newsResponse.contents;
 
   @media (max-width: 425px) {
     .services__banners {
-      gap: 12px;
+      --banner-gap: 12px;
       --services-banner-fs: var(--text-xl);
     }
 
@@ -1048,9 +1051,19 @@ const newsList = newsResponse.contents;
       height: 300px;
       padding-right: var(--space-3);
     }
+
+    .services__lead {
+      writing-mode: horizontal-tb;
+      text-align: center;
+    }
+    .services__lead-text {
+      line-height: var(--leading-normal);
+      text-align: left;
+    }
   }
 
   /* ---------- 共通セクション ---------- */
+  .services,
   .works,
   .recruit,
   .contact {
@@ -1060,7 +1073,7 @@ const newsList = newsResponse.contents;
   .works__inner,
   .recruit__inner,
   .contact__inner {
-    max-width: var(--width-max);
+    max-width: var(--width-layout);
     margin-inline: auto;
     padding-block: var(--space-16);
     padding-inline: var(--space-6);

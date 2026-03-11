@@ -1,14 +1,18 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
+import srJoin from './src/integrations/sr-join.js';
 
 // https://astro.build/config
 export default defineConfig({
+    integrations: [srJoin()],
+    adapter: cloudflare(),
+
     devToolbar: {
         enabled: false,
     },
 
-    // SSG (静的サイト生成) - Cloudflare Pages 向け
-    // 静的出力ではアダプター不要（Cloudflare Pagesが直接distをホスト）
+    // hybrid rendering: デフォルト静的、prerender=falseのページのみSSR
     output: 'static',
 
     // ビルド設定
