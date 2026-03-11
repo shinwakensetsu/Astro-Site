@@ -96,6 +96,7 @@ select {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+  user-select: none;
 }
 
 /* Utility: container */
@@ -104,6 +105,13 @@ select {
   max-width: var(--width-max);
   margin-inline: auto;
   padding-inline: var(--space-4);
+}
+
+.container--layout {
+  width: 100%;
+  max-width: var(--width-layout);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
 }
 
 /* Utility: radius 20px */

@@ -4,37 +4,26 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="仕事内容" description="仕事内容のご紹介ページです。">
-  <main class="services-page">
-    <h1 class="services-page__title">仕事内容</h1>
-    <p class="services-page__placeholder">このページは準備中です。</p>
-  </main>
+  <!-- ===== 1. ページヘッダー ===== -->
+  <section class="services-header">
+    <div class="container--layout services-header__inner"></div>
+  </section>
+
+  <!-- ===== 2. 仕事内容 ===== -->
+  <section class="services-content">
+    <div class="container--layout services-content__inner"></div>
+  </section>
+
+  <!-- ===== 3. お問い合わせ ===== -->
+  <section class="services-cta">
+    <div class="container--layout services-cta__inner"></div>
+  </section>
 </Layout>
 
 <style>
-  .services-page {
-    padding: var(--space-8) var(--space-4);
-    max-width: var(--width-content);
-    margin: 0 auto;
-  }
-
-  .services-page__title {
-    font-size: var(--text-2xl);
-    text-align: center;
-    margin-bottom: var(--space-10);
-  }
-
-  .services-page__placeholder {
-    text-align: center;
-    color: var(--color-text-muted);
-  }
-
-  @media (min-width: 768px) {
-    .services-page {
-      padding: var(--space-12) var(--space-4);
-    }
-
-    .services-page__title {
-      font-size: var(--text-3xl);
-    }
+  .services-header__inner,
+  .services-content__inner,
+  .services-cta__inner {
+    padding-block: var(--space-16);
   }
 </style>

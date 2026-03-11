@@ -1,11 +1,10 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
-import FaqSection from "../components/FaqSection.astro";
-import NewsSection from "../components/NewsSection.astro";
+import ShinwaLogo from "../components/ShinwaLogo.astro";
+import IconArrow from "../components/IconArrow.astro";
 import { getTopPage, getNews, type News } from "../lib/microcms";
 import { optimizeImageUrl, imagePresets } from "../utils/imageOptimizer";
 
-// microCMSからトップページのデータとニュースを並列取得
 const [topPage, newsResponse] = await Promise.all([
   getTopPage(),
   getNews({ orders: "-publishedDate", limit: 5 }).catch(() => ({
@@ -16,113 +15,1054 @@ const newsList = newsResponse.contents;
 ---
 
 <Layout>
-  {
-    topPage && (
-      <div class="hero-container">
-        {topPage.heroImage && (
-          <div class="hero-image-wrapper">
-            <img
-              src={optimizeImageUrl(topPage.heroImage.url, imagePresets.hero)}
-              alt={topPage.heroTitle || "Top Image"}
-              width={topPage.heroImage.width}
-              height={topPage.heroImage.height}
-              class="hero-image"
-              loading="eager"
-            />
+  <!-- ===================== 1. Hero ===================== -->
+  <section class="hero" id="hero" aria-label="トップビジュアル">
+    {
+      topPage?.heroImage && (
+        <img
+          class="hero__img"
+          src={optimizeImageUrl(topPage.heroImage.url, imagePresets.hero)}
+          alt=""
+          width={topPage.heroImage.width}
+          height={topPage.heroImage.height}
+          loading="eager"
+          fetchpriority="high"
+        />
+      )
+    }
+
+    <!-- ロゴ: 上中央 -->
+    <div class="hero__logo-wrap">
+      <ShinwaLogo />
+    </div>
+
+    <!-- コピー: 左上 -->
+    <div class="hero__copy">
+      <p class="hero__copy-main" data-sr-join>
+        社寺建設の継承と更なる<span class="hero__copy-break"
+          >発展をめざして</span
+        >
+      </p>
+      <p class="hero__copy-sub">
+        受け継がれた高度な大工技術や文化的価値の高い施工力を。
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== 2. お知らせ ===================== -->
+  <section class="news" id="news" aria-labelledby="news-heading">
+    <div class="news__header">
+      <div class="news__header-inner">
+        <h2 class="news__heading" id="news-heading">お知らせ</h2>
+      </div>
+    </div>
+    <div class="news__body">
+      <div class="news__body-wrapper">
+        {
+          newsList.length > 0 ? (
+            <ul class="news__list">
+              {newsList.map((item) => (
+                <li class="news__card">
+                  <a class="news__card-link" href={`/news/${item.id}`}>
+                    <div class="news__card-thumb">
+                      {item.thumbnail ? (
+                        <img
+                          class="news__card-img"
+                          src={optimizeImageUrl(item.thumbnail.url, {
+                            width: 180,
+                            height: 180,
+                            fit: "crop",
+                            format: "auto",
+                            quality: 80,
+                          })}
+                          alt=""
+                          width="180"
+                          height="180"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div
+                          class="news__card-thumb--placeholder"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </div>
+                    <div class="news__card-body">
+                      <p class="news__card-title">{item.title}</p>
+                      {item.excerpt && (
+                        <p class="news__card-excerpt">{item.excerpt}</p>
+                      )}
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="news__empty">現在お知らせはありません。</p>
+          )
+        }
+        <a
+          class="arrow-link arrow-link--on-dark news__more"
+          href="/news"
+          data-sr-join
+        >
+          <span class="arrow-link__text">
+            <span>お知らせは</span>
+            <span>こちら</span>
+          </span>
+          <IconArrow width="72" height="72" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 3. 継承と進化 ===================== -->
+  <section class="heritage" id="heritage" aria-labelledby="heritage-heading">
+    <!-- シアーがかかるダークコンテナ（セクション全体の背景） -->
+    <div class="heritage__skew-container">
+      <div class="heritage__skew-inner">
+        <img
+          class="heritage__tower-blur"
+          src="/images/top-sec-3/tower.png"
+          alt=""
+          aria-hidden="true"
+          width="2088"
+          height="2690"
+          loading="lazy"
+        />
+        <div class="heritage__tower-frame">
+          <img
+            class="heritage__tower-img"
+            src="/images/top-sec-3/tower.png"
+            alt="五重塔"
+            width="2088"
+            height="2690"
+            loading="lazy"
+          />
+          <div class="heritage__tower-caption">
+            <p>
+              伸和建設は、現在まで、<strong>150年</strong
+              >にわたり有数の社寺建築業者として、<strong
+                >社寺建築史上に残る</strong
+              >多数の作品を造り上げてきました。
+            </p>
+            <p>
+              古来から現在まで大工、棟梁によって永々と引継がれ伝統的木造工法を強みに社寺建築を残す
+            </p>
           </div>
-        )}
-        <div class="hero-content">
-          {topPage.heroTitle && <h1 class="hero-title">{topPage.heroTitle}</h1>}
-          {topPage.heroDescription && (
-            <p class="hero-description">{topPage.heroDescription}</p>
-          )}
+          <span class="heritage__vertical-title" aria-hidden="true"
+            >私たちについて</span
+          >
         </div>
       </div>
-    )
-  }
-  <NewsSection newsList={newsList} />
+    </div>
 
-  <section class="section-block">
-    <h2>よくある質問</h2>
-    <FaqSection />
+    <!-- 上部: 五重塔エリア -->
+    <div class="heritage__tower-area">
+      <!-- テキスト類（シアーの外） -->
+      <h2 class="heritage__heading" id="heritage-heading">
+        <span class="heritage__heading-line heritage__heading-line--black"
+          >継承と</span
+        >
+        <span
+          class="heritage__heading-line heritage__heading-line--vertical heritage__heading-line--white-shadow"
+          >進化</span
+        >
+      </h2>
+
+      <div class="heritage__overlay-text">
+        <p>
+          現在の社寺建築の様式および技術は、日本在来の神社建築と仏教伝来による寺院建築様式が融合し、国内でのたゆみない進化と各時代における大陸からの技術、特に鎌倉時代の禅宗様大仏様という新様式ながら、江戸時代にほぼ確立しました。明治時代以降、堂宮大工はその技術・優秀な道具類により過去最高の技能を発揮してきました。
+        </p>
+      </div>
+
+      <div class="heritage__content-inner">
+        <a
+          class="arrow-link arrow-link--on-dark heritage__more"
+          href="/company"
+          data-sr-join
+        >
+          <span class="arrow-link__text">
+            <span>企業情報は</span>
+            <span>こちら</span>
+          </span>
+          <IconArrow width="72" height="72" />
+        </a>
+      </div>
+
+      <!-- 下部: 画像2枚 + テキスト -->
+      <div class="heritage__bottom">
+        <div class="heritage__bottom-images">
+          <img
+            class="heritage__bottom-img"
+            src="/images/top-sec-3/pillar.png"
+            alt="社寺建築の木組み構造"
+            width="1000"
+            height="1206"
+            loading="lazy"
+          />
+          <img
+            class="heritage__bottom-img"
+            src="/images/top-sec-3/wood.png"
+            alt="伝統的な継手・仕口"
+            width="1032"
+            height="708"
+            loading="lazy"
+          />
+        </div>
+        <div class="heritage__bottom-text">
+          <p>
+            当社の名の由来は、昭和23年の会社設立に当たり、伝統和風建築（和）の継承と言う私たちの日頃の立場を守り伸ばして発展（伸）させることを念頭において伸和建設株式会社と命名しました。
+          </p>
+          <p>
+            今後とも、多くのお施主様をはじめ関係者の皆様のご支援により当社が成り立ってまいりましたことを思い、社寺建築の継承とさらなる発展を目指していきます。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 仕事内容 -->
+    <div
+      class="heritage__services"
+      id="services"
+      aria-labelledby="services-heading"
+    >
+      <h3 class="heritage__services-heading" id="services-heading">仕事内容</h3>
+
+      <div class="services__content">
+        <div class="services__banners">
+          <div
+            class="services__banner"
+            style="--banner-bg: url('/images/works/001_tou_001saihouji-l.jpg');"
+          >
+            <div class="services__banner-inner">
+              <span class="services__banner-label">掘る</span>
+              <span class="services__banner-dash" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div
+            class="services__banner"
+            style="--banner-bg: url('/images/works/002_garan_003kinkaikoumyouji-l.jpg');"
+          >
+            <div class="services__banner-inner">
+              <span class="services__banner-label">打ち</span>
+              <span class="services__banner-dash" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div
+            class="services__banner"
+            style="--banner-bg: url('/images/works/004_mon_006toudaiji-l.jpg');"
+          >
+            <div class="services__banner-inner">
+              <span class="services__banner-label">削り</span>
+              <span class="services__banner-dash" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div
+            class="services__banner"
+            style="--banner-bg: url('/images/works/003_jinja_001heiannaihai-l.jpg');"
+          >
+            <div class="services__banner-inner">
+              <span class="services__banner-label">整え</span>
+              <span class="services__banner-dash" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="services__lead">
+          <h3 class="services__lead-title">伸和建設の想い</h3>
+          <p class="services__lead-text">
+            時代に迎合するだけでなく残すべき技術や生産システムを守り正常な社寺建築の進化を図り後世にそれを残していくことが責務だと考えています。
+          </p>
+        </div>
+      </div>
+
+      <a
+        class="arrow-link arrow-link--on-light services__more"
+        href="/services"
+        data-sr-join
+      >
+        <span class="arrow-link__text">
+          <span>仕事内容詳細は</span>
+          <span>こちら</span>
+        </span>
+        <IconArrow width="72" height="72" />
+      </a>
+    </div>
   </section>
 
-  <section class="section-block section-block--center">
-    <h2>施工事例</h2>
-    <p>これまでの施工事例をご覧いただけます。</p>
-    <a href="/works" class="contact-link">施工事例を見る</a>
+  <!-- ===================== 4. 施工事例 ===================== -->
+  <section class="works" id="works" aria-labelledby="works-heading">
+    <div class="works__inner">
+      <h2 class="works__heading" id="works-heading">施工事例</h2>
+      <!-- ギャラリー / リンク -->
+    </div>
   </section>
 
-  <section class="section-block section-block--center">
-    <h2>お問い合わせ</h2>
-    <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
-    <a href="/contact" class="contact-link">お問い合わせフォームへ</a>
+  <!-- ===================== 5. Recruit ===================== -->
+  <section class="recruit" id="recruit" aria-labelledby="recruit-heading">
+    <div class="recruit__inner">
+      <h2 class="recruit__heading" id="recruit-heading">Recruit</h2>
+      <!-- 採用情報 -->
+    </div>
   </section>
+
+  <!-- ===================== 6. Contact Us ===================== -->
+  <section class="contact" id="contact" aria-labelledby="contact-heading">
+    <div class="contact__inner">
+      <h2 class="contact__heading" id="contact-heading">Contact Us</h2>
+      <!-- お問い合わせ -->
+    </div>
+  </section>
+
+  <!-- ===================== 7. [退避] microCMS データ ===================== -->
+  <!--
+  利用予定:
+    topPage.heroTitle       → 未使用（コピーは直書き）
+    topPage.heroDescription → 未使用（コピーは直書き）
+  -->
 </Layout>
 
 <style>
-  .contact-link {
-    display: inline-block;
-    background-color: var(--color-primary);
+  /* ---------- 共通: arrow-link ---------- */
+  .arrow-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-xl);
+    text-decoration: none;
+  }
+
+  .arrow-link:hover {
+    text-decoration: none;
+  }
+
+  .arrow-link__text {
+    display: flex;
+    flex-direction: column;
+    line-height: var(--leading-tight);
+    text-align: center;
+  }
+
+  .arrow-link__text span {
+    white-space: nowrap;
+  }
+
+  .arrow-link :global(svg) {
+    width: clamp(45px, 4.6875vw, 75px);
+    height: auto;
+    min-width: 45px;
+    min-height: 45px;
+    flex-shrink: 0;
+  }
+
+  /* 黒背景用 */
+  .arrow-link--on-dark {
     color: var(--color-white);
-    padding: var(--space-3) var(--space-6);
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    font-weight: var(--weight-bold);
-    margin-top: var(--space-4);
-    transition: background-color var(--duration-fast) var(--easing-default);
-  }
-  .contact-link:hover {
-    background-color: var(--color-dark);
-    text-decoration: none;
   }
 
-  .hero-container {
-    margin-bottom: var(--space-8);
+  .arrow-link--on-dark :global(svg circle) {
+    fill: var(--color-primary-light);
   }
 
-  .hero-image-wrapper {
+  .arrow-link--on-dark :global(svg path) {
+    stroke: var(--color-gray-500);
+  }
+
+  /* 白背景用 */
+  .arrow-link--on-light {
+    color: var(--color-gray-500);
+  }
+
+  .arrow-link--on-light :global(svg circle) {
+    fill: var(--color-gray-500);
+  }
+
+  .arrow-link--on-light :global(svg path) {
+    stroke: var(--color-primary-light);
+  }
+
+  /* ---------- 1. Hero ---------- */
+  .hero {
+    position: relative;
     width: 100%;
     max-width: 100vw;
-    max-height: 100vh;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    line-height: 0;
   }
 
-  .hero-image {
-    width: auto;
+  .hero__img {
+    display: block;
+    width: 100vw;
     height: auto;
+    max-height: 90svh;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* ロゴ: 上中央 / top 70px */
+  .hero__logo-wrap {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .hero__logo-wrap :global(svg) {
+    width: 223px;
+    height: auto;
+  }
+
+  /* コピー: 左上 / top・left 60px */
+  .hero__copy {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    line-height: var(--leading-tight);
+    z-index: 1;
+  }
+
+  .hero__copy-main {
+    font-size: 3.75rem; /* 60px */
+    line-height: var(--leading-tight);
+    color: var(--color-white);
+  }
+
+  .hero__copy-break {
     display: block;
   }
 
-  .hero-content {
-    max-width: var(--width-content);
-    margin: 0 auto;
-    padding: var(--space-6);
-    text-align: center;
+  .hero__copy-sub {
+    font-size: 1.125rem; /* 18px */
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    color: var(--color-white);
   }
 
-  .hero-title {
-    font-size: var(--text-4xl);
-    margin: 0 0 var(--space-4);
-    color: var(--color-text);
+  /* ---------- 2. News ---------- */
+  .news {
+    width: 100vw;
+    background-color: var(--color-dark);
+    display: flex;
+    flex-direction: column;
+    container-type: inline-size;
   }
 
-  .hero-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
+  .news__header {
+    flex-shrink: 0;
+    height: 48px;
+    background-color: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-1);
+  }
+
+  .news__header-inner {
+    max-width: var(--width-max);
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--space-4);
+  }
+
+  .news__heading {
+    font-size: var(--text-2xl);
+    line-height: 1;
+    margin: 0;
+    color: var(--color-dark);
+  }
+
+  /* デフォルト: 縦並びレイアウト */
+  .news__body {
+    flex: 1;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: var(--space-4);
+    padding-block: var(--space-4);
+  }
+
+  .news__body-wrapper {
+    box-sizing: border-box;
+    --news-thumb-size: clamp(120px, 24vw, 180px);
+    width: 100%;
+    max-width: var(--width-layout);
+    padding-right: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "list"
+      "more";
+    row-gap: var(--space-3);
+    justify-items: stretch;
+    align-content: center;
+  }
+
+  .news__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-4);
+    align-items: center;
+    justify-content: center;
+    align-self: start;
+    grid-area: list;
+  }
+
+  .news__card {
+    flex: 0 0 auto;
+    width: min(360px, calc((100% - var(--space-4)) / 2));
+    min-width: 0;
+    max-width: unset;
+    margin-inline: 0;
+  }
+
+  .news__card-link {
+    display: flex;
+    min-width: 0;
+    flex-direction: row;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    transition: background-color var(--duration-fast) var(--easing-default);
+  }
+
+  .news__card-link:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .news__card-thumb {
+    flex-shrink: 0;
+    width: var(--news-thumb-size);
+    height: var(--news-thumb-size);
+    align-self: center;
+    border-radius: 20px 0 0 0;
+    overflow: hidden;
+    filter: drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.5));
+  }
+
+  .news__card-img {
+    display: block;
+    width: var(--news-thumb-size);
+    height: var(--news-thumb-size);
+    object-fit: cover;
+  }
+
+  .news__card-thumb--placeholder {
+    width: var(--news-thumb-size);
+    height: var(--news-thumb-size);
+    background-color: var(--color-gray-700);
+  }
+
+  .news__empty {
+    color: var(--color-gray-400);
+  }
+
+  .news__more {
+    align-self: start;
+    grid-area: more;
+    justify-self: end;
+    width: fit-content;
+    max-width: 220px;
+  }
+
+  .news__card-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    overflow: hidden;
+  }
+
+  .news__card-title {
+    font-size: var(--text-base);
+    line-height: var(--leading-tight);
+    margin: 0;
+    display: block;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  .news__card-excerpt {
+    font-size: var(--text-sm);
     line-height: var(--leading-normal);
+    margin: 0;
+    color: var(--color-gray-400);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .section-block {
-    padding: var(--space-8);
-    max-width: var(--width-content);
+  @container (max-width: 768px) {
+    .news__body-wrapper {
+      --news-thumb-size: 120px;
+    }
+
+    .news__list {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: var(--space-3);
+    }
+
+    .news__card {
+      width: min(320px, 100%);
+    }
+  }
+
+  /* ---------- 3. Heritage ---------- */
+  .heritage {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-primary-light);
+  }
+
+  /* シアーがかかるダークコンテナ（heritage 全体基準） */
+  .heritage__skew-container {
+    position: absolute;
+    top: 200px;
+    left: -5%;
+    right: -5%;
+    height: 80%;
+    background-color: var(--color-dark);
+    transform: skewY(-6deg);
+    overflow: hidden;
+  }
+
+  /* --- 上部: 五重塔エリア --- */
+  .heritage__tower-area {
+    position: relative;
+    width: 100%;
+    height: 2000px;
+  }
+
+  /* 中のコンテンツは逆シアーで水平に戻す */
+  .heritage__skew-inner {
+    transform: skewY(6deg);
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .heritage__tower-blur {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%) scale(1.05);
+    width: 1024px;
+    max-width: 100%;
+    height: auto;
+    filter: blur(7px);
+    z-index: 0;
+    border-radius: 0 0 0 100px;
+  }
+
+  /* 五重塔を収めるコンテナ: W1024px, 左右中央, 上寄せ */
+  .heritage__tower-frame {
+    position: relative;
+    z-index: 1;
+    width: 1024px;
+    max-width: 100%;
     margin: 0 auto;
+    display: grid;
+    top: -60px;
+    border-radius: 0 0 0 100px;
+    overflow: hidden;
   }
 
-  .section-block--center {
-    text-align: center;
+  .heritage__tower-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    grid-area: 1 / 1;
+    scale: 1.05; /* シアーで上下に伸びる分を少し拡大して補正 */
+  }
+
+  .heritage__tower-caption {
+    grid-area: 1 / 1;
+    z-index: 1;
+    align-self: end;
+    height: 318px;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-6) clamp(var(--space-4), 4vw, var(--space-10));
+    color: var(--color-white);
+    font-size: clamp(var(--text-sm), 1.1vw, var(--text-lg));
+    line-height: var(--leading-loose);
+  }
+
+  .heritage__tower-caption p {
+    margin: 0;
+  }
+
+  .heritage__tower-caption p + p {
+    margin-top: var(--space-4);
+  }
+
+  .heritage__tower-caption strong {
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary);
+    text-underline-offset: 4px;
+    font-weight: var(--weight-bold);
+  }
+
+  .heritage__vertical-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    writing-mode: vertical-rl;
+    font-size: clamp(1rem, 1.4vw, 1.5rem);
+    letter-spacing: 0.3em;
+    color: var(--color-white);
+  }
+
+  .heritage__vertical-title::before {
+    content: "";
+    display: block;
+    width: 1px;
+    height: clamp(40px, 5vw, 80px);
+    background-color: var(--color-white);
+    margin-inline: auto;
+    margin-bottom: var(--space-4);
+  }
+
+  /* テキスト類はシアーの外（section基準で配置） */
+  .heritage__heading {
+    position: absolute;
+    top: clamp(24px, 5vw, 60px);
+    left: clamp(16px, 4vw, 60px);
+    z-index: 2;
+    font-size: clamp(3.5rem, 8.5vw, 10rem);
+    line-height: 1.15;
+    color: var(--color-white);
+    margin: 0;
+  }
+
+  .heritage__heading-line {
+    display: block;
+  }
+
+  .heritage__heading-line--black {
+    color: var(--color-black);
+  }
+
+  .heritage__heading-line--vertical {
+    display: inline-block;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    line-height: 1;
+  }
+
+  .heritage__heading-line--white-shadow {
+    text-shadow: 40px 50px 7px rgba(255, 255, 255, 0.8);
+  }
+
+  .heritage__overlay-text {
+    position: absolute;
+    top: 50%;
+    left: clamp(16px, 4vw, 60px);
+    max-width: clamp(200px, 24vw, 360px);
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+    line-height: var(--leading-relaxed);
+  }
+
+  .heritage__content-inner {
+    position: absolute;
+    inset: 0;
+    max-width: var(--width-layout);
+    margin-inline: auto;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 200px var(--space-6) 0 0;
+  }
+
+  .heritage__more {
+    pointer-events: auto;
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  /* --- 下部: 画像2枚 + テキスト --- */
+  .heritage__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--color-dark);
+  }
+
+  .heritage__bottom-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .heritage__bottom-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1;
+  }
+
+  .heritage__bottom-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(var(--space-4), 3vw, var(--space-12));
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(0.65rem, 0.95vw, 0.875rem);
+    line-height: var(--leading-relaxed);
+  }
+
+  .heritage__bottom-text p {
+    margin: 0;
+  }
+
+  .heritage__bottom-text p + p {
+    margin-top: var(--space-3);
+  }
+
+  /* --- Heritage レスポンシブ --- */
+  @media (max-width: 1440px) {
+    .heritage__content-inner {
+      padding-top: 50px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .heritage__tower-area {
+      min-height: 70vh;
+    }
+
+    .heritage__overlay-text {
+      top: auto;
+      bottom: clamp(16px, 4vw, 40px);
+      max-width: 55%;
+      font-size: var(--text-xs);
+    }
+
+    .heritage__bottom {
+      grid-template-columns: 1fr;
+    }
+
+    .heritage__bottom-text {
+      padding: var(--space-6) var(--space-4);
+    }
+  }
+
+  @media (max-width: 425px) {
+    .heritage__heading {
+      font-size: 2.8rem;
+    }
+
+    .heritage__overlay-text {
+      max-width: 70%;
+      font-size: 0.65rem;
+    }
+  }
+
+  /* ---------- 3.5 Services (仕事内容) ---------- */
+  .heritage__services {
+    max-width: var(--width-layout);
+    margin-inline: auto;
+    padding-block: var(--space-16);
+    padding-inline: var(--space-6);
+  }
+
+  .heritage__services-heading {
+    font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+    margin: 0 0 var(--space-8);
+    color: var(--color-dark);
+  }
+
+  /* バナー + リード文の横並びコンテナ */
+  .services__content {
+    display: flex;
+    gap: var(--space-10);
+    align-items: flex-start;
+    margin-bottom: var(--space-10);
+  }
+
+  /* リード文（縦書き・右側配置） */
+  .services__lead {
+    writing-mode: vertical-rl;
+    flex-shrink: 0;
+  }
+
+  .services__lead-title {
+    font-size: var(--text-2xl);
+    margin: 0 0 var(--space-4);
+    color: var(--color-dark);
+  }
+
+  .services__lead-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--color-text);
+    margin: 0;
+    max-height: 400px;
+  }
+
+  /* 縦長バナー */
+  .services__banners {
+    --services-banner-fs: 2.5rem; /* 40px */
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 55px;
+    flex: 1;
+    isolation: isolate;
+  }
+
+  .services__banner:nth-child(2) {
+    margin-top: 20px;
+  }
+  .services__banner:nth-child(3) {
+    margin-top: 40px;
+  }
+  .services__banner:nth-child(4) {
+    margin-top: 60px;
+  }
+
+  .services__banner {
+    position: relative;
+    width: 228px;
+    height: 622px;
+    background-color: var(--color-dark);
+    border-radius: 20px 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--space-8) var(--space-6) 0 0;
+  }
+
+  /* 本体画像 */
+  .services__banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--banner-bg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px 0;
+    z-index: 0;
+  }
+
+  /* 磨りガラス風シャドウ（右8px・上8px） */
+  .services__banner::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    width: 100%;
+    height: 100%;
+    background-image: var(--banner-bg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px 0;
+    filter: blur(1px);
+    opacity: 0.45;
+    z-index: -1;
+  }
+
+  .services__banner-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .services__banner-label {
+    writing-mode: vertical-rl;
+    font-size: var(--services-banner-fs);
+    color: var(--color-white);
+    letter-spacing: 0.2em;
+  }
+
+  .services__banner-dash {
+    display: block;
+    width: 1px;
+    height: calc(622px * 0.7);
+    background-color: var(--color-white);
+  }
+
+  .services__more {
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  /* Services レスポンシブ */
+  @media (max-width: 768px) {
+    .services__content {
+      flex-direction: column;
+    }
+
+    .services__banners {
+      gap: 20px;
+      width: 100%;
+    }
+
+    .services__banner {
+      width: 0;
+      flex: 1;
+      height: 400px;
+    }
+
+    .services__lead-text {
+      max-height: 300px;
+      font-size: var(--text-sm);
+    }
+  }
+
+  @media (max-width: 425px) {
+    .services__banners {
+      gap: 12px;
+      --services-banner-fs: var(--text-xl);
+    }
+
+    .services__banner {
+      height: 300px;
+      padding-right: var(--space-3);
+    }
+  }
+
+  /* ---------- 共通セクション ---------- */
+  .works,
+  .recruit,
+  .contact {
+    width: 100%;
+  }
+
+  .works__inner,
+  .recruit__inner,
+  .contact__inner {
+    max-width: var(--width-max);
+    margin-inline: auto;
+    padding-block: var(--space-16);
+    padding-inline: var(--space-6);
   }
 </style>

@@ -7,37 +7,26 @@ import Layout from "../layouts/Layout.astro";
   title="個人情報保護方針"
   description="個人情報保護方針についてのページです。"
 >
-  <main class="privacy-page">
-    <h1 class="privacy-page__title">個人情報保護方針</h1>
-    <p class="privacy-page__placeholder">このページは準備中です。</p>
-  </main>
+  <!-- ===== 1. ページヘッダー ===== -->
+  <section class="privacy-header">
+    <div class="container--layout privacy-header__inner"></div>
+  </section>
+
+  <!-- ===== 2. 方針内容 ===== -->
+  <section class="privacy-content">
+    <div class="container--layout privacy-content__inner"></div>
+  </section>
+
+  <!-- ===== 3. お問い合わせ先 ===== -->
+  <section class="privacy-contact">
+    <div class="container--layout privacy-contact__inner"></div>
+  </section>
 </Layout>
 
 <style>
-  .privacy-page {
-    padding: var(--space-8) var(--space-4);
-    max-width: var(--width-content);
-    margin: 0 auto;
-  }
-
-  .privacy-page__title {
-    font-size: var(--text-2xl);
-    text-align: center;
-    margin-bottom: var(--space-10);
-  }
-
-  .privacy-page__placeholder {
-    text-align: center;
-    color: var(--color-text-muted);
-  }
-
-  @media (min-width: 768px) {
-    .privacy-page {
-      padding: var(--space-12) var(--space-4);
-    }
-
-    .privacy-page__title {
-      font-size: var(--text-3xl);
-    }
+  .privacy-header__inner,
+  .privacy-content__inner,
+  .privacy-contact__inner {
+    padding-block: var(--space-16);
   }
 </style>
