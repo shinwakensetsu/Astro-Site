@@ -398,7 +398,7 @@ const newsList = newsResponse.contents;
     object-position: center;
   }
 
-  /* ロゴ: 上中央 */
+  /* ロゴ: 上中央 — 全幅で不変 */
   .hero__logo-wrap {
     position: absolute;
     top: 70px;
@@ -413,7 +413,7 @@ const newsList = newsResponse.contents;
     height: auto;
   }
 
-  /* コピー: 左上（1440px以下で bottom 基準に切替） */
+  /* コピー: 1440px超は左上 / 1440px以下は左下 / 768px以下はロゴ下に縦積み */
   .hero__copy {
     position: absolute;
     top: clamp(20px, 5vw, 60px);
@@ -426,6 +426,21 @@ const newsList = newsResponse.contents;
     .hero__copy {
       top: auto;
       bottom: clamp(20px, 5vw, 60px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero__img {
+      height: 300px;
+    }
+
+    .hero__logo-wrap {
+      top: 10px;
+    }
+
+    .hero__copy {
+      bottom: auto;
+      top: calc(70px + clamp(50px, 7vw, 100px) + var(--space-4));
     }
   }
 
