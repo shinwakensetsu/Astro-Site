@@ -63,6 +63,9 @@
   --text-3xl:     1.875rem;
   --text-4xl:     2.25rem;
   --text-5xl:     3rem;
+  --text-heritage-title:   2.25rem;
+  --text-heritage-body:    1.125rem;
+  --text-heritage-caption: 2rem;
 
   /* --- Line Height --- */
   --leading-tight:    1.3;
