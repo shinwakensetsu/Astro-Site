@@ -1600,7 +1600,8 @@ const newsList = newsResponse.contents;
   }
 
   .contact__heading {
-    font-size: 60px;
+    font-size: clamp(32px, 8vw, 60px);
+    white-space: nowrap;
     color: var(--color-white);
     margin: 0;
     letter-spacing: 0.08em;
@@ -1630,5 +1631,18 @@ const newsList = newsResponse.contents;
   .contact__more {
     grid-area: more;
     width: fit-content;
+  }
+
+  @media (max-width: 1024px) {
+    .contact__card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        "title"
+        "desc"
+        "more";
+      height: auto;
+      align-items: start;
+    }
   }
 </style>
