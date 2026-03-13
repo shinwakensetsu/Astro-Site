@@ -184,7 +184,7 @@ const newsList = newsResponse.contents;
               <div class="heritage__bottom-images">
                 <img
                   class="heritage__bottom-img"
-                  src="/images/index/pillar.png"
+                  src="/images/index/pillar.jpg"
                   alt="社寺建築の木組み構造"
                   width="1000"
                   height="1206"
@@ -192,7 +192,7 @@ const newsList = newsResponse.contents;
                 />
                 <img
                   class="heritage__bottom-img"
-                  src="/images/index/wood.png"
+                  src="/images/index/wood.jpg"
                   alt="伝統的な継手・仕口"
                   width="1032"
                   height="708"
@@ -456,7 +456,7 @@ const newsList = newsResponse.contents;
 
   /* 白背景用 */
   .arrow-link--on-light {
-    color: var(--color-gray-500);
+    color: var(--color-dark);
   }
 
   .arrow-link--on-light :global(svg circle) {
@@ -471,7 +471,7 @@ const newsList = newsResponse.contents;
   .hero {
     position: relative;
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     overflow: hidden;
     line-height: 0;
   }
@@ -483,7 +483,7 @@ const newsList = newsResponse.contents;
 
   .hero__img {
     display: block;
-    width: 100vw;
+    width: 100%;
     height: auto;
     max-height: 90svh;
     object-fit: cover;
@@ -558,7 +558,7 @@ const newsList = newsResponse.contents;
 
   /* ---------- 2. News ---------- */
   .news {
-    width: 100vw;
+    width: 100%;
     background-color: var(--color-dark);
     display: flex;
     flex-direction: column;
@@ -822,6 +822,7 @@ const newsList = newsResponse.contents;
     width: min(1024px, 100%);
     max-width: 100%;
     margin-inline: auto;
+    overflow-x: clip;
     isolation: isolate;
   }
 
@@ -834,6 +835,7 @@ const newsList = newsResponse.contents;
     background-position: center;
     border-radius: 0 0 0 28px;
     filter: blur(8px);
+    transform: scale(1.1);
     opacity: 0.4;
     z-index: -1;
   }
@@ -940,6 +942,8 @@ const newsList = newsResponse.contents;
 
   .heritage__content-inner {
     padding-inline: var(--space-6);
+    padding-top: 10px;
+    margin-top: -10px;
   }
 
   .heritage__more {
@@ -949,13 +953,21 @@ const newsList = newsResponse.contents;
 
   /* --- 下部: 画像2枚 + テキスト --- */
   .heritage__bottom {
+    --heritage-bottom-inline-space: clamp(1rem, 4vw, 2rem);
+    --heritage-bottom-column-gap: clamp(1.5rem, 5vw, 50px);
+    --heritage-bottom-row-gap: clamp(0.75rem, 2vw, 20px);
     display: grid;
-    width: min(1024px, 100%);
+    width: min(1024px, calc(100% - (var(--heritage-bottom-inline-space) * 2)));
     height: 600px;
     margin-inline: auto;
+    margin-top: var(--space-6);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(2, minmax(0, 1fr));
-    background-color: var(--color-dark);
+    column-gap: var(--heritage-bottom-column-gap);
+    row-gap: var(--heritage-bottom-row-gap);
+    box-sizing: border-box;
+    z-index: 1;
+    position: relative;
   }
 
   .heritage__bottom-images {
@@ -971,16 +983,19 @@ const newsList = newsResponse.contents;
   .heritage__bottom-img:first-child {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
+    border-radius: 0 50px 0 0;
   }
 
   .heritage__bottom-img:last-child {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
+    border-radius: 0 0 0 50px;
   }
 
   .heritage__bottom-text {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
+    min-width: 0;
     color: rgba(255, 255, 255, 0.85);
     font-size: var(--text-lg);
     line-height: var(--leading-relaxed);
@@ -997,27 +1012,29 @@ const newsList = newsResponse.contents;
   /* heritage__bottom レスポンシブ: 768px以下 → 1カラム縦積み */
   @media (max-width: 768px) {
     .heritage__bottom {
+      --heritage-bottom-mobile-image-height: clamp(220px, 48vw, 360px);
       grid-template-columns: 1fr;
       grid-template-rows: auto auto auto;
+      gap: 0;
       height: auto;
     }
 
     .heritage__bottom-img:first-child {
       grid-column: 1;
       grid-row: 1;
-      height: clamp(280px, 52vw, 400px);
+      height: var(--heritage-bottom-mobile-image-height);
     }
 
     .heritage__bottom-img:last-child {
       grid-column: 1;
-      grid-row: 2;
-      height: clamp(180px, 32vw, 250px);
+      grid-row: 3;
+      height: var(--heritage-bottom-mobile-image-height);
     }
 
     .heritage__bottom-text {
       grid-column: 1;
-      grid-row: 3;
-      padding: var(--space-6);
+      grid-row: 2;
+      padding: var(--space-3);
     }
   }
 
@@ -1050,9 +1067,9 @@ const newsList = newsResponse.contents;
   }
 
   .services__heading {
-    font-size: var(--text-3xl);
-    margin: 0 0 var(--space-8);
-    color: var(--color-dark);
+    font-size: 30px;
+    color: var(--color-white);
+    text-align: right;
   }
 
   /* バナー + リード文の横並びコンテナ */
@@ -1268,8 +1285,8 @@ const newsList = newsResponse.contents;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-block: 10px;
-    outline: 10px gray solid;
+    border-top: 10px gray solid;
+    border-bottom: 10px gray solid;
     background-color: #b9b9b9;
     background-image: url("/images/index/belt-pattern.svg");
     background-repeat: repeat-x;
@@ -1456,24 +1473,32 @@ const newsList = newsResponse.contents;
     display: block;
   }
 
-  /* Recruit レスポンシブ: 1024px以下 */
-  @media (max-width: 1024px) {
+  /* Recruit レスポンシブ: 1440px以下 */
+  @media (max-width: 1440px) {
     .recruit__inner {
-      --recruit-cta-size: clamp(200px, 32vw, 280px);
+      max-width: 80%;
+      min-width: 320px;
+      --recruit-cta-size: clamp(200px, 20vw, 280px);
     }
-
     .recruit__cta-text {
       font-size: 1.5rem;
       max-width: 8cap;
     }
   }
 
-  /* Recruit レスポンシブ: 768px以下 */
-  @media (max-width: 768px) {
+  /* Recruit レスポンシブ: 1024px以下 */
+  @media (max-width: 1024px) {
     .recruit__inner {
-      --recruit-cta-size: clamp(180px, 40vw, 240px);
     }
 
+    .recruit__cta-text {
+      font-size: 1.3rem;
+      max-width: 8cap;
+    }
+  }
+
+  /* Recruit レスポンシブ: 768px以下 */
+  @media (max-width: 768px) {
     .recruit__card {
       padding: var(--space-8) var(--space-6);
       border-radius: 30px;
@@ -1529,7 +1554,7 @@ const newsList = newsResponse.contents;
     }
 
     .recruit__cta-text {
-      font-size: clamp(1.2rem, calc(0.2857rem + 4.5714vw), 1.5rem);
+      font-size: clamp(1.2rem, calc(0.2857rem + 4vw), 1.5rem);
     }
 
     .recruit__desc {

@@ -1,1 +1,1 @@
-﻿declare module "@glidejs/glide";
+﻿

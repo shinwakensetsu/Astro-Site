@@ -47,6 +47,49 @@ BEM（Block\_\_Element--Modifier）+ 状態クラス `is-` / `has-` + JS フッ�
 
 ---
 
+## アイコン付きリンク（arrow-link）実装ルール
+
+トップページの `__more` リンクで使用している共通パターン。新規セクション追加時も必ずこの構造に従うこと。
+
+### HTML 構造（必須）
+
+```html
+<a
+  class="arrow-link arrow-link--on-{dark|light} {block}__more"
+  href="..."
+  data-sr-join
+>
+  <span class="arrow-link__text">
+    <span>{ラベル前半}は</span>
+    <span>こちら</span>
+  </span>
+  <IconArrow width="72" height="72" />
+</a>
+```
+
+### ルール
+
+| #   | 規約                                                                                                            |
+| --- | --------------------------------------------------------------------------------------------------------------- |
+| 1   | `<a>` に付与するクラスは `arrow-link` + 修飾子 `--on-dark` or `--on-light` + ブロック固有 `{block}__more` の3つ |
+| 2   | テキストは `arrow-link__text > span × 2` で2行分割。1行目末尾は「は」で終わり、2行目は「こちら」固定            |
+| 3   | アイコンは `<IconArrow width="72" height="72" />`。サイズ変更不可（CSS clamp で自動調整済み）                   |
+| 4   | `data-sr-join` 属性を必ず付与（スクロールアニメーション用）                                                     |
+| 5   | 配色は背景に応じて `--on-dark`（暗背景）/ `--on-light`（明背景）を選択                                          |
+| 6   | 配置CSS: `{block}__more` に `width: fit-content` + `margin-left: auto`（右寄せ）が基本形                        |
+| 7   | `.arrow-link` 共通CSS（flex / gap / font-size）は `index.astro` の `<style>` に定義済み。重複定義禁止           |
+
+### 色の対応表
+
+| 修飾子       | テキスト色         | circle fill             | path stroke             |
+| ------------ | ------------------ | ----------------------- | ----------------------- |
+| `--on-dark`  | `--color-white`    | `--color-primary-light` | `--color-gray-500`      |
+| `--on-light` | `--color-gray-500` | `--color-gray-500`      | `--color-primary-light` |
+
+hover 時は circle と path の色が反転する（`IconArrow.astro` 内で定義済み）。
+
+---
+
 ## 参照ドキュメント
 
 | ファイル                         | 内容                       |
