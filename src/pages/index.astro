@@ -351,8 +351,8 @@ const newsList = newsResponse.contents;
     </section>
 
     <!-- ===================== 6. Contact Us ===================== -->
-    <section class="contact" id="contact" aria-labelledby="contact-heading">
-      <div class="l-container contact__inner">
+    <aside class="contact" id="contact" aria-labelledby="contact-heading">
+      <a class="l-container contact__inner" href="/contact">
         <div class="contact__card">
           <div class="contact__title-group">
             <h2 class="contact__heading" id="contact-heading">Contact Us</h2>
@@ -366,20 +366,12 @@ const newsList = newsResponse.contents;
             >
           </p>
 
-          <a
-            class="arrow-link arrow-link--on-dark contact__more"
-            href="/contact"
-            data-sr-join
-          >
-            <span class="arrow-link__text">
-              <span>お問い合わせは</span>
-              <span>こちら</span>
-            </span>
+          <div class="contact__more">
             <IconArrow width="72" height="72" />
-          </a>
+          </div>
         </div>
-      </div>
-    </section>
+      </a>
+    </aside>
 
     <!-- ===================== 7. [退避] microCMS データ ===================== -->
     <!--
@@ -412,10 +404,12 @@ const newsList = newsResponse.contents;
   /* ---------- 共通: arrow-link ---------- */
   .arrow-link {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--space-3);
-    font-size: var(--text-xl);
+    font-size: clamp(var(--text-sm), 2.5vw, var(--text-xl));
     text-decoration: none;
+    max-width: 100%;
   }
 
   .arrow-link:hover {
@@ -427,18 +421,19 @@ const newsList = newsResponse.contents;
     flex-direction: column;
     line-height: var(--leading-tight);
     text-align: center;
+    min-width: 0;
   }
 
   .arrow-link__text span {
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
   .arrow-link :global(svg) {
-    width: clamp(45px, 4.6875vw, 75px);
+    width: clamp(32px, 4.6875vw, 75px);
     height: auto;
-    min-width: 45px;
-    min-height: 45px;
-    flex-shrink: 0;
+    min-width: 32px;
+    min-height: 32px;
+    flex-shrink: 1;
   }
 
   /* 黒背景用 */
@@ -567,7 +562,7 @@ const newsList = newsResponse.contents;
 
   .news__header {
     flex-shrink: 0;
-    height: 48px;
+    min-height: 3rem;
     background-color: var(--color-primary-light);
     display: flex;
     align-items: center;
@@ -588,7 +583,7 @@ const newsList = newsResponse.contents;
   /* デフォルト: 縦並びレイアウト */
   .news__body {
     flex: 1;
-    min-height: 300px;
+    min-height: clamp(150px, 20vw, 300px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -637,7 +632,7 @@ const newsList = newsResponse.contents;
     display: flex;
     min-width: 0;
     flex-direction: row;
-    gap: 10px;
+    gap: var(--space-2);
     text-decoration: none;
     color: var(--color-white);
     border-radius: var(--radius-md);
@@ -691,7 +686,6 @@ const newsList = newsResponse.contents;
     justify-content: center;
     gap: var(--space-2);
     padding: var(--space-2);
-    overflow: hidden;
   }
 
   .news__card-title {
@@ -699,8 +693,7 @@ const newsList = newsResponse.contents;
     line-height: var(--leading-tight);
     margin: 0;
     display: block;
-    white-space: nowrap;
-    overflow: visible;
+    overflow-wrap: break-word;
   }
 
   .news__card-excerpt {
@@ -708,10 +701,7 @@ const newsList = newsResponse.contents;
     line-height: var(--leading-normal);
     margin: 0;
     color: var(--color-gray-400);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    overflow-wrap: break-word;
   }
 
   @container (max-width: 768px) {
@@ -749,6 +739,7 @@ const newsList = newsResponse.contents;
     padding-top: var(--heritage-heading-reserve);
   }
 
+  /* 画像に重ねて表示する見出しのため absolute */
   .heritage__heading {
     font-size: clamp(3.5rem, 8.5vw, 10rem);
     line-height: 1.15;
@@ -759,6 +750,8 @@ const newsList = newsResponse.contents;
     left: 0;
     z-index: 2;
     width: fit-content;
+    max-width: calc(100% - var(--heritage-heading-offset-x));
+    overflow-wrap: break-word;
     transform: translate(
       var(--heritage-heading-offset-x),
       var(--heritage-heading-offset-y)
@@ -801,12 +794,16 @@ const newsList = newsResponse.contents;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.22em;
     margin: auto;
+    max-width: 100%;
+    overflow-wrap: break-word;
   }
 
   .heritage__overlay-text {
     writing-mode: vertical-rl;
     direction: ltr;
-    height: 230px;
+    min-height: clamp(14em, 50vw, 25em);
+    max-width: 100%;
+    overflow-wrap: break-word;
     color: rgba(255, 255, 255, 0.85);
     font-size: clamp(var(--text-base), 1.4vw, var(--text-heritage-body));
     line-height: var(--leading-relaxed);
@@ -822,20 +819,19 @@ const newsList = newsResponse.contents;
     width: min(1024px, 100%);
     max-width: 100%;
     margin-inline: auto;
-    overflow-x: clip;
     isolation: isolate;
   }
 
+  /* 背景ぼかし影: タワー画像の外周にブラー効果を出すため absolute */
   .heritage__tower-wrap::after {
     content: "";
     position: absolute;
-    inset: -8px;
+    inset: 0;
     background-image: var(--tower-bg);
     background-size: cover;
     background-position: center;
-    border-radius: 0 0 0 28px;
+    border-radius: 0 0 0 20px;
     filter: blur(8px);
-    transform: scale(1.1);
     opacity: 0.4;
     z-index: -1;
   }
@@ -843,7 +839,6 @@ const newsList = newsResponse.contents;
   .heritage__tower-frame {
     display: grid;
     border-radius: 0 0 0 20px;
-    overflow: hidden;
   }
 
   .heritage__tower-img,
@@ -857,21 +852,28 @@ const newsList = newsResponse.contents;
     object-fit: cover;
     filter: brightness(0.8);
     z-index: 0;
+    border-radius: 0 0 0 20px;
   }
 
   .heritage__tower-overlay {
     z-index: 1;
+    min-width: 0;
   }
 
   .heritage__tower-copy {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    margin-top: 40px;
+    margin-top: 2.5rem;
+  }
+
+  .heritage__tower-copy > * {
+    min-width: 0;
   }
 
   .heritage__tower-text-group {
     margin-top: auto;
+    min-width: 0;
   }
 
   .heritage__tower-caption {
@@ -886,8 +888,9 @@ const newsList = newsResponse.contents;
   }
 
   .heritage__tower-caption p {
-    margin: auto;
-    width: 80%;
+    margin: 0;
+    padding-inline: 10%;
+    overflow-wrap: break-word;
   }
 
   .heritage__tower-caption p + p {
@@ -897,7 +900,7 @@ const newsList = newsResponse.contents;
   .heritage__tower-caption strong {
     text-decoration: underline;
     text-decoration-color: var(--color-primary);
-    text-underline-offset: 4px;
+    text-underline-offset: 0.25em;
     font-weight: var(--weight-bold);
   }
 
@@ -942,8 +945,8 @@ const newsList = newsResponse.contents;
 
   .heritage__content-inner {
     padding-inline: var(--space-6);
-    padding-top: 20px;
-    margin-top: -10px;
+    padding-top: var(--space-5);
+    margin-top: calc(var(--space-2) * -1);
   }
 
   .heritage__more {
@@ -958,7 +961,7 @@ const newsList = newsResponse.contents;
     --heritage-bottom-row-gap: clamp(0.75rem, 2vw, 20px);
     display: grid;
     width: min(1024px, calc(100% - (var(--heritage-bottom-inline-space) * 2)));
-    height: 600px;
+    height: clamp(320px, 31.25vw, 600px);
     margin-inline: auto;
     margin-top: var(--space-6);
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1048,7 +1051,20 @@ const newsList = newsResponse.contents;
 
   @media (max-width: 425px) {
     .heritage__heading {
-      font-size: 2.8rem;
+      font-size: clamp(2rem, 8.5vw, 2.8rem);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .heritage__overlay-text {
+      writing-mode: horizontal-tb;
+      direction: ltr;
+      text-orientation: initial;
+      min-height: auto;
+      padding-inline: 10%;
+      padding-block: var(--space-4);
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
     }
   }
 
@@ -1057,6 +1073,7 @@ const newsList = newsResponse.contents;
       line-height: var(--leading-normal);
       word-break: normal;
       text-align: start;
+      padding-inline: var(--space-3);
     }
   }
 
@@ -1067,9 +1084,10 @@ const newsList = newsResponse.contents;
   }
 
   .services__heading {
-    font-size: 30px;
+    font-size: clamp(var(--text-xl), 2vw, 1.875rem);
     color: var(--color-white);
     text-align: right;
+    overflow-wrap: break-word;
   }
 
   /* バナー + リード文の横並びコンテナ */
@@ -1098,8 +1116,8 @@ const newsList = newsResponse.contents;
     line-height: var(--leading-normal);
     color: var(--color-text);
     margin: 0;
-    width: 130px;
-    max-height: 340px;
+    width: clamp(80px, 9vw, 130px);
+    max-height: clamp(240px, 24vw, 340px);
   }
 
   /* 縦長バナー */
@@ -1209,7 +1227,7 @@ const newsList = newsResponse.contents;
     .services__banner {
       width: 0;
       flex: 1;
-      height: 400px;
+      height: clamp(250px, 40vw, 400px);
     }
 
     .services__lead {
@@ -1217,7 +1235,7 @@ const newsList = newsResponse.contents;
     }
 
     .services__lead-text {
-      max-height: 300px;
+      max-height: clamp(200px, 30vw, 300px);
       font-size: var(--text-sm);
     }
   }
@@ -1229,7 +1247,7 @@ const newsList = newsResponse.contents;
     }
 
     .services__banner {
-      height: 300px;
+      height: clamp(200px, 70vw, 300px);
       padding-right: var(--space-3);
     }
 
@@ -1238,6 +1256,8 @@ const newsList = newsResponse.contents;
       text-align: center;
     }
     .services__lead-text {
+      width: auto;
+      max-height: none;
       line-height: var(--leading-normal);
       text-align: left;
     }
@@ -1281,7 +1301,7 @@ const newsList = newsResponse.contents;
   /* ---------- 4. Works ---------- */
   .works__header {
     width: 100%;
-    height: 100px;
+    min-height: clamp(3rem, 7vw, 6.25rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1296,11 +1316,12 @@ const newsList = newsResponse.contents;
 
   .works__heading {
     margin: 0;
-    font-size: 32px;
+    font-size: clamp(var(--text-xl), 2.2vw, 2rem);
     font-weight: 700;
     line-height: 1;
     text-align: center;
     color: var(--color-black);
+    overflow-wrap: break-word;
   }
 
   /* ---------- 5. Recruit ---------- */
@@ -1315,12 +1336,12 @@ const newsList = newsResponse.contents;
     border-radius: 50px;
     background-color: var(--color-gray-700);
     padding: var(--space-12) var(--space-10);
-    aspect-ratio: 1307 / 823;
     display: flex;
     flex-direction: column;
     isolation: isolate;
   }
 
+  /* 背景画像オーバーレイ: カード全面に敷くため absolute */
   .recruit__card::before {
     content: "";
     position: absolute;
@@ -1333,6 +1354,7 @@ const newsList = newsResponse.contents;
     z-index: 0;
   }
 
+  /* 背景ぼかし影: カード外周にブラー効果を出すため absolute */
   .recruit__card::after {
     content: "";
     position: absolute;
@@ -1352,6 +1374,7 @@ const newsList = newsResponse.contents;
 
   .recruit__card > * {
     z-index: 2;
+    min-width: 0;
   }
 
   .recruit__intro {
@@ -1359,15 +1382,19 @@ const newsList = newsResponse.contents;
   }
 
   .recruit__heading {
-    font-size: var(--text-4xl);
+    font-size: clamp(var(--text-xl), 4vw, var(--text-4xl));
     color: var(--color-white);
     margin: 0 0 var(--space-4);
     letter-spacing: 0.08em;
+    overflow-wrap: break-word;
+    padding-bottom: 0.3125rem;
+    border-bottom: 1px solid #448aab;
+    width: fit-content;
+    max-width: 100%;
   }
 
   .recruit__desc {
     --recruit-desc-line-display: block;
-    --recruit-desc-line-white-space: nowrap;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1380,12 +1407,12 @@ const newsList = newsResponse.contents;
 
   .recruit__desc-line {
     display: var(--recruit-desc-line-display);
-    inline-size: fit-content;
+    inline-size: max-content;
     max-inline-size: 100%;
-    white-space: var(--recruit-desc-line-white-space);
+    min-width: 0;
   }
 
-  /* div-2: キャッチコピー — 右上縦書き W352 H67(Figma基準) */
+  /* div-2: キャッチコピー — 右上縦書き。カード上に浮かせて配置するため absolute */
   .recruit__catchphrase {
     position: absolute;
     top: var(--space-10);
@@ -1401,7 +1428,7 @@ const newsList = newsResponse.contents;
     display: block;
   }
 
-  /* div-3: CTA 正円 — 下辺中央 W348 H348 */
+  /* div-3: CTA 正円 — カード下辺から半分はみ出して浮かせるため absolute */
   .recruit__cta {
     display: flex;
     flex-direction: column;
@@ -1433,7 +1460,7 @@ const newsList = newsResponse.contents;
 
   .recruit__cta-text {
     text-align: center;
-    font-size: 50px;
+    font-size: clamp(1.5rem, 3vw, 3.125rem);
   }
 
   .recruit__cta :global(svg) {
@@ -1477,7 +1504,6 @@ const newsList = newsResponse.contents;
   @media (max-width: 1440px) {
     .recruit__inner {
       max-width: 80%;
-      min-width: 320px;
       --recruit-cta-size: clamp(200px, 20vw, 280px);
     }
     .recruit__cta-text {
@@ -1499,6 +1525,10 @@ const newsList = newsResponse.contents;
 
   /* Recruit レスポンシブ: 768px以下 */
   @media (max-width: 768px) {
+    .recruit__inner {
+      max-width: 90%;
+    }
+
     .recruit__card {
       padding: var(--space-8) var(--space-6);
       border-radius: 30px;
@@ -1510,7 +1540,6 @@ const newsList = newsResponse.contents;
       margin-bottom: var(--space-4);
     }
     .recruit__desc {
-      --recruit-desc-line-white-space: normal;
       font-size: var(--text-base);
     }
 
@@ -1528,7 +1557,7 @@ const newsList = newsResponse.contents;
     }
 
     .recruit__heading {
-      font-size: var(--text-3xl);
+      font-size: clamp(var(--text-lg), 4vw, var(--text-3xl));
     }
     .recruit__note {
       margin: calc(var(--recruit-cta-size) * 0.1 + var(--space-3)) auto 0;
@@ -1538,7 +1567,8 @@ const newsList = newsResponse.contents;
   /* Recruit レスポンシブ: 425px以下 */
   @media (max-width: 425px) {
     .recruit__inner {
-      --recruit-cta-size: 180px;
+      max-width: 100%;
+      --recruit-cta-size: clamp(120px, 42vw, 180px);
     }
 
     .recruit__card {
@@ -1566,8 +1596,48 @@ const newsList = newsResponse.contents;
     }
   }
 
+  /* Recruit レスポンシブ: 320px以下 */
+  @media (max-width: 320px) {
+    .recruit__cta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto auto;
+      gap: var(--space-4);
+      width: 100%;
+      aspect-ratio: auto;
+      border-radius: 20px;
+      transform: unset;
+      left: 0;
+      position: relative;
+      padding: var(--space-4);
+      overflow-wrap: break-word;
+    }
+
+    .recruit__cta-text {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      max-width: none;
+      font-size: 1.1rem;
+    }
+
+    .recruit__cta-label {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .recruit__cta :global(svg) {
+      grid-column: 2;
+      grid-row: 2;
+      display: grid;
+      align-content: center;
+    }
+  }
+
   /* ---------- 6. Contact ---------- */
   .contact__inner {
+    display: block;
+    color: inherit;
+    text-decoration: none;
     background-image: url("/images/util/contact-bg.svg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -1575,10 +1645,10 @@ const newsList = newsResponse.contents;
   }
 
   .contact__card {
-    max-width: 1320px;
-    height: 400px;
+    max-width: min(1320px, 100%);
+    min-height: clamp(200px, 28vw, 400px);
     margin-inline: auto;
-    border-radius: 40px;
+    border-radius: var(--contact-card-radius);
     background-color: color-mix(
       in srgb,
       var(--color-gray-500) 90%,
@@ -1591,7 +1661,7 @@ const newsList = newsResponse.contents;
       "title title"
       "desc  more";
     align-items: end;
-    padding: var(--space-10);
+    padding: var(--contact-card-radius);
     gap: var(--space-6);
   }
 
@@ -1600,15 +1670,16 @@ const newsList = newsResponse.contents;
   }
 
   .contact__heading {
-    font-size: clamp(32px, 8vw, 60px);
-    white-space: nowrap;
+    font-size: clamp(2rem, 8vw, 3.75rem);
+    white-space: normal;
+    overflow-wrap: anywhere;
     color: var(--color-white);
     margin: 0;
     letter-spacing: 0.08em;
     text-decoration: underline;
     text-decoration-color: var(--color-primary);
-    text-underline-offset: 6px;
-    text-decoration-thickness: 3px;
+    text-underline-offset: 0.375em;
+    text-decoration-thickness: 0.1875em;
   }
 
   .contact__heading-sub {
