@@ -139,3 +139,28 @@
   --duration-slow:    400ms;
   --easing-default:   ease-in-out;
 }
+
+/* ===================================================
+   Layout Utilities
+   =================================================== */
+
+.l-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--width-layout);
+  margin-inline: auto;
+}
+
+.u-full-bleed--white,
+.u-full-bleed--black {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.u-full-bleed--white {
+  background-color: var(--color-white);
+}
+
+.u-full-bleed--black {
+  background-color: var(--color-black);
+}

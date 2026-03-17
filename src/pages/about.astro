@@ -1,94 +1,447 @@
 ---
-// src/pages/about.astro
 import Layout from "../layouts/Layout.astro";
+
+const philosophyLines = [
+  "祈りの場をつくり、文化を未来へつなぐ。",
+  "私たち伸和建設は、社寺建築を通じて",
+  "地域の信仰、歴史、そして日本の木の文化を守り続けてきました。",
+  "建物を建てるのではなく、人々の心の拠り所をかたちにすること。",
+  "受け継がれてきた技と想いに敬意を払い、",
+  "次の時代へと誠実につなぐことが、私たちの使命です。",
+];
+
+const guidelines = [
+  {
+    title: "一、伝統に学び、未来をつくる",
+    lines: [
+      "先人が残した技法や知恵を深く理解し、",
+      "現代の技術や発想と融合させながら、次代に誇れる仕事を行う。",
+    ],
+  },
+  {
+    title: "一、祈りと文化への敬意を忘れない",
+    lines: [
+      "社寺建築は、信仰と歴史の結晶である。",
+      "常にその背景にある想いを尊重し、誠実な姿勢で向き合う。",
+    ],
+  },
+  {
+    title: "一、素材と技に妥協しない",
+    lines: [
+      "木を知り、木と向き合い、木を活かす。",
+      "見えない部分にこそ手を抜かず、確かな品質を積み重ねる。",
+    ],
+  },
+  {
+    title: "一、技を分かち、仲間と高め合う",
+    lines: [
+      "職人の技は、独占するものではなく、受け継ぐもの。",
+      "互いに学び合い、チームとして最高の仕事を目指す。",
+    ],
+  },
+  {
+    title: "一、地域に根ざし、信頼に応える",
+    lines: [
+      "地域とともに歩み、長く愛される建築を残すことで、",
+      "社会からの信頼に応え続ける。",
+    ],
+  },
+];
+
+const managementPolicies = [
+  {
+    title: "社寺建築を核とした専門性の深化",
+    lines: [
+      "150年にわたり培ってきた社寺建築の技術と実績を基盤に、",
+      "他には代えがたい専門性を磨き続ける。",
+    ],
+  },
+  {
+    title: "伝統技術の継承と人材育成への投資",
+    lines: [
+      "次代を担う職人・技術者の育成を最重要課題とし、",
+      "技術・知識・心構えを体系的に継承する環境を整える。",
+    ],
+  },
+  {
+    title: "品質第一のものづくり",
+    lines: [
+      "設計・施工・木材加工を一貫して管理し、",
+      "細部まで妥協しない高品質な建築を提供する。",
+    ],
+  },
+];
+
+const greetingTitleLines = [
+  "伝統を未来へ。",
+  "その責任と誇りを胸に、私たちはこれからも真摯に",
+  "ものづくりに向き合ってまいります。",
+];
+
+const greetingParagraphs = [
+  [
+    "私たち伸和建設は、明治の創業以来、社寺建築という日本の文化と信仰を支える仕事に向き合ってきました。",
+  ],
+  [
+    "社寺建築は、単なる建物ではありません。そこには人々の祈りがあり、地域の歴史があり、長い時間を超えて受け継がれてきた想いがあります。",
+    "私たちの仕事は、その想いを汲み取り、次の時代へと確かなかたちでつないでいくことだと考えています。",
+  ],
+  [
+    "木を選び、刻み、組み上げる。一つひとつの工程に、先人から受け継いだ知恵と技があります。",
+    "効率だけを求めれば省けることも、あえて手を抜かない。見えない部分にこそ心を尽くす。",
+    "その積み重ねが、百年先まで残る建築を生み出すと信じています。",
+  ],
+  [
+    "一方で、伝統は守るだけでは未来に残りません。時代の変化に向き合い、現代の技術や考え方を取り入れながら、",
+    "社寺建築の価値を次代へ伝えていくことも、私たちの重要な役割です。",
+  ],
+  [
+    "これから伸和建設が目指すのは、技を持つ人が誇りを持ち、仲間とともに成長できる会社。",
+    "そして、地域や社会から「この会社に任せたい」と長く信頼され続ける存在です。",
+  ],
+];
+
+const voiceCards = [
+  {
+    titleLines: [
+      "完成した瞬間より、その先の時間を",
+      "想像して仕事をしています。",
+    ],
+    bodyLines: [
+      "社寺建築は、完成して終わりではありません。",
+      "何十年、何百年と使われ、守られていく建物です。",
+      "自分が関わった現場が、地域の拠り所として残り続ける。",
+      "その重みと責任を感じられるのが、この仕事の一番のやりがいですね。",
+    ],
+  },
+  {
+    titleLines: ["時間をかける理由が、ちゃんとある。"],
+    bodyLines: [
+      "木材の選び方や加工の仕方など、",
+      "「そこまでやるのか」と思う工程もあります。",
+      "でも、それがあるから仕上がりが違う。",
+      "手間を惜しまない姿勢を大切にしている会社だと感じています。",
+    ],
+  },
+];
+
+const historyItems = [
+  {
+    year: "1615",
+    era: "元和元年",
+    lines: [
+      "富山市四方町（現在の地名）にて",
+      "初代有澤屋文左衛門（元和9年没）が",
+      "堂宮大工として創業。",
+    ],
+  },
+];
+
+const companyRows = [
+  { label: "会社名", valueLines: ["伸和建設株式会社"] },
+  { label: "代表取締役社長", valueLines: ["小西 隆夫"] },
+  { label: "資本金", valueLines: ["7,500万円"] },
+  { label: "建設業許可", valueLines: ["京都府知事許可（特-4）第24846号"] },
+  {
+    label: "建築士事務所",
+    valueLines: [
+      "伸和建設株式会社 一級建築士事務所",
+      "京都府知事登録（25A）第01839号",
+    ],
+  },
+  {
+    label: "営業種目",
+    valueLines: ["総合建築業（社寺建築・一般建築 設計施工）"],
+  },
+  {
+    label: "取引銀行",
+    valueLines: [
+      "京都銀行 西院支店",
+      "日本政策金融公庫 京都支店",
+      "三菱UFJ銀行 西院支店",
+    ],
+  },
+  {
+    label: "所属団体",
+    valueLines: ["（一社）京都府建設業協会", "京都商工会議所"],
+  },
+  {
+    label: "関係会社",
+    valueLines: [
+      "株式会社伸和建設木工部（堂宮大工所属）",
+      "伸和産業株式会社（建築資材販売）",
+    ],
+  },
+  {
+    label: "本社所在地",
+    valueLines: ["〒615-0007 京都市右京区西院上花田町21"],
+  },
+  { label: "電話番号", valueLines: ["075-311-0054"] },
+  { label: "FAX", valueLines: ["075-322-0152"] },
+];
+
+const locations = [
+  {
+    name: "本社",
+    addressLines: ["〒615-0007　京都市右京区西院上花田町21"],
+    telLabel: "075-311-0054",
+    telHref: "tel:0753110054",
+    faxLabel: "075-322-0152",
+    faxHref: "tel:0753220152",
+  },
+  {
+    name: "久御山工作所",
+    addressLines: ["〒613-0034　京都府久世郡久御山町大字佐山小字中道32"],
+    telLabel: "xxx-xxx-xxxx",
+    telHref: "#",
+    faxLabel: "xxx-xxx-xxxx",
+    faxHref: "#",
+  },
+];
 ---
 
-<Layout title="会社概要" description="会社概要ページです。">
-  <main class="about-page">
-    <h1 class="about-page__title">会社概要</h1>
+<Layout
+  title="私たちについて"
+  description="伸和建設の理念、代表メッセージ、沿革、会社概要、アクセスをご紹介します。"
+>
+  <main class="about">
+    <h1 class="sr-only">私たちについて</h1>
 
-    <div class="about-page__content">
-      <table class="about-page__table">
-        <tbody>
-          <tr>
-            <th>会社名</th>
-            <td>株式会社サンプル</td>
-          </tr>
-          <tr>
-            <th>所在地</th>
-            <td>〒000-0000 京都府京都市○○区○○町0-0</td>
-          </tr>
-          <tr>
-            <th>設立</th>
-            <td>昭和○○年○月</td>
-          </tr>
-          <tr>
-            <th>代表者</th>
-            <td>代表取締役 山田 太郎</td>
-          </tr>
-          <tr>
-            <th>事業内容</th>
-            <td>社寺建築の設計・施工・修繕</td>
-          </tr>
-          <tr>
-            <th>電話番号</th>
-            <td>000-000-0000</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <section id="philosophy" class="about-philosophy u-full-bleed--white">
+      <div class="l-container about-philosophy__inner">
+        <header class="about-philosophy__header">
+          <p class="about-philosophy__eyebrow">Philosophy</p>
+          <h2 class="about-philosophy__title">企業理念</h2>
+        </header>
+        <div class="about-philosophy__panel">
+          <p class="about-philosophy__text">
+            {
+              philosophyLines.map((line) => (
+                <span class="about-philosophy__line">{line}</span>
+              ))
+            }
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="guidelines" class="about-guidelines u-full-bleed--white">
+      <div class="l-container about-guidelines__inner">
+        <header class="about-guidelines__header">
+          <p class="about-guidelines__eyebrow">Guidelines</p>
+          <h2 class="about-guidelines__title">行動指針</h2>
+        </header>
+        <div class="about-guidelines__panel">
+          <ul class="about-guidelines__list">
+            {
+              guidelines.map((item) => (
+                <li class="about-guidelines__item">
+                  <span class="about-guidelines__item-title">{item.title}</span>
+                  <p class="about-guidelines__item-body">
+                    {item.lines.map((line) => (
+                      <span class="about-guidelines__item-line">{line}</span>
+                    ))}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="management-policy"
+      class="about-management-policy u-full-bleed--white"
+    >
+      <div class="l-container about-management-policy__inner">
+        <header class="about-management-policy__header">
+          <p class="about-management-policy__eyebrow">Management Policy</p>
+          <h2 class="about-management-policy__title">経営方針</h2>
+        </header>
+        <div class="about-management-policy__panel">
+          <ul class="about-management-policy__list">
+            {
+              managementPolicies.map((item) => (
+                <li class="about-management-policy__item">
+                  <span class="about-management-policy__item-title">
+                    {item.title}
+                  </span>
+                  <p class="about-management-policy__item-body">
+                    {item.lines.map((line) => (
+                      <span class="about-management-policy__item-line">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="greeting" class="about-greeting u-full-bleed--black">
+      <div class="l-container about-greeting__inner">
+        <div class="about-greeting__hero">
+          <div class="about-greeting__hero-image" aria-hidden="true"></div>
+          <div class="about-greeting__hero-copy">
+            <h2 class="about-greeting__title">
+              {
+                greetingTitleLines.map((line) => (
+                  <span class="about-greeting__title-line">{line}</span>
+                ))
+              }
+            </h2>
+            <div class="about-greeting__signature">
+              <p class="about-greeting__role">代表取締役社長</p>
+              <img
+                class="about-greeting__signature-image"
+                src="/images/about/konishi-takao.png"
+                alt="小西 隆夫"
+                width="338"
+                height="66"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="about-greeting__message">
+          {
+            greetingParagraphs.map((paragraph) => (
+              <p class="about-greeting__paragraph">
+                {paragraph.map((line) => (
+                  <span class="about-greeting__paragraph-line">{line}</span>
+                ))}
+              </p>
+            ))
+          }
+        </div>
+
+        <div class="about-greeting__voices">
+          {
+            voiceCards.map((card) => (
+              <div class="about-greeting__voice">
+                <div class="about-greeting__voice-image" aria-hidden="true" />
+                <div class="about-greeting__voice-body">
+                  <p class="about-greeting__voice-title">
+                    {card.titleLines.map((line) => (
+                      <span class="about-greeting__voice-title-line">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                  <p class="about-greeting__voice-text">
+                    {card.bodyLines.map((line) => (
+                      <span class="about-greeting__voice-text-line">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="about-greeting__actions">
+          <a class="about-greeting__action" href="#">仕事内容へ</a>
+          <a class="about-greeting__action" href="#">RECRUITサイトへ</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="history" class="about-history u-full-bleed--white">
+      <div class="l-container about-history__intro">
+        <header class="about-history__header">
+          <h2 class="about-history__title">沿革</h2>
+          <p class="about-history__subtitle">伸和建設の歩み</p>
+        </header>
+        <p class="about-history__lead">
+          1948年に「伸和建設株式会社」として設立した伸和建設。創業から現在まで築いてきた伸和建設の歩みをご紹介します。
+        </p>
+      </div>
+
+      <div class="about-history__slider-wrap">
+        <ul class="about-history__list">
+          {
+            historyItems.map((item) => (
+              <li class="about-history__item">
+                <div class="about-history__item-heading">
+                  <span class="about-history__year">{item.year}</span>
+                  <span class="about-history__era">{item.era}</span>
+                </div>
+                <p class="about-history__item-text">
+                  {item.lines.map((line) => (
+                    <span class="about-history__item-line">{line}</span>
+                  ))}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section id="company" class="about-company u-full-bleed--white">
+      <div class="l-container about-company__inner">
+        <h2 class="about-company__title">会社概要</h2>
+        <table class="about-company__table">
+          <tbody>
+            {
+              companyRows.map((row) => (
+                <tr class="about-company__row">
+                  <th class="about-company__label" scope="row">
+                    {row.label}
+                  </th>
+                  <td class="about-company__value">
+                    {row.valueLines.map((line) => (
+                      <span class="about-company__value-line">{line}</span>
+                    ))}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="access" class="about-access u-full-bleed--white">
+      <div class="l-container about-access__inner">
+        <h2 class="about-access__title">アクセス</h2>
+        <div class="about-access__locations">
+          {
+            locations.map((location) => (
+              <div class="about-access__location">
+                <h3 class="about-access__location-title">{location.name}</h3>
+                <p class="about-access__address">
+                  {location.addressLines.map((line) => (
+                    <span class="about-access__address-line">{line}</span>
+                  ))}
+                </p>
+                <div class="about-access__map" aria-hidden="true" />
+                <div class="about-access__contacts">
+                  <a class="about-access__contact-link" href={location.telHref}>
+                    <span class="about-access__contact-label">TEL</span>
+                    <span class="about-access__contact-value">
+                      {location.telLabel}
+                    </span>
+                  </a>
+                  <a class="about-access__contact-link" href={location.faxHref}>
+                    <span class="about-access__contact-label">FAX</span>
+                    <span class="about-access__contact-value">
+                      {location.faxLabel}
+                    </span>
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>
-
-<style>
-  .about-page {
-    padding: var(--space-8) var(--space-4);
-    max-width: var(--width-content);
-    margin: 0 auto;
-  }
-
-  .about-page__title {
-    font-size: var(--text-2xl);
-    text-align: center;
-    margin-bottom: var(--space-10);
-  }
-
-  .about-page__content {
-    max-width: var(--width-description);
-    margin: 0 auto;
-  }
-
-  .about-page__table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .about-page__table th,
-  .about-page__table td {
-    padding: var(--space-4);
-    border-bottom: 1px solid var(--color-border-light);
-    text-align: left;
-    line-height: var(--leading-relaxed);
-  }
-
-  .about-page__table th {
-    font-weight: var(--weight-bold);
-    white-space: nowrap;
-    width: 8rem;
-    color: var(--color-text-secondary);
-  }
-
-  @media (min-width: 768px) {
-    .about-page {
-      padding: var(--space-12) var(--space-4);
-    }
-
-    .about-page__title {
-      font-size: var(--text-3xl);
-    }
-
-    .about-page__table th {
-      width: 10rem;
-    }
-  }
-</style>
