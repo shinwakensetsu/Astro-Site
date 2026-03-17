@@ -119,13 +119,19 @@ const slides = [...baseSlides, ...baseSlides];
 <style>
   .works-carousel {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     padding-top: var(--space-6);
     background-color: #1f1f1f;
   }
 
   .works-carousel__viewport {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     overflow: hidden;
     cursor: grab;
   }

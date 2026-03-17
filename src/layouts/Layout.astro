@@ -320,12 +320,18 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     position: relative;
     z-index: 1;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
     background-color: var(--color-bg);
     border-top: 1px solid var(--color-gray-300);
   }
 
   .site-drawer__inner {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
     padding: 2.5rem clamp(1rem, 3vw, 1.875rem) 3rem clamp(1rem, 8vw, 7.5rem);
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 700px);
@@ -602,6 +608,10 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     .site-footer__container--3 {
       align-self: start;
     }
+
+    .site-footer__brand-logo :global(svg) {
+      width: clamp(88px, 24vw, 104px);
+    }
   }
 
   @media (max-width: 425px) {
@@ -615,7 +625,7 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     }
 
     .site-footer__container--4 {
-      justify-self: start;
+      justify-self: end;
     }
 
     .site-footer__container--3 {
