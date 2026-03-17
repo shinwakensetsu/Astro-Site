@@ -588,6 +588,12 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     }
   }
 
+  @media (max-width: 320px) {
+    .site-drawer__inner {
+      padding: 1.5rem 0 0;
+    }
+  }
+
   @media (max-width: 768px) {
     .site-footer__container--4 {
       justify-self: end;

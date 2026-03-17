@@ -21,6 +21,7 @@
   --color-gray-600:        #6c757d;
   --color-gray-700:        #4B4B4B;
   --color-gray-900:        #1F1F1F;
+  --color-gold:            #D1C92B;
   --color-black:           #000000;
 
   /* --- Semantic Colors --- */
@@ -66,6 +67,20 @@
   --text-heritage-title:   2.25rem;
   --text-heritage-body:    1.125rem;
   --text-heritage-caption: 2rem;
+
+  /* --- Responsive Font Size (clamp) ---
+     VP幅に応じて滑らかに伸縮するフォントサイズトークン。
+     各値は index.astro の実パターンから抽出。
+     --fs-{tier}: clamp(min, preferred, max)
+  */
+  --fs-display:    clamp(2rem,      8vw,   3.75rem);  /* 32–60px: ページ見出し */
+  --fs-title-2xl:  clamp(1.25rem,   4vw,   2.25rem);  /* 20–36px: セクション大見出し */
+  --fs-title-xl:   clamp(1.25rem,   2.2vw, 2rem);     /* 20–32px: セクション見出し */
+  --fs-title-lg:   clamp(1.25rem,   2.8vw, 1.875rem); /* 20–30px: 中見出し */
+  --fs-title:      clamp(1rem,      2.8vw, 1.5rem);   /* 16–24px: サブタイトル・バナーラベル */
+  --fs-body-lg:    clamp(0.875rem,  2.5vw, 1.25rem);  /* 14–20px: 大きめ本文・arrow-link */
+  --fs-body:       clamp(1rem,      1.4vw, 1.125rem); /* 16–18px: 本文 */
+  --fs-caption:    clamp(0.75rem,   1.5vw, 1.125rem); /* 12–18px: キャプション */
 
   /* --- Line Height --- */
   --leading-tight:    1.3;

@@ -131,6 +131,19 @@ label, legend, figcaption, blockquote, cite, time {
   text-shadow: 2px 2px 0.4px rgba(0, 0, 0, 0.25);
 }
 
+/* Utility: Responsive Font Size
+   VP幅に応じて滑らかに伸縮するフォントサイズユーティリティ。
+   対応トークンは global.css の --fs-* を参照。
+*/
+.fs-display    { font-size: var(--fs-display); }    /* 32–60px: ページ見出し */
+.fs-title-2xl  { font-size: var(--fs-title-2xl); }  /* 20–36px: セクション大見出し */
+.fs-title-xl   { font-size: var(--fs-title-xl); }   /* 20–32px: セクション見出し */
+.fs-title-lg   { font-size: var(--fs-title-lg); }   /* 20–30px: 中見出し */
+.fs-title      { font-size: var(--fs-title); }      /* 16–24px: サブタイトル・バナーラベル */
+.fs-body-lg    { font-size: var(--fs-body-lg); }    /* 14–20px: 大きめ本文・arrow-link */
+.fs-body       { font-size: var(--fs-body); }       /* 16–18px: 本文 */
+.fs-caption    { font-size: var(--fs-caption); }    /* 12–18px: キャプション */
+
 /* Utility: radius 20px */
 .u-radius-20 {
   border-radius: 20px;
