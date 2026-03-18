@@ -212,7 +212,7 @@ const locations = [
   <main class="about">
     <h1 class="sr-only">私たちについて</h1>
 
-    <section id="philosophy" class="about-philosophy u-full-bleed--white">
+    <section id="philosophy" class="about-philosophy u-full-bleed">
       <div class="l-container about-principles__inner about-philosophy__inner">
         <header class="about-principles__header about-philosophy__header">
           <div class="about-principles__header-copy">
@@ -224,7 +224,9 @@ const locations = [
             </h2>
           </div>
         </header>
-        <div class="about-principles__panel about-philosophy__panel">
+        <div
+          class="about-principles__panel about-philosophy__panel u-bg-noise-dark"
+        >
           <p class="about-principles__text about-philosophy__text">
             {
               philosophyLines.map((line) => (
@@ -238,7 +240,7 @@ const locations = [
       </div>
     </section>
 
-    <section id="guidelines" class="about-guidelines u-full-bleed--white">
+    <section id="guidelines" class="about-guidelines u-full-bleed">
       <div class="l-container about-principles__inner about-guidelines__inner">
         <header class="about-principles__header about-guidelines__header">
           <div class="about-principles__header-copy">
@@ -250,7 +252,9 @@ const locations = [
             </h2>
           </div>
         </header>
-        <div class="about-principles__panel about-guidelines__panel">
+        <div
+          class="about-principles__panel about-guidelines__panel u-bg-noise-dark"
+        >
           <ul class="about-principles__list about-guidelines__list">
             {
               guidelines.map((item) => (
@@ -271,7 +275,7 @@ const locations = [
 
     <section
       id="management-policy"
-      class="about-management-policy u-full-bleed--white"
+      class="about-management-policy u-full-bleed"
     >
       <div
         class="l-container about-principles__inner about-management-policy__inner"
@@ -290,7 +294,9 @@ const locations = [
             </h2>
           </div>
         </header>
-        <div class="about-principles__panel about-management-policy__panel">
+        <div
+          class="about-principles__panel about-management-policy__panel u-bg-noise-dark"
+        >
           <ul class="about-principles__list about-management-policy__list">
             {
               managementPolicies.map((item) => (
@@ -309,7 +315,7 @@ const locations = [
       </div>
     </section>
 
-    <section id="greeting" class="about-greeting u-full-bleed--black">
+    <section id="greeting" class="about-greeting u-full-bleed u-bg-dark">
       <div class="l-container about-greeting__inner">
         <div class="about-greeting__hero">
           <div class="about-greeting__hero-image" aria-hidden="true"></div>
@@ -389,7 +395,7 @@ const locations = [
       </div>
     </section>
 
-    <section id="history" class="about-history u-full-bleed--white">
+    <section id="history" class="about-history u-full-bleed u-bg-white">
       <div class="l-container about-history__intro">
         <header class="about-history__header">
           <h2 class="about-history__title">沿革</h2>
@@ -421,7 +427,7 @@ const locations = [
       </div>
     </section>
 
-    <section id="company" class="about-company u-full-bleed--black">
+    <section id="company" class="about-company u-full-bleed u-bg-dark">
       <div class="l-container about-company__inner">
         <h2 class="about-company__title">会社概要</h2>
         <div class="about-company__table-scroll">
@@ -447,7 +453,7 @@ const locations = [
       </div>
     </section>
 
-    <section id="access" class="about-access u-full-bleed--white">
+    <section id="access" class="about-access u-full-bleed">
       <div class="l-container about-access__inner">
         <h2 class="about-access__title">アクセス</h2>
         <div class="about-access__locations">
@@ -470,6 +476,15 @@ const locations = [
                   </div>
                   <figcaption class="sr-only">
                     {location.name}のGoogleマップ設置予定
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3880.6815370763443!2d135.7295854!3d35.00814829999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600107b6ea0c74df%3A0x3f507db37a0b2d0a!2z44CSNjE1LTAwMDcg5Lqs6YO95bqc5Lqs6YO95biC5Y-z5Lqs5Yy66KW_6Zmi5LiK6Iqx55Sw55S677yS77yR!5e1!3m2!1sja!2sjp!4v1773822616709!5m2!1sja!2sjp"
+                      width="600"
+                      height="450"
+                      style="border:0;"
+                      allowfullscreen=""
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
+                    />
                   </figcaption>
                 </figure>
                 <a
@@ -614,12 +629,6 @@ const locations = [
     padding-inline: var(--about-principles-section-inline-padding);
   }
 
-  .about-philosophy,
-  .about-guidelines,
-  .about-management-policy {
-    background-color: var(--color-primary-light);
-  }
-
   .about-principles__header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -714,7 +723,6 @@ const locations = [
   .about-greeting {
     position: relative;
     overflow: hidden;
-    background-color: var(--color-dark);
     color: var(--color-white);
     isolation: isolate;
   }
@@ -1000,7 +1008,6 @@ const locations = [
   }
 
   .about-company {
-    background-color: var(--color-dark);
     color: var(--color-white);
   }
 

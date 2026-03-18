@@ -29,6 +29,7 @@ html {
 body {
   min-height: 100dvh;
   overflow-x: hidden;
+  background-color: var(--color-primary-light);
 }
 
 img,

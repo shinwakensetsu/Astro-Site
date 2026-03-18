@@ -161,17 +161,24 @@
   margin-inline: auto;
 }
 
-.u-full-bleed--white,
-.u-full-bleed--black {
+.u-full-bleed {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
-  padding-block: var(--space-16);
+  margin-block: var(--space-16);
 }
 
-.u-full-bleed--white {
+.u-bg-white {
   background-color: var(--color-white);
 }
 
-.u-full-bleed--black {
-  background-color: var(--color-black);
+.u-bg-dark {
+  background-color: var(--color-dark);
+}
+
+/* Optional tiled noise layer for dark surfaces. */
+.u-bg-noise-dark {
+  background-image: url("/images/util/noise-tile-300-bk.svg");
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 300px 300px;
 }
