@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import IconArrow from "../components/IconArrow.astro";
 
 const philosophyLines = [
   "祈りの場をつくり、文化を未来へつなぐ。",
@@ -184,6 +185,8 @@ const locations = [
   {
     name: "本社",
     addressLines: ["〒615-0007　京都市右京区西院上花田町21"],
+    mapHref:
+      "https://www.google.com/maps/search/?api=1&query=%E3%80%92615-0007%E3%80%80%E4%BA%AC%E9%83%BD%E5%B8%82%E5%8F%B3%E4%BA%AC%E5%8C%BA%E8%A5%BF%E9%99%A2%E4%B8%8A%E8%8A%B1%E7%94%B0%E7%94%BA21",
     telLabel: "075-311-0054",
     telHref: "tel:0753110054",
     faxLabel: "075-322-0152",
@@ -192,6 +195,8 @@ const locations = [
   {
     name: "久御山工作所",
     addressLines: ["〒613-0034　京都府久世郡久御山町大字佐山小字中道32"],
+    mapHref:
+      "https://www.google.com/maps/search/?api=1&query=%E3%80%92613-0034%E3%80%80%E4%BA%AC%E9%83%BD%E5%BA%9C%E4%B9%85%E4%B8%96%E9%83%A1%E4%B9%85%E5%BE%A1%E5%B1%B1%E7%94%BA%E5%A4%A7%E5%AD%97%E4%BD%90%E5%B1%B1%E5%B0%8F%E5%AD%97%E4%B8%AD%E9%81%9332",
     telLabel: "xxx-xxx-xxxx",
     telHref: "#",
     faxLabel: "xxx-xxx-xxxx",
@@ -449,13 +454,35 @@ const locations = [
           {
             locations.map((location) => (
               <div class="about-access__location">
-                <h3 class="about-access__location-title">{location.name}</h3>
-                <p class="about-access__address">
-                  {location.addressLines.map((line) => (
-                    <span class="about-access__address-line">{line}</span>
-                  ))}
-                </p>
-                <div class="about-access__map" aria-hidden="true" />
+                <div class="about-access__location-body">
+                  <h3 class="about-access__location-title">{location.name}</h3>
+                  <p class="about-access__address">
+                    {location.addressLines.map((line) => (
+                      <span class="about-access__address-line">{line}</span>
+                    ))}
+                  </p>
+                </div>
+                <figure class="about-access__map">
+                  <div class="about-access__map-placeholder" aria-hidden="true">
+                    <span class="about-access__map-placeholder-text">
+                      Google Map
+                    </span>
+                  </div>
+                  <figcaption class="sr-only">
+                    {location.name}のGoogleマップ設置予定
+                  </figcaption>
+                </figure>
+                <a
+                  class="arrow-link arrow-link--on-light about-access__map-link"
+                  href={location.mapHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="arrow-link__text">
+                    <span>Google Mapはこちら</span>
+                  </span>
+                  <IconArrow width="72" height="72" />
+                </a>
                 <div class="about-access__contacts">
                   <a class="about-access__contact-link" href={location.telHref}>
                     <span class="about-access__contact-label">TEL</span>
@@ -572,6 +599,12 @@ const locations = [
     --about-greeting-border: rgba(255, 255, 255, 0.16);
     --about-greeting-surface: rgba(255, 255, 255, 0.06);
     --about-company-title-size: 3rem;
+    --about-access-title-size: 3rem;
+    --about-access-location-size: 1.125rem;
+    --about-access-contact-size: 1.25rem;
+    --about-access-card-width: 56.25rem;
+    --about-access-content-width: 48.75rem;
+    --about-access-contact-height: 5.75rem;
   }
 
   .about-principles__inner {
@@ -579,6 +612,12 @@ const locations = [
       var(--width-layout) + (var(--about-principles-section-inline-padding) * 2)
     );
     padding-inline: var(--about-principles-section-inline-padding);
+  }
+
+  .about-philosophy,
+  .about-guidelines,
+  .about-management-policy {
+    background-color: var(--color-primary-light);
   }
 
   .about-principles__header {
@@ -1026,6 +1065,170 @@ const locations = [
     border-bottom: none;
   }
 
+  .about-access {
+    background-color: var(--color-primary-light);
+    color: var(--color-text);
+  }
+
+  .about-access__inner {
+    display: grid;
+    width: 100%;
+  }
+
+  .about-access__title {
+    font-size: var(--about-access-title-size);
+  }
+
+  .about-access__locations {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+  }
+
+  .about-access__location {
+    display: grid;
+    align-content: start;
+    width: min(100%, var(--about-access-card-width));
+    min-width: 0;
+    justify-items: stretch;
+  }
+
+  .about-access__location-body {
+    display: grid;
+    min-width: 0;
+    width: min(100%, var(--about-access-content-width));
+    justify-self: center;
+    text-align: left;
+  }
+
+  .about-access__location-title,
+  .about-access__address {
+    font-size: var(--about-access-location-size);
+  }
+
+  .about-access__location-title {
+    line-height: 1.5;
+  }
+
+  .about-access__address {
+    line-height: 1.8;
+  }
+
+  .about-access__address-line {
+    display: block;
+  }
+
+  .about-access__map {
+    width: min(100%, var(--about-access-content-width));
+    justify-self: center;
+    border-radius: 3.125rem;
+    overflow: hidden;
+  }
+
+  .about-access .arrow-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--about-access-location-size);
+    text-decoration: none;
+    max-width: 100%;
+    --icon-arrow-circle-fill: var(--color-primary-light);
+    --icon-arrow-path-stroke: var(--color-gray-500);
+    --icon-arrow-border: rgba(0, 0, 0, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-gray-500);
+    --icon-arrow-path-stroke-hover: var(--color-primary-light);
+    --icon-arrow-border-hover: rgba(255, 255, 255, 0.5);
+  }
+
+  .about-access .arrow-link:hover {
+    text-decoration: none;
+  }
+
+  .about-access .arrow-link__text {
+    display: flex;
+    flex-direction: column;
+    line-height: var(--leading-tight);
+    text-align: center;
+    min-width: 0;
+  }
+
+  .about-access .arrow-link__text span {
+    overflow-wrap: break-word;
+  }
+
+  .about-access .arrow-link :global(svg) {
+    width: clamp(32px, 4.6875vw, 75px);
+    height: auto;
+    min-width: 32px;
+    min-height: 32px;
+    flex-shrink: 1;
+  }
+
+  .about-access .arrow-link--on-light {
+    color: var(--color-dark);
+    --icon-arrow-circle-fill: var(--color-gray-500);
+    --icon-arrow-path-stroke: var(--color-primary-light);
+    --icon-arrow-border: rgba(255, 255, 255, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-primary-light);
+    --icon-arrow-path-stroke-hover: var(--color-gray-500);
+    --icon-arrow-border-hover: rgba(0, 0, 0, 0.5);
+  }
+
+  .about-access__map-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 78 / 47;
+    background-color: #e0dfdf;
+    background-image: url("/images/util/noise-tile-300.svg");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    color: #5c5c5c;
+  }
+
+  .about-access__map-placeholder-text {
+    font-size: var(--about-access-location-size);
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .about-access__map-link {
+    width: 100%;
+    justify-self: stretch;
+    justify-content: flex-end;
+  }
+
+  .about-access__contacts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: min(100%, var(--about-access-content-width));
+    justify-self: center;
+  }
+
+  .about-access__contact-link {
+    display: grid;
+    align-content: center;
+    min-width: 0;
+    min-block-size: var(--about-access-contact-height);
+    padding-inline: clamp(1rem, 2.2vw, 1.5rem);
+    border: 1px solid currentColor;
+    border-radius: 15px;
+    color: inherit;
+    font-size: var(--about-access-contact-size);
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .about-access__contact-label,
+  .about-access__contact-value {
+    display: block;
+  }
+
   @media (max-width: 960px) {
     .about-greeting__voices,
     .about-greeting__actions {
@@ -1043,6 +1246,16 @@ const locations = [
 
     .about-greeting__voice-image {
       inline-size: 50%;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .about-access__contacts {
+      grid-template-columns: 1fr;
+    }
+
+    .about-access__map-link {
+      justify-content: flex-start;
     }
   }
 

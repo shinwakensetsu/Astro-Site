@@ -165,7 +165,7 @@
 .u-full-bleed--black {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
-  margin-block: var(--space-16);
+  padding-block: var(--space-16);
 }
 
 .u-full-bleed--white {
