@@ -136,6 +136,51 @@ const historyItems = [
       "堂宮大工として創業。",
     ],
   },
+  {
+    year: "1615",
+    era: "元和元年",
+    lines: [
+      "富山市四方町（現在の地名）にて",
+      "初代有澤屋文左衛門（元和9年没）が",
+      "堂宮大工として創業。",
+    ],
+  },
+  {
+    year: "1615",
+    era: "元和元年",
+    lines: [
+      "富山市四方町（現在の地名）にて",
+      "初代有澤屋文左衛門（元和9年没）が",
+      "堂宮大工として創業。",
+    ],
+  },
+  {
+    year: "1615",
+    era: "元和元年",
+    lines: [
+      "富山市四方町（現在の地名）にて",
+      "初代有澤屋文左衛門（元和9年没）が",
+      "堂宮大工として創業。",
+    ],
+  },
+  {
+    year: "1615",
+    era: "元和元年",
+    lines: [
+      "富山市四方町（現在の地名）にて",
+      "初代有澤屋文左衛門（元和9年没）が",
+      "堂宮大工として創業。",
+    ],
+  },
+  {
+    year: "1615",
+    era: "元和元年",
+    lines: [
+      "富山市四方町（現在の地名）にて",
+      "初代有澤屋文左衛門（元和9年没）が",
+      "堂宮大工として創業。",
+    ],
+  },
 ];
 
 const companyRows = [
@@ -385,45 +430,60 @@ const locations = [
         <div class="about-greeting__actions">
           <a
             class="about-greeting__action about-greeting__action--work"
-            href="#">仕事内容へ</a
+            href="/services">仕事内容へ</a
           >
           <a
             class="about-greeting__action about-greeting__action--recruit"
-            href="#">RECRUITサイトへ</a
+            href="/recruit">RECRUITサイトへ</a
           >
         </div>
       </div>
     </section>
 
-    <section id="history" class="about-history u-full-bleed u-bg-white">
-      <div class="l-container about-history__intro">
-        <header class="about-history__header">
-          <h2 class="about-history__title">沿革</h2>
-          <p class="about-history__subtitle">伸和建設の歩み</p>
-        </header>
-        <p class="about-history__lead">
-          1948年に「伸和建設株式会社」として設立した伸和建設。創業から現在まで築いてきた伸和建設の歩みをご紹介します。
-        </p>
-      </div>
+    <section id="history" class="about-history u-full-bleed u-bg-dark">
+      <span class="deco-label about-history__deco-label" aria-hidden="true"
+        >HISTORY</span
+      >
+      <div class="about-history__surface u-bg-primary-light u-bg-noise-light">
+        <div class="l-container about-history__inner">
+          <div class="about-history__intro">
+            <header class="about-history__header">
+              <h2 class="about-history__title">沿革</h2>
+              <p class="about-history__subtitle">伸和建設の歩み</p>
+            </header>
+            <p class="about-history__lead">
+              1948年に「伸和建設株式会社」として設立した伸和建設。創業から現在まで築いてきた伸和建設の歩みをご紹介します。
+            </p>
+          </div>
 
-      <div class="about-history__slider-wrap">
-        <ul class="about-history__list">
-          {
-            historyItems.map((item) => (
-              <li class="about-history__item">
-                <div class="about-history__item-heading">
-                  <span class="about-history__year">{item.year}</span>
-                  <span class="about-history__era">{item.era}</span>
-                </div>
-                <p class="about-history__item-text">
-                  {item.lines.map((line) => (
-                    <span class="about-history__item-line">{line}</span>
-                  ))}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
+          <div class="about-history__slider-wrap" tabindex="0">
+            <ul class="about-history__list">
+              {
+                historyItems.map((item) => (
+                  <li class="about-history__item u-bg-dark u-bg-noise-dark">
+                    <div class="about-history__item-body">
+                      <div class="about-history__item-heading">
+                        <span class="about-history__year">{item.year}</span>
+                        <span class="about-history__era">{item.era}</span>
+                      </div>
+                      <p class="about-history__item-text">
+                        {item.lines.join("")}
+                      </p>
+                    </div>
+                    <div class="about-history__item-media" aria-hidden="true" />
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="about-history__scrollbar" aria-hidden="true">
+            <div class="about-history__scrollbar-track">
+              <div class="about-history__scrollbar-thumb">
+                <span class="about-history__scrollbar-thumb-core"></span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -454,11 +514,14 @@ const locations = [
     </section>
 
     <section id="access" class="about-access u-full-bleed">
+      <span class="deco-label about-access__deco-label" aria-hidden="true"
+        >ACCESS</span
+      >
       <div class="l-container about-access__inner">
         <h2 class="about-access__title">アクセス</h2>
         <div class="about-access__locations">
           {
-            locations.map((location) => (
+            locations.map((location, index) => (
               <div class="about-access__location">
                 <div class="about-access__location-body">
                   <h3 class="about-access__location-title">{location.name}</h3>
@@ -469,35 +532,31 @@ const locations = [
                   </p>
                 </div>
                 <figure class="about-access__map">
-                  <div class="about-access__map-placeholder" aria-hidden="true">
-                    <span class="about-access__map-placeholder-text">
-                      Google Map
-                    </span>
-                  </div>
-                  <figcaption class="sr-only">
-                    {location.name}のGoogleマップ設置予定
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3880.6815370763443!2d135.7295854!3d35.00814829999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600107b6ea0c74df%3A0x3f507db37a0b2d0a!2z44CSNjE1LTAwMDcg5Lqs6YO95bqc5Lqs6YO95biC5Y-z5Lqs5Yy66KW_6Zmi5LiK6Iqx55Sw55S677yS77yR!5e1!3m2!1sja!2sjp!4v1773822616709!5m2!1sja!2sjp"
-                      width="600"
-                      height="450"
-                      style="border:0;"
-                      allowfullscreen=""
-                      loading="lazy"
-                      referrerpolicy="no-referrer-when-downgrade"
-                    />
-                  </figcaption>
+                  <iframe
+                    src={
+                      index === 0
+                        ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d135.7295854!3d35.00814829999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600107b6ea0c74df%3A0x3f507db37a0b2d0a!2z44CSNjE1LTAwMDcg5Lqs6YO95bqc5Lqs6YO95biC5Y-z5Lqs5Yy66KW_6Zmi5LiK6Iqx55Sw55S677yS77yR!5e0!3m2!1sja!2sjp!4v1773822616709!5m2!1sja!2sjp"
+                        : "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3000!2d135.74291561694665!3d34.87609299394302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzTCsDUyJzMzLjkiTiAxMzXCsDQ0JzM4LjkiRQ!5e0!3m2!1sja!2sjp!4v1773823957012!5m2!1sja!2sjp"
+                    }
+                    title={`${location.name}のGoogleマップ`}
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                  />
                 </figure>
-                <a
-                  class="arrow-link arrow-link--on-light about-access__map-link"
-                  href={location.mapHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span class="arrow-link__text">
-                    <span>Google Mapはこちら</span>
-                  </span>
-                  <IconArrow width="72" height="72" />
-                </a>
+                <div class="l-container about-access__map-link-container">
+                  <a
+                    class="arrow-link arrow-link--on-light about-access__map-link"
+                    href={location.mapHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span class="arrow-link__text">
+                      <span>Google Mapはこちら</span>
+                    </span>
+                    <IconArrow width="72" height="72" />
+                  </a>
+                </div>
                 <div class="about-access__contacts">
                   <a class="about-access__contact-link" href={location.telHref}>
                     <span class="about-access__contact-label">TEL</span>
@@ -573,6 +632,240 @@ const locations = [
       document.fonts.ready.then(requestVoiceTitleUpdate).catch(() => {});
     }
   }
+
+  const historySliderWrap = document.querySelector<HTMLElement>(
+    ".about-history__slider-wrap",
+  );
+  const historyScrollbar = document.querySelector<HTMLElement>(
+    ".about-history__scrollbar",
+  );
+  const historyScrollbarTrack = document.querySelector<HTMLElement>(
+    ".about-history__scrollbar-track",
+  );
+  const historyScrollbarThumb = document.querySelector<HTMLElement>(
+    ".about-history__scrollbar-thumb",
+  );
+  const historyList = historySliderWrap?.querySelector<HTMLElement>(
+    ".about-history__list",
+  );
+
+  if (
+    historySliderWrap &&
+    historyScrollbar &&
+    historyScrollbarTrack &&
+    historyScrollbarThumb
+  ) {
+    let measureRafId = 0;
+    let positionRafId = 0;
+    let maxScrollLeft = 0;
+    let maxThumbOffset = 0;
+    let thumbBaseOffset = 0;
+    let thumbOffset = 0;
+    let activePointerId: number | null = null;
+    let dragStartClientX = 0;
+    let dragStartThumbOffset = 0;
+
+    const readCssLengthAsPixels = (
+      element: HTMLElement,
+      propertyName: string,
+    ) => {
+      const value = getComputedStyle(element)
+        .getPropertyValue(propertyName)
+        .trim();
+
+      if (value === "") return 0;
+
+      const probe = document.createElement("div");
+
+      probe.style.position = "absolute";
+      probe.style.visibility = "hidden";
+      probe.style.pointerEvents = "none";
+      probe.style.width = value;
+
+      element.append(probe);
+
+      const pixels = probe.getBoundingClientRect().width;
+
+      probe.remove();
+
+      return Number.isFinite(pixels) ? pixels : 0;
+    };
+
+    const getTrackCapWidth = () => {
+      return readCssLengthAsPixels(
+        historyScrollbarTrack,
+        "--about-history-scrollbar-cap-width",
+      );
+    };
+
+    const getThumbGap = () => {
+      return readCssLengthAsPixels(
+        historyScrollbarTrack,
+        "--about-history-scrollbar-thumb-gap",
+      );
+    };
+
+    const getTrackCapInset = () => {
+      return readCssLengthAsPixels(
+        historyScrollbarTrack,
+        "--about-history-scrollbar-cap-inset",
+      );
+    };
+
+    const getPreferredScrollbarWidth = () => {
+      return readCssLengthAsPixels(
+        historyScrollbar,
+        "--about-history-scrollbar-width",
+      );
+    };
+
+    const clamp = (value: number, min: number, max: number) =>
+      Math.min(Math.max(value, min), max);
+
+    const updateHistoryScrollbarPosition = () => {
+      positionRafId = 0;
+
+      const progress =
+        maxScrollLeft > 0 ? historySliderWrap.scrollLeft / maxScrollLeft : 0;
+
+      thumbOffset = progress * maxThumbOffset;
+      historyScrollbarThumb.style.transform = `translate3d(${thumbBaseOffset + thumbOffset}px, -50%, 0)`;
+      historyScrollbar.classList.toggle(
+        "about-history__scrollbar--inactive",
+        maxScrollLeft <= 0,
+      );
+    };
+
+    const requestHistoryScrollbarPositionUpdate = () => {
+      if (positionRafId !== 0) return;
+      positionRafId = window.requestAnimationFrame(
+        updateHistoryScrollbarPosition,
+      );
+    };
+
+    const measureHistoryScrollbar = () => {
+      measureRafId = 0;
+
+      const sliderWrapRect = historySliderWrap.getBoundingClientRect();
+      const visibleLeft = clamp(sliderWrapRect.left, 0, window.innerWidth);
+      const visibleRight = clamp(sliderWrapRect.right, 0, window.innerWidth);
+      const visibleWidth = Math.max(visibleRight - visibleLeft, 0);
+      const preferredScrollbarWidth = getPreferredScrollbarWidth();
+      const resolvedScrollbarWidth = Math.min(
+        preferredScrollbarWidth,
+        visibleWidth,
+      );
+      const scrollbarOffset =
+        visibleLeft -
+        sliderWrapRect.left +
+        (visibleWidth - resolvedScrollbarWidth) / 2;
+
+      historyScrollbar.style.width = `${resolvedScrollbarWidth}px`;
+      historyScrollbar.style.marginInlineStart = `${Math.max(scrollbarOffset, 0)}px`;
+
+      const trackWidth = historyScrollbarTrack.clientWidth;
+      const capWidth = getTrackCapWidth();
+      const capInset = getTrackCapInset();
+      const thumbGap = getThumbGap();
+      const sliderViewportWidth = historySliderWrap.clientWidth;
+      const scrollWidth = historySliderWrap.scrollWidth;
+      const nextMaxScrollLeft = Math.max(scrollWidth - sliderViewportWidth, 0);
+      const thumbWidth = historyScrollbarThumb.offsetWidth;
+      const usableTrackWidth = Math.max(
+        trackWidth - (capWidth + capInset + thumbGap) * 2 - thumbWidth,
+        0,
+      );
+
+      maxScrollLeft = nextMaxScrollLeft;
+      thumbBaseOffset = capWidth + capInset + thumbGap;
+      maxThumbOffset = usableTrackWidth;
+      requestHistoryScrollbarPositionUpdate();
+    };
+
+    const requestHistoryScrollbarMeasure = () => {
+      if (measureRafId !== 0) return;
+      measureRafId = window.requestAnimationFrame(measureHistoryScrollbar);
+    };
+
+    const endHistoryScrollbarDrag = () => {
+      activePointerId = null;
+      historyScrollbarThumb.classList.remove("is-dragging");
+    };
+
+    const syncHistoryScrollFromThumbOffset = (nextThumbOffset: number) => {
+      const clampedThumbOffset = clamp(nextThumbOffset, 0, maxThumbOffset);
+      const progress =
+        maxThumbOffset > 0 ? clampedThumbOffset / maxThumbOffset : 0;
+
+      historySliderWrap.scrollLeft = progress * maxScrollLeft;
+    };
+
+    requestHistoryScrollbarMeasure();
+
+    historySliderWrap.addEventListener(
+      "scroll",
+      requestHistoryScrollbarPositionUpdate,
+      {
+        passive: true,
+      },
+    );
+    window.addEventListener("resize", requestHistoryScrollbarMeasure, {
+      passive: true,
+    });
+
+    historyScrollbarThumb.addEventListener("pointerdown", (event) => {
+      if (maxScrollLeft <= 0) return;
+
+      activePointerId = event.pointerId;
+      dragStartClientX = event.clientX;
+      dragStartThumbOffset = thumbOffset;
+
+      historyScrollbarThumb.setPointerCapture(event.pointerId);
+      historyScrollbarThumb.classList.add("is-dragging");
+      event.preventDefault();
+    });
+
+    historyScrollbarThumb.addEventListener("pointermove", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      const deltaX = event.clientX - dragStartClientX;
+
+      syncHistoryScrollFromThumbOffset(dragStartThumbOffset + deltaX);
+      event.preventDefault();
+    });
+
+    historyScrollbarThumb.addEventListener("pointerup", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      historyScrollbarThumb.releasePointerCapture(event.pointerId);
+    });
+
+    historyScrollbarThumb.addEventListener("pointercancel", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      historyScrollbarThumb.releasePointerCapture(event.pointerId);
+    });
+
+    historyScrollbarThumb.addEventListener(
+      "lostpointercapture",
+      endHistoryScrollbarDrag,
+    );
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(requestHistoryScrollbarMeasure);
+
+      resizeObserver.observe(historySliderWrap);
+      resizeObserver.observe(historyScrollbarTrack);
+
+      if (historyList) {
+        resizeObserver.observe(historyList);
+      }
+    }
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(requestHistoryScrollbarMeasure).catch(() => {});
+    }
+  }
 </script>
 
 <style>
@@ -605,21 +898,44 @@ const locations = [
     --about-greeting-section-block-padding: clamp(4rem, 8vw, 7rem);
     --about-greeting-section-gap: clamp(3rem, 7vw, 5.5rem);
     --about-greeting-actions-spacing: 4.6875rem;
-    --about-greeting-title-size: 2rem;
-    --about-greeting-title-accent-size: 2rem;
-    --about-greeting-role-size: 2rem;
+    --about-greeting-title-size: var(--fs-600);
+    --about-greeting-title-accent-size: var(--fs-600);
+    --about-greeting-role-size: var(--fs-500);
     --about-greeting-body-size: clamp(1rem, 1.4vw, 1.125rem);
     --about-greeting-card-title-size: var(--fs-400);
     --about-greeting-action-size: clamp(1rem, 1.8vw, 1.25rem);
     --about-greeting-border: rgba(255, 255, 255, 0.16);
     --about-greeting-surface: rgba(255, 255, 255, 0.06);
     --about-company-title-size: 3rem;
+    --about-history-section-inline-padding: clamp(var(--space-6), 5.56vw, 5rem);
+    --about-history-section-inline-padding-left: 6.875rem;
+    --about-history-title-size: 3rem;
+    --about-history-subtitle-size: var(--fs-500);
+    --about-history-lead-size: var(--fs-300);
+    --about-history-year-size: 2.1875rem;
+    --about-history-era-size: var(--fs-300);
+    --about-history-body-size: var(--fs-300);
+    --about-history-item-text-size: 1.125rem;
+    --about-history-card-width: 18.75rem;
+    --about-history-card-height: 28.125rem;
+    --about-history-media-width: 15.625rem;
+    --about-history-media-height: 12.1875rem;
+    --about-history-media-gap: 0.625rem;
+    --about-history-scrollbar-gap: clamp(1rem, 2vw, 1.5rem);
+    --about-history-scrollbar-width: 74.4791667vw;
+    --about-history-scrollbar-height: 1.125rem;
+    --about-history-scrollbar-thumb-min-width: 1.5rem;
+    --about-history-scrollbar-cap-width: 0.9375rem;
+    --about-history-scrollbar-cap-inset: 4px;
+    --about-history-scrollbar-line-thickness: 2px;
+    --about-history-scrollbar-thumb-gap: 2px;
     --about-access-title-size: 3rem;
     --about-access-location-size: 1.125rem;
     --about-access-contact-size: 1.25rem;
     --about-access-card-width: 56.25rem;
     --about-access-content-width: 48.75rem;
     --about-access-contact-height: 5.75rem;
+    --about-access-section-inline-padding: clamp(var(--space-6), 5.56vw, 5rem);
   }
 
   .about-principles__inner {
@@ -735,7 +1051,8 @@ const locations = [
     max-width: calc(
       var(--width-layout) + (var(--about-greeting-section-inline-padding) * 2)
     );
-    padding-block: var(--about-greeting-section-block-padding);
+    padding-top: var(--space-8);
+    padding-bottom: var(--about-greeting-section-block-padding);
     padding-inline: var(--about-greeting-section-inline-padding);
   }
 
@@ -1007,6 +1324,258 @@ const locations = [
     filter: brightness(0.96);
   }
 
+  .about-history {
+    position: relative;
+    color: var(--color-text);
+    overflow: clip;
+  }
+
+  .about-history__deco-label {
+    position: absolute;
+    top: calc(var(--about-history-title-size) * 2);
+    left: clamp(0rem, calc(-47.9091rem + 45.0909vw), 6.2rem);
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: left top;
+  }
+
+  .about-history__surface {
+    width: 100%;
+    overflow: hidden;
+    border-bottom-left-radius: clamp(
+      5rem,
+      calc(1.9643rem + 15.1786vw),
+      15.625rem
+    );
+  }
+
+  .about-history__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: calc(
+      var(--width-layout) + (var(--about-history-section-inline-padding) * 2)
+    );
+    padding-inline-start: var(--about-history-section-inline-padding-left);
+    padding-inline-end: var(--about-history-section-inline-padding);
+  }
+
+  .about-history__intro {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    min-width: 0;
+    max-inline-size: min(38rem, 80vw);
+    padding-block: clamp(3rem, 8vw, 5rem) clamp(2rem, 5vw, 3rem);
+  }
+
+  .about-history__header {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .about-history__title,
+  .about-history__subtitle,
+  .about-company__title,
+  .about-access__title {
+    margin: 0;
+  }
+
+  .about-history__title {
+    font-size: var(--about-history-title-size);
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .about-history__subtitle {
+    font-size: var(--about-history-subtitle-size);
+    line-height: var(--leading-tight);
+    color: var(--color-primary);
+  }
+
+  .about-history__lead {
+    min-width: 0;
+    margin: 0;
+    font-size: var(--about-history-lead-size);
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+  }
+
+  .about-history__slider-wrap {
+    width: 100vw;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .about-history__slider-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-history__list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--about-history-card-width);
+    gap: 0.125rem;
+    min-width: max-content;
+    margin: 0;
+    padding-block-end: clamp(3rem, 8vw, 5rem);
+    padding-inline-start: 0;
+    padding-inline-end: var(--about-history-section-inline-padding);
+    list-style: none;
+  }
+
+  .about-history__item {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    min-width: 0;
+    min-block-size: var(--about-history-card-height);
+    padding: 2.5rem 0.5rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 0 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    color: rgba(255, 255, 255, 0.92);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .about-history__item-body {
+    display: grid;
+    align-content: start;
+    gap: 2.1875rem;
+  }
+
+  .about-history__item-heading {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+  }
+
+  .about-history__year {
+    font-family: var(--font-serif);
+    font-size: var(--about-history-year-size);
+    line-height: 0.9;
+    letter-spacing: 0.08em;
+    color: #fff;
+  }
+
+  .about-history__era {
+    padding-bottom: 0;
+    font-size: var(--about-history-era-size);
+    line-height: var(--leading-tight);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .about-history__item-text {
+    margin: 0;
+    font-size: var(--about-history-item-text-size);
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.84);
+  }
+
+  .about-history__item-media {
+    display: grid;
+    place-items: center;
+    width: min(100%, var(--about-history-media-width));
+    min-width: 0;
+    height: var(--about-history-media-height);
+    margin-block: var(--about-history-media-gap);
+    margin-inline: auto;
+    align-self: end;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background-color: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+  }
+
+  .about-history__item-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-history__scrollbar {
+    width: min(
+      var(--about-history-scrollbar-width),
+      calc(100vw - var(--about-history-section-inline-padding-left))
+    );
+    margin-top: var(--about-history-scrollbar-gap);
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .about-history__scrollbar--inactive {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .about-history__scrollbar-track {
+    position: relative;
+    width: 100%;
+    min-height: var(--about-history-scrollbar-height);
+    background-image: linear-gradient(
+      var(--color-gray-500),
+      var(--color-gray-500)
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: calc(100% - (var(--about-history-scrollbar-cap-width) * 2))
+      var(--about-history-scrollbar-line-thickness);
+  }
+
+  .about-history__scrollbar-track::before,
+  .about-history__scrollbar-track::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: var(--about-history-scrollbar-cap-width);
+    height: var(--about-history-scrollbar-height);
+    background-color: var(--color-gray-500);
+    transform: translateY(-50%);
+  }
+
+  .about-history__scrollbar-track::before {
+    left: var(--about-history-scrollbar-cap-inset);
+    clip-path: polygon(0 0, 0 100%, 89.5% 50%);
+  }
+
+  .about-history__scrollbar-track::after {
+    right: var(--about-history-scrollbar-cap-inset);
+    clip-path: polygon(100% 0, 100% 100%, 10.5% 50%);
+  }
+
+  .about-history__scrollbar-thumb {
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: var(--about-history-scrollbar-height);
+    min-width: var(--about-history-scrollbar-height);
+    aspect-ratio: 1 / 1;
+    height: var(--about-history-scrollbar-height);
+    padding: 2px;
+    border: 2px solid var(--color-gray-500);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background-color: var(--color-primary-light);
+    transform: translate3d(0, -50%, 0);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    will-change: transform, width;
+  }
+
+  .about-history__scrollbar-thumb.is-dragging {
+    cursor: grabbing;
+  }
+
+  .about-history__scrollbar-thumb-core {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: var(--color-primary-light);
+    pointer-events: none;
+  }
+
   .about-company {
     color: var(--color-white);
   }
@@ -1073,13 +1642,28 @@ const locations = [
   }
 
   .about-access {
+    position: relative;
     background-color: var(--color-primary-light);
     color: var(--color-text);
+    overflow: clip;
   }
 
   .about-access__inner {
     display: grid;
     width: 100%;
+    max-width: calc(
+      var(--width-layout) + (var(--about-access-section-inline-padding) * 2)
+    );
+    padding-inline: var(--about-access-section-inline-padding);
+  }
+
+  /* Decorative label floating outside content area */
+  .about-access__deco-label {
+    position: absolute;
+    top: calc(var(--about-access-title-size) * 2);
+    left: clamp(0rem, calc(-47.9091rem + 45.0909vw), 6.2rem);
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: left top;
   }
 
   .about-access__title {
@@ -1091,6 +1675,7 @@ const locations = [
     grid-template-columns: 1fr;
     justify-items: center;
     width: 100%;
+    gap: var(--space-20);
   }
 
   .about-access__location {
@@ -1183,6 +1768,13 @@ const locations = [
     --icon-arrow-border-hover: rgba(0, 0, 0, 0.5);
   }
 
+  .about-access__map iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 78 / 47;
+    border: 0;
+  }
+
   .about-access__map-placeholder {
     display: grid;
     place-items: center;
@@ -1203,10 +1795,20 @@ const locations = [
     text-transform: uppercase;
   }
 
-  .about-access__map-link {
-    width: 100%;
-    justify-self: stretch;
+  .about-access__map-link-container {
+    width: 100vw;
+    max-width: var(--width-layout);
+    margin-inline: calc(50% - 50vw);
+    padding-inline: inherit;
+    padding-top: var(--space-2);
+    padding-right: clamp(2.4rem, -4rem + 13.333vw, 12rem);
+    display: flex;
     justify-content: flex-end;
+    justify-self: center;
+  }
+
+  .about-access__map-link {
+    width: fit-content;
   }
 
   .about-access__contacts {
@@ -1215,6 +1817,7 @@ const locations = [
     gap: 0.75rem;
     width: min(100%, var(--about-access-content-width));
     justify-self: center;
+    margin-top: var(--space-10);
   }
 
   .about-access__contact-link {
@@ -1229,11 +1832,26 @@ const locations = [
     font-size: var(--about-access-contact-size);
     line-height: 1.5;
     text-decoration: none;
+    grid-auto-flow: column;
   }
 
   .about-access__contact-label,
   .about-access__contact-value {
     display: block;
+    margin: auto;
+  }
+
+  @media (max-width: 1024px) {
+    .about {
+      --about-history-section-inline-padding-left: var(
+        --about-history-section-inline-padding
+      );
+    }
+
+    .about-history__deco-label,
+    .about-access__deco-label {
+      display: none;
+    }
   }
 
   @media (max-width: 960px) {
@@ -1254,19 +1872,43 @@ const locations = [
     .about-greeting__voice-image {
       inline-size: 50%;
     }
+
+    .about-history__intro {
+      padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .about-history__list {
+      grid-auto-columns: clamp(14.5rem, 38vw, var(--about-history-card-width));
+    }
+
+    .about-history__item {
+      min-block-size: clamp(22rem, 52vw, var(--about-history-card-height));
+    }
   }
 
   @media (max-width: 720px) {
     .about-access__contacts {
       grid-template-columns: 1fr;
-    }
-
-    .about-access__map-link {
-      justify-content: flex-start;
+      max-width: 18.75rem;
+      justify-self: start;
     }
   }
 
   @media (max-width: 640px) {
+    .about-history__item-heading {
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .about-history__year,
+    .about-history__era {
+      width: 100%;
+    }
+
+    .about-history__era {
+      padding-bottom: 0;
+    }
+
     .about-greeting__inner {
       padding-block: clamp(3rem, 12vw, 4rem);
     }

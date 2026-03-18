@@ -161,6 +161,19 @@
   margin-inline: auto;
 }
 
+.deco-label {
+  font-size: 96px;
+  font-weight: 700;
+  color: #EBEBEB;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transform: rotate(-90deg);
+  transform-origin: left top;
+  pointer-events: none;
+  text-shadow: none;
+}
+
 .u-full-bleed {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
@@ -171,8 +184,18 @@
   background-color: var(--color-white);
 }
 
+.u-bg-primary-light {
+background-color: var(--color-primary-light);
+}
+
 .u-bg-dark {
   background-color: var(--color-dark);
+}
+
+/* Optional tiled noise layer for light surfaces. */
+.u-bg-noise-light {
+  background-image: url("/images/util/noise-tile-300.svg");
+  background-position: center;
 }
 
 /* Optional tiled noise layer for dark surfaces. */
