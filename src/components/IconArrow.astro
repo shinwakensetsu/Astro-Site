@@ -36,28 +36,40 @@ const {
 <style>
   svg {
     display: block;
+    border: 2px solid var(--icon-arrow-border, transparent);
+    border-radius: 50%;
+    transition: border-color var(--duration-fast) var(--easing-default);
   }
 
   circle {
-    fill: var(--color-primary-light);
+    fill: var(--icon-arrow-circle-fill, var(--color-primary-light));
     transition: fill var(--duration-fast) var(--easing-default);
   }
 
   path {
-    stroke: var(--color-gray-500);
+    stroke: var(--icon-arrow-path-stroke, var(--color-gray-500));
     transition: stroke var(--duration-fast) var(--easing-default);
   }
 
   /* hover / focus: SVG直接 または 親インタラクティブ要素経由 */
+  svg:hover,
+  :global(:is(a, button):hover) svg,
+  :global(:is(a, button):focus-visible) svg {
+    border-color: var(
+      --icon-arrow-border-hover,
+      var(--icon-arrow-border, transparent)
+    );
+  }
+
   svg:hover circle,
   :global(:is(a, button):hover) svg circle,
   :global(:is(a, button):focus-visible) svg circle {
-    fill: var(--color-gray-500);
+    fill: var(--icon-arrow-circle-fill-hover, var(--color-gray-500));
   }
 
   svg:hover path,
   :global(:is(a, button):hover) svg path,
   :global(:is(a, button):focus-visible) svg path {
-    stroke: var(--color-primary-light);
+    stroke: var(--icon-arrow-path-stroke-hover, var(--color-primary-light));
   }
 </style>

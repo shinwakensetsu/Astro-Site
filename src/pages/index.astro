@@ -411,6 +411,12 @@ const newsList = newsResponse.contents;
     font-size: clamp(var(--text-sm), 2.5vw, var(--text-xl));
     text-decoration: none;
     max-width: 100%;
+    --icon-arrow-circle-fill: var(--color-primary-light);
+    --icon-arrow-path-stroke: var(--color-gray-500);
+    --icon-arrow-border: rgba(0, 0, 0, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-gray-500);
+    --icon-arrow-path-stroke-hover: var(--color-primary-light);
+    --icon-arrow-border-hover: rgba(255, 255, 255, 0.5);
   }
 
   .arrow-link:hover {
@@ -442,27 +448,16 @@ const newsList = newsResponse.contents;
     color: var(--color-white);
   }
 
-  .arrow-link--on-dark :global(svg circle) {
-    fill: var(--color-primary-light);
-  }
-
-  .arrow-link--on-dark :global(svg path) {
-    stroke: var(--color-gray-500);
-  }
-
   /* 白背景用 */
   .arrow-link--on-light {
     color: var(--color-dark);
+    --icon-arrow-circle-fill: var(--color-gray-500);
+    --icon-arrow-path-stroke: var(--color-primary-light);
+    --icon-arrow-border: rgba(255, 255, 255, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-primary-light);
+    --icon-arrow-path-stroke-hover: var(--color-gray-500);
+    --icon-arrow-border-hover: rgba(0, 0, 0, 0.5);
   }
-
-  .arrow-link--on-light :global(svg circle) {
-    fill: var(--color-gray-500);
-  }
-
-  .arrow-link--on-light :global(svg path) {
-    stroke: var(--color-primary-light);
-  }
-
   /* ---------- 1. Hero ---------- */
   .hero {
     position: relative;
@@ -1761,6 +1756,12 @@ const newsList = newsResponse.contents;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    --icon-arrow-circle-fill: var(--color-primary-light);
+    --icon-arrow-path-stroke: var(--color-gray-500);
+    --icon-arrow-border: rgba(0, 0, 0, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-gray-500);
+    --icon-arrow-path-stroke-hover: var(--color-primary-light);
+    --icon-arrow-border-hover: rgba(255, 255, 255, 0.5);
   }
 
   .contact__card {

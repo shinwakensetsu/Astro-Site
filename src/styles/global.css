@@ -131,6 +131,7 @@
   --radius-sm:    4px;
   --radius-md:    8px;
   --radius-lg:    12px;
+  --radius-xl:    50px;
   --radius-full:  9999px;
 
   /* --- Contact Card --- */
@@ -164,6 +165,7 @@
 .u-full-bleed--black {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
+  margin-block: var(--space-16);
 }
 
 .u-full-bleed--white {
