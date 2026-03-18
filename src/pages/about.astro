@@ -348,7 +348,10 @@ const locations = [
               <div class="about-greeting__voice">
                 <div class="about-greeting__voice-image" aria-hidden="true" />
                 <div class="about-greeting__voice-body">
-                  <p class="about-greeting__voice-title">
+                  <p
+                    class="about-greeting__voice-title"
+                    data-source-line-count={card.titleLines.length}
+                  >
                     {card.titleLines.map((line) => (
                       <span class="about-greeting__voice-title-line">
                         {line}
@@ -369,8 +372,14 @@ const locations = [
         </div>
 
         <div class="about-greeting__actions">
-          <a class="about-greeting__action" href="#">仕事内容へ</a>
-          <a class="about-greeting__action" href="#">RECRUITサイトへ</a>
+          <a
+            class="about-greeting__action about-greeting__action--work"
+            href="#">仕事内容へ</a
+          >
+          <a
+            class="about-greeting__action about-greeting__action--recruit"
+            href="#">RECRUITサイトへ</a
+          >
         </div>
       </div>
     </section>
@@ -407,27 +416,29 @@ const locations = [
       </div>
     </section>
 
-    <section id="company" class="about-company u-full-bleed--white">
+    <section id="company" class="about-company u-full-bleed--black">
       <div class="l-container about-company__inner">
         <h2 class="about-company__title">会社概要</h2>
-        <table class="about-company__table">
-          <tbody>
-            {
-              companyRows.map((row) => (
-                <tr class="about-company__row">
-                  <th class="about-company__label" scope="row">
-                    {row.label}
-                  </th>
-                  <td class="about-company__value">
-                    {row.valueLines.map((line) => (
-                      <span class="about-company__value-line">{line}</span>
-                    ))}
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        <div class="about-company__table-scroll">
+          <table class="about-company__table">
+            <tbody>
+              {
+                companyRows.map((row) => (
+                  <tr class="about-company__row">
+                    <th class="about-company__label" scope="row">
+                      {row.label}
+                    </th>
+                    <td class="about-company__value">
+                      {row.valueLines.map((line) => (
+                        <span class="about-company__value-line">{line}</span>
+                      ))}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -468,6 +479,60 @@ const locations = [
   </main>
 </Layout>
 
+<script>
+  const singleSourceVoiceTitles = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      '.about-greeting__voice-title[data-source-line-count="1"]',
+    ),
+  );
+
+  if (singleSourceVoiceTitles.length > 0) {
+    let rafId = 0;
+
+    const updateVoiceTitleAlignment = () => {
+      rafId = 0;
+
+      singleSourceVoiceTitles.forEach((title) => {
+        const line = title.querySelector<HTMLElement>(
+          ".about-greeting__voice-title-line",
+        );
+
+        if (!line) return;
+
+        const lineHeight = Number.parseFloat(
+          getComputedStyle(title).lineHeight,
+        );
+        const renderedHeight = line.getBoundingClientRect().height;
+        const isRenderedSingleLine = renderedHeight <= lineHeight * 1.25;
+
+        title.classList.toggle(
+          "about-greeting__voice-title--rendered-single",
+          isRenderedSingleLine,
+        );
+      });
+    };
+
+    const requestVoiceTitleUpdate = () => {
+      if (rafId !== 0) return;
+      rafId = window.requestAnimationFrame(updateVoiceTitleAlignment);
+    };
+
+    requestVoiceTitleUpdate();
+    window.addEventListener("resize", requestVoiceTitleUpdate, {
+      passive: true,
+    });
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(requestVoiceTitleUpdate);
+      singleSourceVoiceTitles.forEach((title) => resizeObserver.observe(title));
+    }
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(requestVoiceTitleUpdate).catch(() => {});
+    }
+  }
+</script>
+
 <style>
   .about {
     --about-principles-eyebrow-size: var(--fs-900);
@@ -490,6 +555,23 @@ const locations = [
       10.42vw,
       8.975rem
     );
+    --about-greeting-section-inline-padding: clamp(
+      var(--space-6),
+      5.56vw,
+      5rem
+    );
+    --about-greeting-section-block-padding: clamp(4rem, 8vw, 7rem);
+    --about-greeting-section-gap: clamp(3rem, 7vw, 5.5rem);
+    --about-greeting-actions-spacing: 4.6875rem;
+    --about-greeting-title-size: 2rem;
+    --about-greeting-title-accent-size: 2rem;
+    --about-greeting-role-size: 2rem;
+    --about-greeting-body-size: clamp(1rem, 1.4vw, 1.125rem);
+    --about-greeting-card-title-size: var(--fs-400);
+    --about-greeting-action-size: clamp(1rem, 1.8vw, 1.25rem);
+    --about-greeting-border: rgba(255, 255, 255, 0.16);
+    --about-greeting-surface: rgba(255, 255, 255, 0.06);
+    --about-company-title-size: 3rem;
   }
 
   .about-principles__inner {
@@ -588,5 +670,404 @@ const locations = [
     margin: 0;
     font-size: var(--about-principles-body-size);
     line-height: var(--leading-relaxed);
+  }
+
+  .about-greeting {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    isolation: isolate;
+  }
+
+  .about-greeting__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--about-greeting-section-gap);
+    max-width: calc(
+      var(--width-layout) + (var(--about-greeting-section-inline-padding) * 2)
+    );
+    padding-block: var(--about-greeting-section-block-padding);
+    padding-inline: var(--about-greeting-section-inline-padding);
+  }
+
+  .about-greeting__hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(1.5rem, 4vw, 5rem);
+  }
+
+  .about-greeting__hero-image {
+    align-self: flex-start;
+    position: relative;
+    inline-size: min(100%, 57.375rem);
+    aspect-ratio: 918 / 574.85;
+    border: 1px solid var(--about-greeting-border);
+    border-radius: clamp(1.5rem, 4vw, 3rem);
+    background-color: rgba(255, 255, 255, 0.04);
+    background-image:
+      linear-gradient(160deg, rgba(255, 255, 255, 0.16), transparent 50%),
+      radial-gradient(
+        circle at top right,
+        rgba(209, 201, 43, 0.26),
+        transparent 42%
+      ),
+      radial-gradient(
+        circle at 14% 82%,
+        rgba(68, 138, 172, 0.26),
+        transparent 36%
+      ),
+      url("/images/util/noise-tile-300.svg");
+    background-position: center;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    background-size:
+      auto,
+      auto,
+      auto,
+      300px 300px;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.24);
+  }
+
+  .about-greeting__hero-copy {
+    display: grid;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    align-content: start;
+    font-size: var(--about-greeting-title-size);
+  }
+
+  .about-greeting__title {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    font-size: var(--about-greeting-title-size);
+    line-height: 1.55;
+    letter-spacing: 0.04em;
+  }
+
+  .about-greeting__title-line {
+    display: block;
+  }
+
+  .about-greeting__title-line:first-child {
+    font-size: var(--about-greeting-title-accent-size);
+    line-height: inherit;
+    letter-spacing: 0.08em;
+  }
+
+  .about-greeting__signature {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .about-greeting__role {
+    margin: 0;
+    font-size: var(--about-greeting-role-size);
+    line-height: 1;
+    letter-spacing: 0.12em;
+  }
+
+  .about-greeting__signature-image {
+    width: auto;
+    max-width: 100%;
+    max-height: var(--about-greeting-role-size);
+    height: auto;
+  }
+
+  .about-greeting__message {
+    position: relative;
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    width: min(100%, 38rem);
+    margin-top: -4vw;
+    margin-inline-start: auto;
+    padding-inline-start: clamp(1rem, 3vw, 2rem);
+  }
+
+  .about-greeting__message::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(209, 201, 43, 0.1),
+      rgba(255, 255, 255, 0.72),
+      rgba(68, 138, 172, 0.24)
+    );
+  }
+
+  .about-greeting__paragraph {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    font-size: var(--about-greeting-body-size);
+    line-height: 1.95;
+  }
+
+  .about-greeting__paragraph-line {
+    display: block;
+  }
+
+  .about-greeting__voices {
+    --about-greeting-voices-gap: clamp(2rem, 12.5vw, 10rem);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--about-greeting-voices-gap);
+    align-items: stretch;
+    width: min(100%, calc((518px * 2) + var(--about-greeting-voices-gap)));
+    margin-inline: auto;
+  }
+
+  .about-greeting__voice {
+    --about-greeting-voice-accent: rgba(68, 138, 172, 0.22);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-5);
+    width: 100%;
+    max-width: 518px;
+    height: 100%;
+    min-width: 0;
+    margin-inline: auto;
+  }
+
+  .about-greeting__voice:nth-child(2) {
+    --about-greeting-voice-accent: rgba(209, 201, 43, 0.22);
+  }
+
+  .about-greeting__voice-image {
+    inline-size: 100%;
+    aspect-ratio: 518 / 500;
+    border-radius: clamp(1rem, 3vw, 2rem);
+    background-color: rgba(255, 255, 255, 0.04);
+    background-image:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.14), transparent 55%),
+      radial-gradient(
+        circle at top right,
+        var(--about-greeting-voice-accent),
+        transparent 44%
+      ),
+      linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.32)),
+      url("/images/util/noise-tile-300.svg");
+    background-position: center;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    background-size:
+      auto,
+      auto,
+      auto,
+      300px 300px;
+    overflow: hidden;
+  }
+
+  .about-greeting__voice-body {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-4);
+    align-content: start;
+    height: 100%;
+    min-width: 0;
+  }
+
+  .about-greeting__voice-title {
+    display: grid;
+    grid-auto-rows: minmax(1.65em, auto);
+    gap: 0.2rem;
+    margin: 0;
+    min-block-size: calc(1.65em * 2);
+    font-size: var(--about-greeting-card-title-size);
+    line-height: 1.65;
+    align-content: start;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .about-greeting__voice-title--rendered-single {
+    align-content: center;
+  }
+
+  .about-greeting__voice-title-line,
+  .about-greeting__voice-text-line {
+    display: block;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .about-greeting__voice-text {
+    display: grid;
+    margin: 0;
+    font-size: var(--about-greeting-body-size);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.88);
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .about-greeting__actions {
+    --about-greeting-actions-gap: clamp(2rem, 12.5vw, 10rem);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 13.125rem));
+    column-gap: var(--about-greeting-actions-gap);
+    row-gap: var(--space-4);
+    width: 100%;
+    margin-top: calc(
+      var(--about-greeting-actions-spacing) - var(--about-greeting-section-gap)
+    );
+    margin-inline: auto;
+    justify-content: center;
+  }
+
+  .about-greeting__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    width: 100%;
+    max-width: 13.125rem;
+    min-width: 0;
+    padding-block: clamp(1rem, 2vw, 1.25rem);
+    border: 1px solid transparent;
+    border-radius: 15px;
+    font-size: var(--about-greeting-action-size);
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      transform var(--duration-fast) var(--easing-default),
+      filter var(--duration-fast) var(--easing-default);
+  }
+
+  .about-greeting__action--work {
+    background-color: #e0dfdf;
+    color: #5c5c5c;
+  }
+
+  .about-greeting__action--recruit {
+    background-color: #448aac;
+    color: #e0dfdf;
+  }
+
+  .about-greeting__action:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    filter: brightness(0.96);
+  }
+
+  .about-company {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+  }
+
+  .about-company__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: clamp(2rem, 4vw, 3rem);
+    padding-block: clamp(3rem, 7vw, 5rem);
+    padding-inline: clamp(var(--space-6), 5.56vw, 5rem);
+  }
+
+  .about-company__title {
+    font-size: var(--about-company-title-size);
+  }
+
+  .about-company__table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .about-company__table {
+    inline-size: 56.25rem;
+    margin-inline: auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-top: 1px solid #e0dfdf;
+    border-right: none;
+    border-bottom: 1px solid #e0dfdf;
+    border-left: none;
+    background-color: var(--color-dark);
+    background-image: url("/images/about/about-table-bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .about-company__label,
+  .about-company__value {
+    inline-size: 50%;
+    padding-inline: clamp(1rem, 2vw, 1.5rem);
+    padding-block: 1.875rem;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.9;
+    border-bottom: 1px solid #e0dfdf;
+  }
+
+  .about-company__label {
+    border-right: none;
+    font-weight: var(--weight-bold);
+  }
+
+  .about-company__value-line {
+    display: block;
+  }
+
+  .about-company__row:last-child .about-company__label,
+  .about-company__row:last-child .about-company__value {
+    border-bottom: none;
+  }
+
+  @media (max-width: 960px) {
+    .about-greeting__voices,
+    .about-greeting__actions {
+      grid-template-columns: 1fr;
+    }
+
+    .about-greeting__message {
+      width: 100%;
+      margin-inline-start: 0;
+    }
+
+    .about-greeting__voice:nth-child(2) {
+      margin-top: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .about-greeting__voice-image {
+      inline-size: 50%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-greeting__inner {
+      padding-block: clamp(3rem, 12vw, 4rem);
+    }
+
+    .about-greeting__title {
+      line-height: 1.45;
+    }
+
+    .about-greeting__signature {
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .about-greeting__message {
+      padding-inline-start: var(--space-4);
+    }
+  }
+
+  @media (max-width: 425px) {
+    .about-greeting__voice-image {
+      inline-size: 60%;
+    }
   }
 </style>
