@@ -208,16 +208,24 @@ const locations = [
     <h1 class="sr-only">私たちについて</h1>
 
     <section id="philosophy" class="about-philosophy u-full-bleed--white">
-      <div class="l-container about-philosophy__inner">
-        <header class="about-philosophy__header">
-          <p class="about-philosophy__eyebrow">Philosophy</p>
-          <h2 class="about-philosophy__title">企業理念</h2>
+      <div class="l-container about-principles__inner about-philosophy__inner">
+        <header class="about-principles__header about-philosophy__header">
+          <div class="about-principles__header-copy">
+            <p class="about-principles__eyebrow about-philosophy__eyebrow">
+              Philosophy
+            </p>
+            <h2 class="about-principles__title about-philosophy__title">
+              企業理念
+            </h2>
+          </div>
         </header>
-        <div class="about-philosophy__panel">
-          <p class="about-philosophy__text">
+        <div class="about-principles__panel about-philosophy__panel">
+          <p class="about-principles__text about-philosophy__text">
             {
               philosophyLines.map((line) => (
-                <span class="about-philosophy__line">{line}</span>
+                <span class="about-principles__line about-philosophy__line">
+                  {line}
+                </span>
               ))
             }
           </p>
@@ -226,21 +234,27 @@ const locations = [
     </section>
 
     <section id="guidelines" class="about-guidelines u-full-bleed--white">
-      <div class="l-container about-guidelines__inner">
-        <header class="about-guidelines__header">
-          <p class="about-guidelines__eyebrow">Guidelines</p>
-          <h2 class="about-guidelines__title">行動指針</h2>
+      <div class="l-container about-principles__inner about-guidelines__inner">
+        <header class="about-principles__header about-guidelines__header">
+          <div class="about-principles__header-copy">
+            <p class="about-principles__eyebrow about-guidelines__eyebrow">
+              Guidelines
+            </p>
+            <h2 class="about-principles__title about-guidelines__title">
+              行動指針
+            </h2>
+          </div>
         </header>
-        <div class="about-guidelines__panel">
-          <ul class="about-guidelines__list">
+        <div class="about-principles__panel about-guidelines__panel">
+          <ul class="about-principles__list about-guidelines__list">
             {
               guidelines.map((item) => (
-                <li class="about-guidelines__item">
-                  <span class="about-guidelines__item-title">{item.title}</span>
-                  <p class="about-guidelines__item-body">
-                    {item.lines.map((line) => (
-                      <span class="about-guidelines__item-line">{line}</span>
-                    ))}
+                <li class="about-principles__item about-guidelines__item">
+                  <span class="about-principles__item-title about-guidelines__item-title">
+                    {item.title}
+                  </span>
+                  <p class="about-principles__item-body about-guidelines__item-body">
+                    {item.lines.join("")}
                   </p>
                 </li>
               ))
@@ -254,25 +268,33 @@ const locations = [
       id="management-policy"
       class="about-management-policy u-full-bleed--white"
     >
-      <div class="l-container about-management-policy__inner">
-        <header class="about-management-policy__header">
-          <p class="about-management-policy__eyebrow">Management Policy</p>
-          <h2 class="about-management-policy__title">経営方針</h2>
+      <div
+        class="l-container about-principles__inner about-management-policy__inner"
+      >
+        <header
+          class="about-principles__header about-management-policy__header"
+        >
+          <div class="about-principles__header-copy">
+            <p
+              class="about-principles__eyebrow about-management-policy__eyebrow"
+            >
+              Management Policy
+            </p>
+            <h2 class="about-principles__title about-management-policy__title">
+              経営方針
+            </h2>
+          </div>
         </header>
-        <div class="about-management-policy__panel">
-          <ul class="about-management-policy__list">
+        <div class="about-principles__panel about-management-policy__panel">
+          <ul class="about-principles__list about-management-policy__list">
             {
               managementPolicies.map((item) => (
-                <li class="about-management-policy__item">
-                  <span class="about-management-policy__item-title">
+                <li class="about-principles__item about-management-policy__item">
+                  <span class="about-principles__item-title about-management-policy__item-title">
                     {item.title}
                   </span>
-                  <p class="about-management-policy__item-body">
-                    {item.lines.map((line) => (
-                      <span class="about-management-policy__item-line">
-                        {line}
-                      </span>
-                    ))}
+                  <p class="about-principles__item-body about-management-policy__item-body">
+                    {item.lines.join("")}
                   </p>
                 </li>
               ))
@@ -445,3 +467,126 @@ const locations = [
     </section>
   </main>
 </Layout>
+
+<style>
+  .about {
+    --about-principles-eyebrow-size: var(--fs-900);
+    --about-principles-title-size: var(--fs-400);
+    --about-principles-body-size: var(--fs-400);
+    --about-principles-header-max-inline-size: 90%;
+    --about-principles-header-line-max-width: 200px;
+    --about-principles-header-line-gap: clamp(
+      var(--space-4),
+      4vw,
+      var(--space-10)
+    );
+    --about-principles-section-inline-padding: clamp(
+      var(--space-6),
+      5.56vw,
+      5rem
+    );
+    --about-principles-panel-inline-padding: clamp(
+      var(--space-6),
+      10.42vw,
+      8.975rem
+    );
+  }
+
+  .about-principles__inner {
+    max-width: calc(
+      var(--width-layout) + (var(--about-principles-section-inline-padding) * 2)
+    );
+    padding-inline: var(--about-principles-section-inline-padding);
+  }
+
+  .about-principles__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--about-principles-header-line-gap);
+    inline-size: var(--about-principles-header-max-inline-size);
+    max-inline-size: 100%;
+    margin-inline: auto;
+    margin-bottom: var(--space-3);
+    margin-top: var(--space-8);
+    text-align: center;
+  }
+
+  .about-principles__header::before,
+  .about-principles__header::after {
+    content: "";
+    display: block;
+    inline-size: min(100%, var(--about-principles-header-line-max-width));
+    block-size: 1px;
+    background-color: currentColor;
+  }
+
+  .about-principles__header::before {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .about-principles__header::after {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .about-principles__header-copy {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: center;
+    grid-column: 2;
+  }
+
+  .about-principles__eyebrow {
+    font-size: var(--about-principles-eyebrow-size);
+    line-height: 1;
+  }
+
+  .about-principles__title {
+    font-size: var(--about-principles-title-size);
+    line-height: var(--leading-tight);
+  }
+
+  .about-principles__panel {
+    width: 100%;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    padding-inline: var(--about-principles-panel-inline-padding);
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    border-radius: var(--radius-xl);
+  }
+
+  .about-principles__text {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: var(--about-principles-body-size);
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-principles__line {
+    display: block;
+  }
+
+  .about-principles__list {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    list-style: none;
+  }
+
+  .about-principles__item {
+    display: grid;
+  }
+
+  .about-principles__item-title {
+    font-size: var(--about-principles-body-size);
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-principles__item-body {
+    margin: 0;
+    font-size: var(--about-principles-body-size);
+    line-height: var(--leading-relaxed);
+  }
+</style>
