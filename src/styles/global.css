@@ -164,7 +164,8 @@
 .deco-label {
   font-size: 96px;
   font-weight: 700;
-  color: #EBEBEB;
+  color: #5C5C5C;
+   mix-blend-mode: screen;
   line-height: 1;
   letter-spacing: 0.08em;
   white-space: nowrap;
@@ -177,7 +178,14 @@
 .u-full-bleed {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
-  margin-block: var(--space-16);
+}
+
+.u-section-spacing {
+  padding-block: var(--section-spacing-block, var(--space-16));
+}
+
+.u-section-spacing-top-ex {
+  padding-top: var(--space-16);
 }
 
 .u-bg-white {

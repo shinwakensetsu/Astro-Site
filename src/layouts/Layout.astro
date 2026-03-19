@@ -155,40 +155,42 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
           </div>
         </div>
 
-        <div class="site-footer__container--3">
-          <table class="site-footer__contact-table" aria-label="連絡先">
-            <tbody>
-              <tr>
-                <th scope="row">Mail</th>
-                <td
-                  ><a href="mailto:soumu@sinwakensetu.co.jp"
-                    >soumu@sinwakensetu.co.jp</a
-                  ></td
-                >
-              </tr>
-              <tr>
-                <th scope="row">TEL</th>
-                <td><a href="tel:0753110054">075-311-0054</a></td>
-              </tr>
-              <tr>
-                <th scope="row">FAX</th>
-                <td><a href="tel:0753220152">075-322-0152</a></td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="site-footer__address">
-            〒615-0007　京都市右京区西院上花田町21
-          </p>
-        </div>
+        <div class="site-footer__meta">
+          <div class="site-footer__container--3">
+            <table class="site-footer__contact-table" aria-label="連絡先">
+              <tbody>
+                <tr>
+                  <th scope="row">Mail</th>
+                  <td
+                    ><a href="mailto:soumu@sinwakensetu.co.jp"
+                      >soumu@sinwakensetu.co.jp</a
+                    ></td
+                  >
+                </tr>
+                <tr>
+                  <th scope="row">TEL</th>
+                  <td><a href="tel:0753110054">075-311-0054</a></td>
+                </tr>
+                <tr>
+                  <th scope="row">FAX</th>
+                  <td><a href="tel:0753220152">075-322-0152</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="site-footer__address">
+              〒615-0007　京都市右京区西院上花田町21
+            </p>
+          </div>
 
-        <div class="site-footer__container--4">
-          <div class="site-footer__brand-logo">
-            <ShinwaLogo aria-label="伸和建設株式会社" />
+          <div class="site-footer__container--4">
+            <div class="site-footer__brand-logo">
+              <ShinwaLogo aria-label="伸和建設株式会社" />
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="site-footer__copyright">
+      <div class="site-footer__copyright u-full-bleed">
         Copyright(C) SHINWA CONSTRUCTION CO.
       </div>
     </footer>
@@ -355,6 +357,10 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     padding: 3rem 0 0;
   }
 
+  .site-footer__meta {
+    display: contents;
+  }
+
   .site-footer__inner {
     width: auto;
     margin-inline: clamp(var(--space-4), 10vw, 9.375rem);
@@ -364,8 +370,9 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
       "container1 container2"
       "container3 container4";
     column-gap: 2.5rem;
+    row-gap: 5rem;
     align-items: start;
-    padding-bottom: var(--space-5);
+    padding-bottom: 1.875rem;
   }
 
   .site-footer__container--1 {
@@ -529,6 +536,13 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     overflow-wrap: break-word;
   }
 
+  @media (min-width: 1441px) {
+    .site-footer {
+      max-width: 1440px;
+      margin-inline: auto;
+    }
+  }
+
   @media (max-width: 1440px) {
     .site-header__inner {
       padding-inline-start: 1rem;
@@ -551,10 +565,18 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
         "container1 container1"
-        "container3 container2"
-        "container4 container4";
+        "meta container2";
       gap: 1.5rem;
       align-items: start;
+    }
+
+    .site-footer__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      grid-area: meta;
+      align-self: start;
+      min-width: 0;
     }
 
     .site-footer__image {
@@ -563,13 +585,14 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
       height: auto;
     }
 
-    .site-footer__container--4 {
-      justify-self: end;
-    }
-
     .site-footer__container--3 {
       gap: 1rem;
-      align-self: end;
+      align-self: start;
+    }
+
+    .site-footer__container--4 {
+      justify-self: auto;
+      align-self: flex-start;
     }
   }
 
@@ -601,10 +624,6 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
   }
 
   @media (max-width: 768px) {
-    .site-footer__container--4 {
-      justify-self: end;
-    }
-
     .site-footer__container--3 {
       align-self: start;
     }
@@ -620,12 +639,7 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
       grid-template-areas:
         "container1"
         "container2"
-        "container3"
-        "container4";
-    }
-
-    .site-footer__container--4 {
-      justify-self: end;
+        "meta";
     }
 
     .site-footer__container--3 {

@@ -130,56 +130,65 @@ const historyItems = [
   {
     year: "1615",
     era: "元和元年",
-    lines: [
-      "富山市四方町（現在の地名）にて",
-      "初代有澤屋文左衛門（元和9年没）が",
-      "堂宮大工として創業。",
-    ],
+    text: "富山市四方町（現在の地名）にて初代有澤屋文左衛門（元和9年没）が堂宮大工として創業",
   },
   {
-    year: "1615",
-    era: "元和元年",
-    lines: [
-      "富山市四方町（現在の地名）にて",
-      "初代有澤屋文左衛門（元和9年没）が",
-      "堂宮大工として創業。",
-    ],
+    year: "1868",
+    era: "明治元年",
+    text: "12代目文左衛門が家督相続、稲垣啓二と名乗る",
   },
   {
-    year: "1615",
-    era: "元和元年",
-    lines: [
-      "富山市四方町（現在の地名）にて",
-      "初代有澤屋文左衛門（元和9年没）が",
-      "堂宮大工として創業。",
-    ],
+    year: "1879",
+    era: "明治12年",
+    text: "初代 稲垣啓二が富山より上京、京都で創業（大谷派本願寺 明治再建副棟梁）",
+    imageSrc: "/images/about/history-1879-inagaki-keiji.jpg",
+    imageAlt: "初代 稲垣啓二の肖像写真",
   },
   {
-    year: "1615",
-    era: "元和元年",
-    lines: [
-      "富山市四方町（現在の地名）にて",
-      "初代有澤屋文左衛門（元和9年没）が",
-      "堂宮大工として創業。",
-    ],
+    year: "1913",
+    era: "大正2年",
+    text: "二代 稲垣啓二が代表者に就任",
+    imageSrc: "/images/about/history-1913-inagaki-keiji-2nd.jpg",
+    imageAlt: "二代 稲垣啓二の肖像写真",
   },
   {
-    year: "1615",
-    era: "元和元年",
-    lines: [
-      "富山市四方町（現在の地名）にて",
-      "初代有澤屋文左衛門（元和9年没）が",
-      "堂宮大工として創業。",
-    ],
+    year: "1927",
+    era: "昭和2年",
+    text: "二代 稲垣啓二が病気のため、女婿 北尾年弘が支配人に就任（北尾名義でも営業開始）",
+    imageSrc: "/images/about/history-1927-kitao-portrait.jpg",
+    imageAlt: "北尾年弘の肖像写真",
   },
   {
-    year: "1615",
-    era: "元和元年",
-    lines: [
-      "富山市四方町（現在の地名）にて",
-      "初代有澤屋文左衛門（元和9年没）が",
-      "堂宮大工として創業。",
-    ],
+    year: "1930",
+    era: "昭和5年",
+    text: "三代 稲垣啓二が代表となり、北尾年弘が支配人兼後見人継続",
+    imageSrc: "/images/about/history-1930-inagaki-keiji-3rd.jpg",
+    imageAlt: "三代 稲垣啓二の肖像写真",
+  },
+  {
+    year: "1948",
+    era: "昭和23年",
+    text: "組織を変更、伸和建設株式会社となり北尾年弘取締役社長に就任",
+  },
+  {
+    year: "1960",
+    era: "昭和35年",
+    text: "北尾嘉弘（同父）代表取締役に就任",
+  },
+  {
+    year: "1985",
+    era: "昭和60年",
+    text: "京都府より〔京の老舗〕表彰を受ける",
+  },
+  {
+    year: "1988",
+    era: "昭和63年",
+    text: "資本金を7,500万円に増資",
+  },
+  {
+    year: "1996",
+    era: "平成8年",
+    text: "北尾行弘代表取締役に就任",
   },
 ];
 
@@ -242,10 +251,10 @@ const locations = [
     addressLines: ["〒613-0034　京都府久世郡久御山町大字佐山小字中道32"],
     mapHref:
       "https://www.google.com/maps/search/?api=1&query=%E3%80%92613-0034%E3%80%80%E4%BA%AC%E9%83%BD%E5%BA%9C%E4%B9%85%E4%B8%96%E9%83%A1%E4%B9%85%E5%BE%A1%E5%B1%B1%E7%94%BA%E5%A4%A7%E5%AD%97%E4%BD%90%E5%B1%B1%E5%B0%8F%E5%AD%97%E4%B8%AD%E9%81%9332",
-    telLabel: "xxx-xxx-xxxx",
-    telHref: "#",
-    faxLabel: "xxx-xxx-xxxx",
-    faxHref: "#",
+    telLabel: "0774-43-7623",
+    telHref: "tel:0774437623",
+    faxLabel: "0774-46-4378",
+    faxHref: "tel:0774464378",
   },
 ];
 ---
@@ -257,110 +266,118 @@ const locations = [
   <main class="about">
     <h1 class="sr-only">私たちについて</h1>
 
-    <section id="philosophy" class="about-philosophy u-full-bleed">
-      <div class="l-container about-principles__inner about-philosophy__inner">
-        <header class="about-principles__header about-philosophy__header">
-          <div class="about-principles__header-copy">
-            <p class="about-principles__eyebrow about-philosophy__eyebrow">
-              Philosophy
-            </p>
-            <h2 class="about-principles__title about-philosophy__title">
-              企業理念
-            </h2>
-          </div>
-        </header>
+    <article class="about-principles-group u-full-bleed u-section-spacing">
+      <section id="philosophy" class="about-philosophy">
         <div
-          class="about-principles__panel about-philosophy__panel u-bg-noise-dark"
+          class="l-container about-principles__inner about-philosophy__inner"
         >
-          <p class="about-principles__text about-philosophy__text">
-            {
-              philosophyLines.map((line) => (
-                <span class="about-principles__line about-philosophy__line">
-                  {line}
-                </span>
-              ))
-            }
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="guidelines" class="about-guidelines u-full-bleed">
-      <div class="l-container about-principles__inner about-guidelines__inner">
-        <header class="about-principles__header about-guidelines__header">
-          <div class="about-principles__header-copy">
-            <p class="about-principles__eyebrow about-guidelines__eyebrow">
-              Guidelines
-            </p>
-            <h2 class="about-principles__title about-guidelines__title">
-              行動指針
-            </h2>
-          </div>
-        </header>
-        <div
-          class="about-principles__panel about-guidelines__panel u-bg-noise-dark"
-        >
-          <ul class="about-principles__list about-guidelines__list">
-            {
-              guidelines.map((item) => (
-                <li class="about-principles__item about-guidelines__item">
-                  <span class="about-principles__item-title about-guidelines__item-title">
-                    {item.title}
+          <header class="about-principles__header about-philosophy__header">
+            <div class="about-principles__header-copy">
+              <p class="about-principles__eyebrow about-philosophy__eyebrow">
+                Philosophy
+              </p>
+              <h2 class="about-principles__title about-philosophy__title">
+                企業理念
+              </h2>
+            </div>
+          </header>
+          <div
+            class="about-principles__panel about-philosophy__panel u-bg-noise-dark"
+          >
+            <p class="about-principles__text about-philosophy__text">
+              {
+                philosophyLines.map((line) => (
+                  <span class="about-principles__line about-philosophy__line">
+                    {line}
                   </span>
-                  <p class="about-principles__item-body about-guidelines__item-body">
-                    {item.lines.join("")}
-                  </p>
-                </li>
-              ))
-            }
-          </ul>
+                ))
+              }
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section id="guidelines" class="about-guidelines">
+        <div
+          class="l-container about-principles__inner about-guidelines__inner"
+        >
+          <header class="about-principles__header about-guidelines__header">
+            <div class="about-principles__header-copy">
+              <p class="about-principles__eyebrow about-guidelines__eyebrow">
+                Guidelines
+              </p>
+              <h2 class="about-principles__title about-guidelines__title">
+                行動指針
+              </h2>
+            </div>
+          </header>
+          <div
+            class="about-principles__panel about-guidelines__panel u-bg-noise-dark"
+          >
+            <ul class="about-principles__list about-guidelines__list">
+              {
+                guidelines.map((item) => (
+                  <li class="about-principles__item about-guidelines__item">
+                    <span class="about-principles__item-title about-guidelines__item-title">
+                      {item.title}
+                    </span>
+                    <p class="about-principles__item-body about-guidelines__item-body">
+                      {item.lines.join("")}
+                    </p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="management-policy" class="about-management-policy">
+        <div
+          class="l-container about-principles__inner about-management-policy__inner"
+        >
+          <header
+            class="about-principles__header about-management-policy__header"
+          >
+            <div class="about-principles__header-copy">
+              <p
+                class="about-principles__eyebrow about-management-policy__eyebrow"
+              >
+                Management Policy
+              </p>
+              <h2
+                class="about-principles__title about-management-policy__title"
+              >
+                経営方針
+              </h2>
+            </div>
+          </header>
+          <div
+            class="about-principles__panel about-management-policy__panel u-bg-noise-dark"
+          >
+            <ul class="about-principles__list about-management-policy__list">
+              {
+                managementPolicies.map((item) => (
+                  <li class="about-principles__item about-management-policy__item">
+                    <span class="about-principles__item-title about-management-policy__item-title">
+                      {item.title}
+                    </span>
+                    <p class="about-principles__item-body about-management-policy__item-body">
+                      {item.lines.join("")}
+                    </p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+    </article>
 
     <section
-      id="management-policy"
-      class="about-management-policy u-full-bleed"
+      id="greeting"
+      class="about-greeting u-full-bleed u-section-spacing u-bg-dark"
     >
-      <div
-        class="l-container about-principles__inner about-management-policy__inner"
-      >
-        <header
-          class="about-principles__header about-management-policy__header"
-        >
-          <div class="about-principles__header-copy">
-            <p
-              class="about-principles__eyebrow about-management-policy__eyebrow"
-            >
-              Management Policy
-            </p>
-            <h2 class="about-principles__title about-management-policy__title">
-              経営方針
-            </h2>
-          </div>
-        </header>
-        <div
-          class="about-principles__panel about-management-policy__panel u-bg-noise-dark"
-        >
-          <ul class="about-principles__list about-management-policy__list">
-            {
-              managementPolicies.map((item) => (
-                <li class="about-principles__item about-management-policy__item">
-                  <span class="about-principles__item-title about-management-policy__item-title">
-                    {item.title}
-                  </span>
-                  <p class="about-principles__item-body about-management-policy__item-body">
-                    {item.lines.join("")}
-                  </p>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="greeting" class="about-greeting u-full-bleed u-bg-dark">
       <div class="l-container about-greeting__inner">
         <div class="about-greeting__hero">
           <div class="about-greeting__hero-image" aria-hidden="true"></div>
@@ -444,7 +461,9 @@ const locations = [
       <span class="deco-label about-history__deco-label" aria-hidden="true"
         >HISTORY</span
       >
-      <div class="about-history__surface u-bg-primary-light u-bg-noise-light">
+      <div
+        class="about-history__surface u-section-spacing u-section-spacing-top-ex u-bg-primary-light u-bg-noise-light"
+      >
         <div class="l-container about-history__inner">
           <div class="about-history__intro">
             <header class="about-history__header">
@@ -466,11 +485,18 @@ const locations = [
                         <span class="about-history__year">{item.year}</span>
                         <span class="about-history__era">{item.era}</span>
                       </div>
-                      <p class="about-history__item-text">
-                        {item.lines.join("")}
-                      </p>
+                      <p class="about-history__item-text">{item.text}</p>
                     </div>
-                    <div class="about-history__item-media" aria-hidden="true" />
+                    <div class="about-history__item-media">
+                      {item.imageSrc ? (
+                        <img
+                          src={item.imageSrc}
+                          alt={item.imageAlt}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : null}
+                    </div>
                   </li>
                 ))
               }
@@ -487,7 +513,10 @@ const locations = [
       </div>
     </section>
 
-    <section id="company" class="about-company u-full-bleed u-bg-dark">
+    <section
+      id="company"
+      class="about-company u-full-bleed u-section-spacing u-section-spacing-top-ex u-bg-dark"
+    >
       <div class="l-container about-company__inner">
         <h2 class="about-company__title">会社概要</h2>
         <div class="about-company__table-scroll">
@@ -513,7 +542,10 @@ const locations = [
       </div>
     </section>
 
-    <section id="access" class="about-access u-full-bleed">
+    <section
+      id="access"
+      class="about-access u-full-bleed u-section-spacing u-section-spacing-top-ex"
+    >
       <span class="deco-label about-access__deco-label" aria-hidden="true"
         >ACCESS</span
       >
@@ -755,10 +787,7 @@ const locations = [
         preferredScrollbarWidth,
         visibleWidth,
       );
-      const scrollbarOffset =
-        visibleLeft -
-        sliderWrapRect.left +
-        (visibleWidth - resolvedScrollbarWidth) / 2;
+      const scrollbarOffset = visibleLeft - sliderWrapRect.left;
 
       historyScrollbar.style.width = `${resolvedScrollbarWidth}px`;
       historyScrollbar.style.marginInlineStart = `${Math.max(scrollbarOffset, 0)}px`;
@@ -870,6 +899,18 @@ const locations = [
 
 <style>
   .about {
+    --about-section-gap-half: 45px;
+    --section-spacing-block: var(--about-section-gap-half);
+    --about-deco-label-lock-width: 1920px;
+    --about-deco-label-inline-start-base: clamp(
+      0rem,
+      calc(-47.9091rem + 45.0909vw),
+      6.2rem
+    );
+    --about-deco-label-inline-start: max(
+      var(--about-deco-label-inline-start-base),
+      calc((100vw - var(--about-deco-label-lock-width)) / 2 + 6.2rem)
+    );
     --about-principles-eyebrow-size: var(--fs-900);
     --about-principles-title-size: var(--fs-400);
     --about-principles-body-size: var(--fs-400);
@@ -945,6 +986,11 @@ const locations = [
     padding-inline: var(--about-principles-section-inline-padding);
   }
 
+  .about-principles-group {
+    display: grid;
+    gap: var(--space-16);
+  }
+
   .about-principles__header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -954,7 +1000,7 @@ const locations = [
     max-inline-size: 100%;
     margin-inline: auto;
     margin-bottom: var(--space-3);
-    margin-top: var(--space-8);
+    margin-top: 0;
     text-align: center;
   }
 
@@ -1051,8 +1097,6 @@ const locations = [
     max-width: calc(
       var(--width-layout) + (var(--about-greeting-section-inline-padding) * 2)
     );
-    padding-top: var(--space-8);
-    padding-bottom: var(--about-greeting-section-block-padding);
     padding-inline: var(--about-greeting-section-inline-padding);
   }
 
@@ -1328,12 +1372,13 @@ const locations = [
     position: relative;
     color: var(--color-text);
     overflow: clip;
+    margin-block: 0;
   }
 
   .about-history__deco-label {
     position: absolute;
     top: calc(var(--about-history-title-size) * 2);
-    left: clamp(0rem, calc(-47.9091rem + 45.0909vw), 6.2rem);
+    left: var(--about-deco-label-inline-start);
     transform: rotate(-90deg) translateX(-100%);
     transform-origin: left top;
   }
@@ -1360,10 +1405,10 @@ const locations = [
 
   .about-history__intro {
     display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
+    gap: 25px;
     min-width: 0;
-    max-inline-size: min(38rem, 80vw);
-    padding-block: clamp(3rem, 8vw, 5rem) clamp(2rem, 5vw, 3rem);
+    max-inline-size: 100%;
+    padding-bottom: 25px;
   }
 
   .about-history__header {
@@ -1380,20 +1425,24 @@ const locations = [
 
   .about-history__title {
     font-size: var(--about-history-title-size);
+    font-weight: var(--weight-bold);
     line-height: 1;
     letter-spacing: 0.08em;
   }
 
   .about-history__subtitle {
     font-size: var(--about-history-subtitle-size);
+    font-weight: var(--weight-bold);
     line-height: var(--leading-tight);
-    color: var(--color-primary);
   }
 
   .about-history__lead {
     min-width: 0;
+    width: fit-content;
+    max-width: 100%;
     margin: 0;
     font-size: var(--about-history-lead-size);
+    font-weight: var(--weight-bold);
     line-height: 1.9;
     color: var(--color-text-secondary);
   }
@@ -1418,7 +1467,6 @@ const locations = [
     gap: 0.125rem;
     min-width: max-content;
     margin: 0;
-    padding-block-end: clamp(3rem, 8vw, 5rem);
     padding-inline-start: 0;
     padding-inline-end: var(--about-history-section-inline-padding);
     list-style: none;
@@ -1428,6 +1476,7 @@ const locations = [
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 0;
+    max-height: 450px;
     min-width: 0;
     min-block-size: var(--about-history-card-height);
     padding: 2.5rem 0.5rem 0.5rem;
@@ -1452,6 +1501,7 @@ const locations = [
   .about-history__year {
     font-family: var(--font-serif);
     font-size: var(--about-history-year-size);
+    font-weight: var(--weight-bold);
     line-height: 0.9;
     letter-spacing: 0.08em;
     color: #fff;
@@ -1460,6 +1510,7 @@ const locations = [
   .about-history__era {
     padding-bottom: 0;
     font-size: var(--about-history-era-size);
+    font-weight: var(--weight-bold);
     line-height: var(--leading-tight);
     color: rgba(255, 255, 255, 0.72);
   }
@@ -1467,6 +1518,7 @@ const locations = [
   .about-history__item-text {
     margin: 0;
     font-size: var(--about-history-item-text-size);
+    font-weight: var(--weight-bold);
     line-height: 1.9;
     color: rgba(255, 255, 255, 0.84);
   }
@@ -1480,15 +1532,13 @@ const locations = [
     margin-block: var(--about-history-media-gap);
     margin-inline: auto;
     align-self: end;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background-color: rgba(255, 255, 255, 0.04);
     overflow: hidden;
   }
 
   .about-history__item-media :global(img) {
-    width: 100%;
+    min-width: 0;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 
   .about-history__scrollbar {
@@ -1497,7 +1547,6 @@ const locations = [
       calc(100vw - var(--about-history-section-inline-padding-left))
     );
     margin-top: var(--about-history-scrollbar-gap);
-    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
   }
 
   .about-history__scrollbar--inactive {
@@ -1586,7 +1635,6 @@ const locations = [
     align-items: center;
     justify-content: flex-start;
     gap: clamp(2rem, 4vw, 3rem);
-    padding-block: clamp(3rem, 7vw, 5rem);
     padding-inline: clamp(var(--space-6), 5.56vw, 5rem);
   }
 
@@ -1660,8 +1708,8 @@ const locations = [
   /* Decorative label floating outside content area */
   .about-access__deco-label {
     position: absolute;
-    top: calc(var(--about-access-title-size) * 2);
-    left: clamp(0rem, calc(-47.9091rem + 45.0909vw), 6.2rem);
+    top: calc(var(--about-access-title-size) * 3);
+    left: var(--about-deco-label-inline-start);
     transform: rotate(-90deg) translateX(-100%);
     transform-origin: left top;
   }
@@ -1699,20 +1747,13 @@ const locations = [
     font-size: var(--about-access-location-size);
   }
 
-  .about-access__location-title {
-    line-height: 1.5;
-  }
-
-  .about-access__address {
-    line-height: 1.8;
-  }
-
   .about-access__address-line {
     display: block;
   }
 
   .about-access__map {
     width: min(100%, var(--about-access-content-width));
+    margin-top: var(--space-4);
     justify-self: center;
     border-radius: 3.125rem;
     overflow: hidden;
@@ -1802,6 +1843,7 @@ const locations = [
     padding-inline: inherit;
     padding-top: var(--space-2);
     padding-right: clamp(2.4rem, -4rem + 13.333vw, 12rem);
+    color: #448aac;
     display: flex;
     justify-content: flex-end;
     justify-self: center;
@@ -1826,7 +1868,7 @@ const locations = [
     min-width: 0;
     min-block-size: var(--about-access-contact-height);
     padding-inline: clamp(1rem, 2.2vw, 1.5rem);
-    border: 1px solid currentColor;
+    border: 3px solid currentColor;
     border-radius: 15px;
     color: inherit;
     font-size: var(--about-access-contact-size);
@@ -1907,10 +1949,6 @@ const locations = [
 
     .about-history__era {
       padding-bottom: 0;
-    }
-
-    .about-greeting__inner {
-      padding-block: clamp(3rem, 12vw, 4rem);
     }
 
     .about-greeting__title {

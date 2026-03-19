@@ -131,9 +131,7 @@ select {
   filter: drop-shadow(0 4px 0.4px rgba(0, 0, 0, 0.25));
 }
 
-h1, h2, h3, h4, h5, h6,
-p, span, a, li, dt, dd,
-label, legend, figcaption, blockquote, cite, time {
+.text-shadow {
   text-shadow: 2px 2px 0.4px rgba(0, 0, 0, 0.25);
 }
 
