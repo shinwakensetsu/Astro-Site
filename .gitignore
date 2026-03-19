@@ -30,6 +30,10 @@ pnpm-debug.log*
 
 # Tests
 tests/
+vitest.config.ts
+
+# Manual / docs
+manual/
 
 # Working / scratch files
 work/
