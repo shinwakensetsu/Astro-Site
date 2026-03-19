@@ -28,6 +28,9 @@ pnpm-debug.log*
 **/__pycache__/
 **/.pytest_cache/
 
+# Tests
+tests/
+
 # Working / scratch files
 work/
 
