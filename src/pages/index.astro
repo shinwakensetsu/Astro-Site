@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ShinwaLogo from "../components/ShinwaLogo.astro";
 import IconArrow from "../components/IconArrow.astro";
 import WorksCarousel from "../components/WorksCarousel.astro";
+import ScrollIndicator from "../components/ScrollIndicator.astro";
 import { getTopPage, getNews, type News } from "../lib/microcms";
 import { optimizeImageUrl, imagePresets } from "../utils/imageOptimizer";
 
@@ -51,6 +52,8 @@ const newsList = newsResponse.contents;
           </p>
         </div>
       </div>
+
+      <ScrollIndicator />
     </section>
 
     <!-- ===================== 2. お知らせ ===================== -->
@@ -466,6 +469,8 @@ const newsList = newsResponse.contents;
     display: grid;
     background-color: var(--color-dark);
     line-height: 0;
+    --hero-logo-width: clamp(110px, 15.5vw, 223px);
+    --hero-copy-offset-x: clamp(16px, 5vw, 60px);
   }
 
   .hero__inner {
@@ -481,6 +486,7 @@ const newsList = newsResponse.contents;
     display: block;
     width: 100%;
     height: auto;
+    aspect-ratio: 2 / 1; /* 1920×960 相当 */
     max-height: 90svh;
     object-fit: cover;
     object-position: center;
@@ -497,17 +503,20 @@ const newsList = newsResponse.contents;
   }
 
   .hero__logo-wrap :global(svg) {
-    width: clamp(110px, 15.5vw, 223px);
+    width: var(--hero-logo-width);
     height: auto;
   }
 
   /* コピー: 1440px超は左上 / 1440px以下は左下 / 768px以下はロゴ下に縦積み */
   .hero__copy {
     margin-top: clamp(20px, 5vw, 60px);
-    margin-left: clamp(16px, 5vw, 60px);
+    margin-left: var(--hero-copy-offset-x);
     line-height: var(--leading-tight);
     z-index: 1;
-    max-width: 80vw;
+    inline-size: calc(
+      50% - var(--hero-copy-offset-x) - (var(--hero-logo-width) / 2)
+    );
+    container-type: inline-size;
     word-break: auto-phrase;
   }
 
@@ -515,6 +524,9 @@ const newsList = newsResponse.contents;
     .hero__copy {
       margin-top: auto;
       margin-bottom: clamp(20px, 5vw, 60px);
+      inline-size: auto;
+      max-width: 80vw;
+      container-type: normal;
       background: linear-gradient(0deg, #00000080, transparent);
     }
   }
@@ -535,7 +547,7 @@ const newsList = newsResponse.contents;
   }
 
   .hero__copy-main {
-    font-size: clamp(1.5rem, 5vw, 3.75rem);
+    font-size: clamp(1.5rem, 12cqi, 3.75rem);
     line-height: var(--leading-tight);
     color: var(--color-white);
   }
@@ -545,10 +557,30 @@ const newsList = newsResponse.contents;
   }
 
   .hero__copy-sub {
-    font-size: clamp(0.75rem, 1.5vw, 1.125rem);
+    font-size: clamp(0.75rem, 3.4cqi, 1.125rem);
     line-height: var(--leading-relaxed);
     margin: 0;
     color: var(--color-white);
+  }
+
+  @supports not (width: 1cqi) {
+    .hero__copy-main {
+      font-size: clamp(1.5rem, 5vw, 3.75rem);
+    }
+
+    .hero__copy-sub {
+      font-size: clamp(0.75rem, 1.5vw, 1.125rem);
+    }
+  }
+
+  @media (max-width: 1440px) {
+    .hero__copy-main {
+      font-size: clamp(1.5rem, 5vw, 3.75rem);
+    }
+
+    .hero__copy-sub {
+      font-size: clamp(0.75rem, 1.5vw, 1.125rem);
+    }
   }
 
   /* ---------- 2. News ---------- */
