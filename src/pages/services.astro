@@ -334,9 +334,9 @@ try {
         <span class="services-display-title__line">施工</span>
         <span class="services-display-title__line">流れ</span>
       </h2>
-      <div class="l-container services-flow__inner">
-        <div class="services-flow__body">
-          <div class="services-flow__intro">
+      <div class="l-container">
+        <div class="services-flow__inner">
+          <div class="services-flow__main">
             <h3 class="services-flow__subtitle">
               {
                 flowIntroTitleLines.map((line) => (
@@ -351,8 +351,6 @@ try {
                 ))
               }
             </p>
-          </div>
-          <div class="services-flow__content">
             <div class="services-flow__diagram">
               <img
                 src="/images/service/workflow.png"
@@ -363,18 +361,16 @@ try {
             </div>
           </div>
           <div class="services-flow__actions">
-            <div class="services-flow__cards">
-              {
-                flowCards.map((card) => (
-                  <article class="services-flow__card-item">
-                    <div class="services-flow__card">
-                      <h3 class="services-flow__card-title">{card.title}</h3>
-                    </div>
-                    <p class="services-flow__card-copy">{card.copy}</p>
-                  </article>
-                ))
-              }
-            </div>
+            {
+              flowCards.map((card) => (
+                <article class="services-flow__card-item">
+                  <div class="services-flow__card">
+                    <h3 class="services-flow__card-title">{card.title}</h3>
+                  </div>
+                  <p class="services-flow__card-copy">{card.copy}</p>
+                </article>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -653,37 +649,25 @@ try {
     --services-kodawari-content-top: 9.5625rem;
     --services-flow-content-top: 7.4375rem;
     --services-diary-content-top: 6.4375rem;
+    /* Flow desktop sizes are fixed to the Figma layer properties. */
     --services-flow-intro-width: 40.8125rem;
     --services-flow-content-gap: 8.4375rem;
-    --services-flow-body-gap: calc(
-      var(--services-flow-content-gap) -
-        max(
-          calc(
-            var(--services-flow-intro-width) -
-              var(--services-flow-diagram-width) -
-              var(--services-flow-diagram-offset)
-          ),
-          0px
-        )
-    );
-    --services-flow-body-max-width: calc(
-      var(--services-flow-intro-width) + var(--services-flow-body-gap) +
-        var(--services-flow-card-width)
-    );
+    --services-flow-body-gap: var(--services-flow-content-gap);
     --services-flow-display-safe-space: calc(
       var(--services-kodawari-display-left) +
         var(--services-kodawari-display-width) + var(--space-10)
     );
+    --services-flow-inline-start: 1.3125rem;
     --services-flow-diagram-gap: 2.8125rem;
     --services-flow-actions-offset-top: 4.5rem;
     --services-flow-diagram-width: 38.125rem;
     --services-flow-diagram-height: 40rem;
-    --services-flow-diagram-offset: 1.8125rem;
     --services-flow-card-width: 40.625rem;
     --services-flow-card-height: 25rem;
     --services-flow-card-radius: var(--radius-xl);
     --services-flow-copy-width: 37.9375rem;
     --services-diary-content-inline: 2.8125rem;
+    /* Safe gaps stay bounded while the fixed overlay title keeps its clearance. */
     --services-diary-display-safe-gap: clamp(1rem, 2vw, 2rem);
     --services-diary-display-safe-space: calc(
       var(--services-kodawari-display-left) +
@@ -1050,22 +1034,6 @@ try {
      Responsive — max-width: 1280px
      =========================================== */
   @media (max-width: 1280px) {
-    .services-kodawari {
-      --services-section-display-title-position: static;
-      --services-section-display-title-width: fit-content;
-      --services-section-display-title-min-height: auto;
-      --services-section-display-title-size: clamp(3rem, 9vw, 5rem);
-      --services-section-display-title-events: auto;
-      --services-section-display-title-margin: var(
-        --services-section-display-title-margin-stacked
-      );
-    }
-
-    .services-kodawari__inner {
-      padding-inline: var(--services-section-inline-padding);
-      padding-top: 0;
-    }
-
     .services-kodawari__items {
       width: 100%;
       max-width: none;
@@ -1265,53 +1233,41 @@ try {
   }
 
   .services-flow__inner {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
     align-items: start;
     width: 100%;
-    max-width: var(--width-layout);
-    margin-inline: auto;
+    column-gap: var(--services-flow-body-gap);
+    /* Keep the fixed display title clear by shifting content, not the title. */
     padding-inline-start: max(
-      var(--space-4),
+      var(--services-flow-inline-start),
       calc(
         var(--services-flow-display-safe-space) -
           max(calc((100vw - var(--width-layout)) / 2), 0px)
       )
     );
-    padding-inline-end: 0;
+    padding-inline-end: var(--services-flow-inline-start);
     padding-top: calc(
       var(--services-flow-content-top) - var(--services-kodawari-display-top)
     );
   }
 
-  .services-flow__body {
+  .services-flow__main {
     display: grid;
-    width: min(100%, var(--services-flow-body-max-width));
-    max-width: var(--services-flow-body-max-width);
-    grid-template-columns:
-      minmax(0, var(--services-flow-intro-width))
-      minmax(0, var(--services-flow-card-width));
-    grid-template-areas:
-      "intro actions"
-      "content actions";
-    column-gap: var(--services-flow-body-gap);
-    row-gap: var(--services-flow-diagram-gap);
-    align-items: start;
-    justify-content: start;
-    min-width: 0;
-  }
-
-  .services-flow__intro {
-    grid-area: intro;
-    min-width: 0;
+    /* 604px is the agreed minimum left-column width before stacking. */
+    flex: 1 1 37.75rem;
+    width: min(100%, var(--services-flow-intro-width));
+    min-width: min(100%, 37.75rem);
   }
 
   .services-flow__subtitle {
     margin: 0;
-    width: min(100%, var(--services-flow-intro-width));
+    width: 100%;
+    max-width: var(--services-flow-intro-width);
     font-size: var(--text-5xl);
     line-height: normal;
     color: var(--color-text);
+    min-width: 0;
   }
 
   .services-flow__subtitle-line,
@@ -1321,39 +1277,33 @@ try {
 
   .services-flow__lead {
     margin: 0.8125rem 0 0;
-    width: min(100%, var(--services-flow-intro-width));
-    font-size: var(--text-lg);
+    width: 100%;
+    max-width: var(--services-flow-intro-width);
+    font-size: var(--fs-body);
     line-height: 1.2222222222;
     color: var(--color-text);
-  }
-
-  .services-flow__content {
-    grid-area: content;
-    width: 100%;
-    max-width: var(--services-flow-diagram-width);
-    padding-inline-start: var(--services-flow-diagram-offset);
     min-width: 0;
   }
 
   .services-flow__actions {
-    grid-area: actions;
+    display: grid;
     align-self: start;
-    width: 100%;
-    max-width: var(--services-flow-card-width);
-    justify-self: end;
-    min-width: 0;
+    justify-content: end;
+    gap: var(--space-5);
+    flex: 1 1 var(--services-flow-card-width);
+    width: min(100%, var(--services-flow-card-width));
+    min-width: min(100%, var(--services-flow-card-width));
     padding-top: var(--services-flow-actions-offset-top);
-  }
-
-  .services-flow__body > * {
-    min-width: 0;
   }
 
   .services-flow__diagram {
     position: relative;
     width: 100%;
+    max-width: var(--services-flow-diagram-width);
     min-height: auto;
     aspect-ratio: 61 / 64;
+    margin-top: var(--services-flow-diagram-gap);
+    min-width: 0;
   }
 
   .services-flow__diagram img {
@@ -1363,15 +1313,10 @@ try {
     object-fit: contain;
   }
 
-  .services-flow__cards {
-    display: grid;
-    width: 100%;
-    gap: var(--space-5);
-  }
-
   .services-flow__card-item {
     display: grid;
     width: 100%;
+    max-width: 650px;
     gap: var(--space-1);
   }
 
@@ -1381,7 +1326,7 @@ try {
     justify-self: center;
     font-family: var(--font-serif);
     font-weight: var(--weight-semibold);
-    font-size: var(--text-lg);
+    font-size: var(--fs-500);
     line-height: 1.2222222222;
     color: var(--color-text);
     text-align: left;
@@ -1627,35 +1572,20 @@ try {
     .services-kodawari,
     .services-flow,
     .services-diary {
-      --services-section-display-title-size: clamp(3rem, 9vw, 5rem);
-    }
-
-    .services-flow__inner {
-      width: 100%;
-      max-width: var(--width-layout);
-      padding-inline: var(--services-section-inline-padding);
-      padding-top: 0;
-    }
-
-    .services-flow {
       --services-section-display-title-position: static;
       --services-section-display-title-width: fit-content;
       --services-section-display-title-min-height: auto;
+      --services-section-display-title-size: clamp(3rem, 9vw, 5rem);
       --services-section-display-title-events: auto;
       --services-section-display-title-margin: var(
         --services-section-display-title-margin-stacked
       );
     }
 
-    .services-flow__body {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "intro"
-        "content"
-        "actions";
-    }
-
-    .services-flow__actions {
+    .services-kodawari__inner,
+    .services-diary__inner,
+    .services-flow__inner {
+      padding-inline: var(--services-section-inline-padding);
       padding-top: 0;
     }
   }
@@ -1682,26 +1612,14 @@ try {
       text-align: center;
     }
 
-    .services-diary__inner {
-      grid-template-columns: 1fr;
-      padding-inline: var(--services-section-inline-padding);
-      padding-top: 0;
-    }
-
-    .services-diary {
-      --services-section-display-title-position: static;
-      --services-section-display-title-width: fit-content;
-      --services-section-display-title-min-height: auto;
-      --services-section-display-title-events: auto;
-      --services-section-display-title-margin: var(
-        --services-section-display-title-margin-stacked
-      );
-    }
-
     .services-kodawari,
     .services-flow,
     .services-diary {
       --services-section-display-title-size: clamp(2.5rem, 12vw, 4rem);
+    }
+
+    .services-flow__subtitle {
+      font-size: var(--fs-700);
     }
 
     .services-kodawari__card {
