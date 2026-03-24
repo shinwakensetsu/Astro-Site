@@ -639,7 +639,6 @@ try {
      Page-specific custom properties
      =========================================== */
   .services {
-    --services-display: clamp(3rem, 7vw, 6rem);
     --services-section-inline-padding: clamp(var(--space-6), 5.56vw, 5rem);
     --services-kodawari-card-radius: 50px;
     --services-kodawari-display-left: 1.4375rem;
@@ -765,13 +764,14 @@ try {
   .services-hero__inner {
     display: flex;
     align-items: center;
+    padding-left: clamp(var(--space-6), 10.5vw, 12.625rem);
     z-index: 1;
   }
 
   .services-hero__content {
     display: flex;
     align-items: center;
-    gap: clamp(var(--space-6), 3vw, var(--space-10));
+    gap: clamp(var(--space-6), 3vw, var(--space-8));
   }
 
   .services-hero__title-frame {
@@ -785,7 +785,7 @@ try {
   }
 
   .services-hero__title {
-    font-size: var(--services-display);
+    font-size: var(--fs-1000);
     color: var(--color-white);
     line-height: 1.04;
     text-align: center;
@@ -796,7 +796,7 @@ try {
     font-size: var(--fs-200);
     color: var(--color-white);
     line-height: var(--leading-relaxed);
-    max-width: 24em;
+    max-width: 20.83em;
   }
 
   .services-hero__scroll {
@@ -842,7 +842,7 @@ try {
     font-family: var(--font-serif);
     font-weight: var(--weight-normal);
     color: var(--color-white);
-    font-size: 2rem;
+    font-size: var(--fs-600);
     line-height: 1.1;
     text-align: center;
   }
@@ -853,7 +853,7 @@ try {
     font-family: var(--font-serif);
     font-weight: var(--weight-semibold);
     color: var(--color-white);
-    font-size: 1.125rem;
+    font-size: var(--fs-body);
     line-height: 1.4444444444;
   }
 
@@ -950,7 +950,7 @@ try {
     width: 1.875rem;
     height: var(--services-kodawari-title-height);
     transform: translateY(calc(var(--services-kodawari-title-offset) * -1));
-    font-size: clamp(2rem, 2.78vw, 2.5rem);
+    font-size: var(--fs-650);
     line-height: 1.2;
     color: var(--color-text);
     letter-spacing: 0.06em;
@@ -987,7 +987,7 @@ try {
     z-index: 1;
     width: var(--services-kodawari-card-sub-width);
     max-width: none;
-    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    font-size: var(--fs-body);
     color: var(--color-white);
     line-height: var(--leading-normal);
     min-width: 0;
@@ -1010,7 +1010,7 @@ try {
     width: 25.75rem;
     min-height: 1.8125rem;
     font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-    font-size: clamp(1.25rem, 1.67vw, 1.5rem);
+    font-size: var(--fs-400);
     line-height: 1.2;
     color: var(--color-white);
     letter-spacing: 0.04em;
@@ -1023,7 +1023,7 @@ try {
     z-index: 1;
     width: var(--services-kodawari-card-text-width);
     max-width: none;
-    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    font-size: var(--fs-body);
     color: var(--color-white);
     line-height: var(--leading-normal);
     text-align: left;
@@ -1053,7 +1053,7 @@ try {
       transform: none;
       writing-mode: horizontal-tb;
       text-orientation: mixed;
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-size: var(--fs-650);
       letter-spacing: normal;
       white-space: normal;
     }
@@ -1133,7 +1133,7 @@ try {
     width: 13.25rem;
     max-inline-size: 100%;
     font-family: var(--font-serif);
-    font-size: 6rem;
+    font-size: var(--fs-1000);
     line-height: 1.0416667;
     letter-spacing: 0;
     color: var(--color-gray-300);
@@ -1163,7 +1163,7 @@ try {
     padding-inline: 1.1875rem;
     font-family: var(--font-serif);
     color: var(--color-gray-500);
-    font-size: 1.25rem;
+    font-size: var(--fs-350);
     text-decoration: none;
     line-height: 1.5;
     letter-spacing: 0;
@@ -1193,7 +1193,7 @@ try {
     padding: 0.3125rem 0.75rem 0.375rem;
     min-height: 4.375rem;
     font-family: var(--font-serif);
-    font-size: 1.25rem;
+    font-size: var(--fs-350);
     color: var(--color-black);
     line-height: 1.625rem;
     display: grid;
@@ -1264,7 +1264,7 @@ try {
     margin: 0;
     width: 100%;
     max-width: var(--services-flow-intro-width);
-    font-size: var(--text-5xl);
+    font-size: var(--fs-750);
     line-height: normal;
     color: var(--color-text);
     min-width: 0;
@@ -1326,7 +1326,7 @@ try {
     justify-self: center;
     font-family: var(--font-serif);
     font-weight: var(--weight-semibold);
-    font-size: var(--fs-500);
+    font-size: var(--fs-350);
     line-height: 1.2222222222;
     color: var(--color-text);
     text-align: left;
@@ -1348,7 +1348,7 @@ try {
     width: min(100%, 16.704875rem);
     font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
     font-weight: var(--weight-normal);
-    font-size: var(--text-2xl);
+    font-size: var(--fs-400);
     line-height: normal;
     color: var(--color-white);
     text-align: center;
@@ -1536,7 +1536,7 @@ try {
     margin: 0;
     font-family: var(--font-serif);
     font-weight: var(--weight-semibold);
-    font-size: 1.625rem;
+    font-size: var(--fs-450);
     line-height: 1.4230769231;
     color: var(--color-text);
   }
@@ -1545,7 +1545,7 @@ try {
     margin: 0;
     font-family: var(--font-serif);
     font-weight: var(--weight-semibold);
-    font-size: 1.125rem;
+    font-size: var(--fs-body);
     line-height: 1.4444444444;
     color: var(--color-text);
   }
@@ -1559,7 +1559,7 @@ try {
     justify-self: end;
     align-self: end;
     font-family: var(--font-serif);
-    font-size: 1.125rem;
+    font-size: var(--fs-body);
     line-height: 1.1111111111;
     text-align: right;
     color: var(--color-text);
@@ -1595,7 +1595,7 @@ try {
      =========================================== */
   @media (max-width: 1024px) {
     .services-gallery__title {
-      font-size: 4.375rem;
+      font-size: var(--fs-900);
     }
   }
 
