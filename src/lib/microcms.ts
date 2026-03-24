@@ -86,6 +86,23 @@ export type NewsPage = {
   subtitle: string;
 };
 
+export type Diary = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  title: string;
+  text: string;
+};
+
+export type DiaryResponse = {
+  totalCount: number;
+  offset: number;
+  limit: number;
+  contents: Diary[];
+};
+
 // トップページ関連
 
 export type TopPage = {
@@ -133,6 +150,10 @@ export const getNewsDetail = async (
 // ニュースページ情報を取得
 export const getNewsPage = async (queries?: MicroCMSQueries) => {
   return await client.getObject<NewsPage>({ endpoint: "news-page", queries });
+};
+
+export const getDiary = async (queries?: MicroCMSQueries) => {
+  return await client.get<DiaryResponse>({ endpoint: "diary", queries });
 };
 
 // トップページ情報を取得
