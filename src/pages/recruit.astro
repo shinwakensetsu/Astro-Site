@@ -375,6 +375,20 @@ const faqItems = [
               </div>
             </div>
 
+            <div class="recruit-job__slider-wrap" tabindex="0">
+              <div class="recruit-job__slider-list">
+                <div class="recruit-job__slider-card">
+                  <span class="recruit-job__slider-card-label">作業姿1</span>
+                </div>
+                <div class="recruit-job__slider-card">
+                  <span class="recruit-job__slider-card-label">作業姿2</span>
+                </div>
+                <div class="recruit-job__slider-card">
+                  <span class="recruit-job__slider-card-label">作業姿3</span>
+                </div>
+              </div>
+            </div>
+
             <div class="recruit-job__feature-photo">
               <span class="recruit-job__feature-photo-label"
                 >監督の仕事<br />（取材後予定）</span
@@ -394,45 +408,70 @@ const faqItems = [
             <div class="recruit-job__deco-label-wrap" aria-hidden="true">
               <span class="recruit-job__deco-label">大工</span>
             </div>
-            <h2 class="recruit-job__title">大工の仕事</h2>
+            <h2 class="recruit-job__title">
+              自分の手が、過去と現在と<br />未来の景色をつくる仕事
+            </h2>
 
             <div class="recruit-job__profile">
               <div class="recruit-job__profile-photo" aria-hidden="true">
                 <!-- プロフィール写真プレースホルダー -->
               </div>
               <div class="recruit-job__profile-info">
-                <p class="recruit-job__profile-role">大工</p>
-                <p class="recruit-job__profile-name">スタッフ名</p>
+                <p class="recruit-job__profile-role">〇〇さん（〇〇歳）</p>
+                <p class="recruit-job__profile-name">大工（〇〇年入社）</p>
               </div>
             </div>
 
-            <div class="recruit-job__video">
-              <div
-                class="recruit-job__video-placeholder"
-                aria-label="インタビュー動画"
+            <div class="recruit-job__content">
+              <div class="recruit-job__video">
+                <div
+                  class="recruit-job__video-placeholder"
+                  aria-label="インタビュー動画"
+                >
+                  <!-- iframe プレースホルダー -->
+                </div>
+              </div>
+
+              <div class="recruit-job__quote">
+                <p class="recruit-job__quote-text">
+                  これほど誇れる仕事もありません。<br />
+                  一緒に自分の手で日本の文化を残しませんか。
+                </p>
+              </div>
+
+              <div class="recruit-job__message">
+                <p>
+                  子どもの頃、地元のお寺の修復工事を見たのがきっかけです。
+                  木だけで組み上がっていく姿に衝撃を受け、「これを仕事にしたい」と思いました。
+                  伸和建設は社寺建築一筋で、本物の技術が学べる環境だと思い入社しました。
+                </p>
+                <p>
+                  すべてが一点ものです。
+                  木のクセを読み、手刻みで調整し、ピタッとはまった瞬間の快感は
+                  何年やっても変わりません。自分の名前は残らなくても、仕事は何百年も残る。
+                  それがこの仕事の最大の魅力です。
+                </p>
+              </div>
+            </div>
+
+            <div class="recruit-job__slider-wrap" tabindex="0">
+              <div class="recruit-job__slider-list">
+                <div class="recruit-job__slider-card">
+                  <span class="recruit-job__slider-card-label">作業姿1</span>
+                </div>
+                <div class="recruit-job__slider-card">
+                  <span class="recruit-job__slider-card-label">作業姿2</span>
+                </div>
+                <div class="recruit-job__slider-card">
+                  <span class="recruit-job__slider-card-label">作業姿3</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="recruit-job__feature-photo">
+              <span class="recruit-job__feature-photo-label"
+                >大工の仕事<br />（取材後予定）</span
               >
-                <!-- iframe プレースホルダー -->
-              </div>
-            </div>
-
-            <div class="recruit-job__quote">
-              <p class="recruit-job__quote-subtitle">
-                木と向き合い、伝統をつなぐ
-              </p>
-              <p class="recruit-job__quote-text">
-                木材を選び、墨付けをし、手刻みで仕口・継手を加工する。社寺建築の大工は、木のクセを読み、先人の知恵を活かしながら一本一本の材に命を吹き込みます。機械では再現できない手仕事の精度と美しさ。何百年も残る建物を、自分の手で作れる誇りがあります。
-              </p>
-            </div>
-
-            <div class="recruit-job__photos">
-              <div class="recruit-job__photo" aria-hidden="true"></div>
-              <div class="recruit-job__photo" aria-hidden="true"></div>
-              <div class="recruit-job__photo" aria-hidden="true"></div>
-              <div
-                class="recruit-job__photo recruit-job__photo--wide"
-                aria-hidden="true"
-              >
-              </div>
             </div>
           </div>
         </section>
@@ -1114,6 +1153,54 @@ const faqItems = [
 
   .recruit-job__message p:last-child {
     margin-bottom: 0;
+  }
+
+  /* --- スライダー（Rectangle 62, 65） --- */
+  /* Figma: 600×500 cards, bg #4B4B4B, border 1px black, r 30px, gap 10px */
+  .recruit-job__slider-wrap {
+    --recruit-slider-card-width: clamp(15rem, calc(8.5rem + 32vw), 37.5rem);
+    --recruit-slider-gap: 0.625rem;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+    margin-top: var(--space-10);
+  }
+
+  .recruit-job__slider-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .recruit-job__slider-list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--recruit-slider-card-width);
+    gap: var(--recruit-slider-gap);
+    min-width: max-content;
+    margin: 0;
+    padding: 0;
+  }
+
+  .recruit-job__slider-card {
+    aspect-ratio: 6 / 5;
+    background-color: var(--color-gray-700);
+    border: 1px solid var(--color-black);
+    border-radius: var(--radius-2xl);
+    display: grid;
+    place-items: center;
+    min-width: 0;
+  }
+
+  .recruit-job__slider-card-label {
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: var(--fs-400);
+    font-weight: var(--weight-normal);
+    color: var(--color-white);
+    text-align: center;
+    line-height: 1;
+    text-shadow: none;
   }
 
   /* --- 特集写真（Rectangle 90） --- */

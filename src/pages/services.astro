@@ -142,6 +142,7 @@ const fallbackDiaryEntries = [
       "Aくんは作業後、「柱一本にも歴史が乗るんですね」とつぶやいていました。そんな気づきが、今日の成長だと思います。",
     ],
     date: "YYYY/MM/DD",
+    dateTime: "",
   },
   {
     title: `【若手が初めて\u201C褒められた日\u201D】`,
@@ -152,12 +153,14 @@ const fallbackDiaryEntries = [
       `技術は一日で身につきませんが、「見える力」が成長した瞬間ははっきり分かります。伝統技術とは、こうして\u201C人から人へ\u201D渡っていくものなのだと実感した一日でした。`,
     ],
     date: "YYYY/MM/DD",
+    dateTime: "",
   },
   {
     title: `【なぜ社寺建築の木材は\u201C太い\u201Dのか？】`,
     paragraphs: [
       "社寺建築を見て、「柱が太い」「梁が大きい」と感じたことはありますか？今日は、その理由を少しご紹介します。",
     ],
+    dateTime: "",
   },
 ];
 
@@ -184,8 +187,8 @@ try {
   diaryEntries = diaryResponse.contents.map((entry) => ({
     title: entry.title,
     paragraphs: splitDiaryTextIntoParagraphs(entry.text),
-    date: formatDateSlash(entry.publishedAt),
-    dateTime: entry.publishedAt,
+    date: formatDateSlash(entry["posting-time"] || entry.publishedAt),
+    dateTime: entry["posting-time"] || entry.publishedAt,
   }));
 } catch (error) {
   console.error("Failed to fetch diary:", error);

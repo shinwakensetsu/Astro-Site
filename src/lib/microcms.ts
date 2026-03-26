@@ -94,6 +94,7 @@ export type Diary = {
   revisedAt: string;
   title: string;
   text: string;
+  "posting-time"?: string;
 };
 
 export type DiaryResponse = {

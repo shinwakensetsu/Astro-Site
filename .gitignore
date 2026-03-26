@@ -40,6 +40,13 @@ work/
 
 # Claude Code state
 .claude/
+CLAUDE.md
+
+# MCP server config (local)
+.mcp.json
+
+# README (dev draft)
+README.md
 
 # Stray CSS (not part of project)
 media.css
