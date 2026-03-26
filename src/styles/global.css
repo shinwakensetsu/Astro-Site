@@ -133,10 +133,11 @@
 
 
   /* --- Border Radius --- */
-  --radius-sm:    4px;
-  --radius-md:    8px;
-  --radius-lg:    12px;
-  --radius-xl:    50px;
+  --radius-sm:    clamp(2px, 0.5vw, 4px);
+  --radius-md:    clamp(4px, 1vw, 8px);
+  --radius-lg:    clamp(6px, 1.5vw, 12px);
+  --radius-2xl:   clamp(15px, 3vw, 30px);
+  --radius-xl:    clamp(25px, 5vw, 50px);
   --radius-full:  9999px;
 
   /* --- Contact Card --- */
