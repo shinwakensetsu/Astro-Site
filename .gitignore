@@ -42,6 +42,9 @@ work/
 .claude/
 CLAUDE.md
 
+# Playwright MCP snapshots
+.playwright-mcp/
+
 # MCP server config (local)
 .mcp.json
 
