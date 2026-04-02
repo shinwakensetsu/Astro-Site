@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ShinwaLogo from "../components/ShinwaLogo.astro";
 import IconArrow from "../components/IconArrow.astro";
 import WorksCarousel from "../components/WorksCarousel.astro";
+import BeltHeader from "../components/BeltHeader.astro";
 import ScrollIndicator from "../components/ScrollIndicator.astro";
 import { getTopPage, getNews, type News } from "../lib/microcms";
 import { optimizeImageUrl, imagePresets } from "../utils/imageOptimizer";
@@ -307,9 +308,9 @@ const newsList = newsResponse.contents;
 
     <!-- ===================== 4. 施工事例 ===================== -->
     <section class="works" id="works" aria-labelledby="works-heading">
-      <div class="works__header">
+      <BeltHeader>
         <h2 class="works__heading" id="works-heading">施工事例</h2>
-      </div>
+      </BeltHeader>
       <WorksCarousel />
     </section>
 
@@ -1438,21 +1439,6 @@ const newsList = newsResponse.contents;
   }
 
   /* ---------- 4. Works ---------- */
-  .works__header {
-    width: 100%;
-    min-height: clamp(3rem, 7vw, 6.25rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 10px gray solid;
-    border-bottom: 10px gray solid;
-    background-color: #b9b9b9;
-    background-image: url("/images/index/belt-pattern.svg");
-    background-repeat: repeat-x;
-    background-position: center;
-    background-size: auto 100%;
-  }
-
   .works__heading {
     margin: 0;
     font-size: clamp(var(--text-xl), 2.2vw, 2rem);

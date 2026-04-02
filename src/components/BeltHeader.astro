@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={["belt-header", className]}>
+  <slot />
+</div>
+
+<style>
+  .belt-header {
+    width: 100%;
+    min-height: clamp(3rem, 7vw, 6.25rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 10px gray solid;
+    border-bottom: 10px gray solid;
+    background-color: #b9b9b9;
+    background-image: url("/images/common/belt-pattern.svg");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: auto 100%;
+  }
+</style>

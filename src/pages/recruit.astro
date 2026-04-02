@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Accordion from "../components/Accordion.astro";
 import AccordionItem from "../components/AccordionItem.astro";
+import BeltHeader from "../components/BeltHeader.astro";
 
 interface PersonaCard {
   number: string;
@@ -385,7 +386,7 @@ const faqItems = [
           class="recruit-job recruit-job--supervisor u-bg-primary-light"
         >
           <div class="recruit-job__deco-band" aria-hidden="true">
-            <!-- 伝統工法パターン SVG プレースホルダー -->
+            <BeltHeader />
           </div>
           <div class="l-container recruit-job__inner">
             <div class="recruit-job__deco-label-wrap" aria-hidden="true">
@@ -465,7 +466,7 @@ const faqItems = [
           class="recruit-job recruit-job--carpenter u-bg-primary-light"
         >
           <div class="recruit-job__deco-band" aria-hidden="true">
-            <!-- 伝統工法パターン SVG プレースホルダー -->
+            <BeltHeader />
           </div>
           <div class="l-container recruit-job__inner">
             <div class="recruit-job__deco-label-wrap" aria-hidden="true">
@@ -615,9 +616,10 @@ const faqItems = [
 </Layout>
 
 <style>
-  /* ===== 共通ヘッダー非表示（サイドバーが代替） ===== */
+  /* ===== 共通ヘッダー・フッター非表示（サイドバーが代替） ===== */
   :global(.site-header),
-  :global(.site-drawer) {
+  :global(.site-drawer),
+  :global(.site-footer) {
     display: none;
   }
 
@@ -757,6 +759,10 @@ const faqItems = [
      コンテンツ領域: x=350〜1920 (幅1570), y=0〜1080
      左テキスト群 + 右白角丸ヒーローエリア */
 
+  .recruit-header {
+    padding-block-end: 4.6875rem;
+  }
+
   .recruit-header__container {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -882,6 +888,10 @@ const faqItems = [
 
   .recruit-persona {
     background-color: var(--color-primary-light);
+    background-image: url("/images/recruit/recruit_bg_pattern.svg");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
     display: grid;
   }
 
@@ -924,7 +934,7 @@ const faqItems = [
   .recruit-persona__container {
     container-type: inline-size;
     container-name: recruit-persona;
-    padding-block-start: 4.75rem;
+    padding-block-start: 7.25rem;
   }
 
   .recruit-persona__content {
@@ -1310,9 +1320,12 @@ const faqItems = [
   /* --- 装飾帯（伝統工法パターン） --- */
   /* Figma: 1920×100, fill #5C5C5C op0.8 */
   .recruit-job__deco-band {
-    height: 6.25rem;
     background-color: var(--color-gray-500);
     opacity: 0.8;
+  }
+
+  .recruit-job__deco-band > :global(.belt-header) {
+    background-color: #767676;
   }
 
   /* --- 縦書きラベル --- */
@@ -2082,6 +2095,10 @@ const faqItems = [
      +アイコン: Inter 40px, primary色。 */
 
   .recruit-faq {
+    background-image: url("/images/recruit/recruit_bg_pattern.svg");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
     display: grid;
   }
 
