@@ -1003,6 +1003,9 @@ const faqItems = [
   .recruit-persona__body {
     display: flex;
     align-items: center;
+    top: -40px;
+    /* Figma: タイトル上端が写真上端より40px下 → タイトルのline-heightを考慮して-40px */
+    position: relative;
   }
 
   .recruit-persona__heading-group {
