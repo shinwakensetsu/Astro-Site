@@ -5,7 +5,6 @@ import Layout from "../../layouts/Layout.astro";
 import { getNews } from "../../lib/microcms";
 import { sanitizeHtml } from "../../utils/htmlSanitizer";
 import NewsMeta from "../../components/NewsMeta.astro";
-import { optimizeImageUrl, imagePresets } from "../../utils/imageOptimizer";
 
 const { slug } = Astro.params;
 const response = await getNews({ filters: `slug[equals]${slug}` });
@@ -17,82 +16,76 @@ if (!news) {
 ---
 
 <Layout title={news.title} description={news.excerpt}>
-  <!-- ページヘッダー -->
-  <section class="page-header">
-    <div class="container">
-      <NewsMeta publishedDate={news.publishedDate} category={news.category} />
-      <h1 class="page-title">{news.title}</h1>
-    </div>
-  </section>
-
-  <!-- サムネイル -->
-  {
-    news.thumbnail && (
-      <section class="thumbnail">
-        <div class="container">
-          <img
-            src={optimizeImageUrl(news.thumbnail.url, imagePresets.thumbnail)}
-            alt={news.title}
-            loading="lazy"
-          />
+  <main>
+    <article class="news-detail">
+      <div class="news-detail__container">
+        <div class="news-detail__intro">
+          <div class="news-detail__meta">
+            <NewsMeta
+              publishedDate={news.publishedDate}
+              category={news.category}
+            />
+          </div>
+          <h1 class="news-detail__title">{news.title}</h1>
         </div>
-      </section>
-    )
-  }
 
-  <!-- 本文 -->
-  <section class="news-content">
-    <div class="container">
-      <div class="content" set:html={sanitizeHtml(news.content)} />
-    </div>
-  </section>
+        <!-- CONTENT-BLOCK -->
+        <div class="news-detail__content">
+          <div class="news-detail__body">
+            <p set:html={sanitizeHtml(news.content)} />
+          </div>
+        </div>
 
-  <!-- ナビゲーション -->
-  <section class="navigation">
-    <div class="container">
-      <a href="/news" class="back-link">← お知らせ一覧へ戻る</a>
-    </div>
-  </section>
+        <!-- ACTIONS-BLOCK -->
+        <nav class="news-detail__actions" aria-label="お知らせナビゲーション">
+          <a href="/news" class="news-detail__back-link">← お知らせ一覧へ戻る</a
+          >
+        </nav>
+      </div>
+    </article>
+  </main>
 </Layout>
 
 <style>
-  .page-header {
-    background: var(--color-bg-secondary);
-    padding: var(--space-16) 0;
+  /* ===== 記事外枠 ===== */
+  .news-detail {
+    padding-inline: var(--space-3);
   }
 
-  .page-title {
-    font-size: var(--text-4xl);
+  .news-detail__container {
+    max-width: 1024px;
+    margin-inline: auto;
+    margin-top: var(--space-6);
+    padding-inline: var(--space-4);
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    padding-block: var(--space-8);
+  }
+
+  /* ===== イントロ（タイトル・メタ） ===== */
+  .news-detail__intro {
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .news-detail__meta {
+    margin-bottom: var(--space-4);
+  }
+
+  .news-detail__title {
+    font-size: var(--fs-700);
     font-weight: var(--weight-bold);
     color: var(--color-text);
-    line-height: 1.4;
-    max-width: var(--width-news);
+    line-height: var(--leading-tight);
   }
 
-  .thumbnail {
-    padding: var(--space-10) 0;
+  /* ===== コンテンツ ===== */
+
+  .news-detail__body {
   }
 
-  .thumbnail img {
-    width: 100%;
-    max-width: var(--width-news);
-    margin: 0 auto;
-    display: block;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .news-content {
-    padding: var(--space-16) 0 var(--space-20);
-  }
-
-  .content {
-    max-width: var(--width-content);
-    margin: 0 auto;
-  }
-
-  .content :global(h2) {
-    font-size: var(--text-4xl);
+  .news-detail__body :global(h2) {
+    font-size: var(--fs-600);
     font-weight: var(--weight-bold);
     margin: var(--space-16) 0 var(--space-5);
     color: var(--color-text);
@@ -100,40 +93,40 @@ if (!news) {
     border-bottom: 2px solid var(--color-border-light);
   }
 
-  .content :global(h3) {
-    font-size: var(--text-2xl);
+  .news-detail__body :global(h3) {
+    font-size: var(--fs-400);
     font-weight: var(--weight-semibold);
     margin: var(--space-10) 0 var(--space-4);
     color: var(--color-text-secondary);
   }
 
-  .content :global(h4) {
-    font-size: var(--text-xl);
+  .news-detail__body :global(h4) {
+    font-size: var(--fs-350);
     font-weight: var(--weight-semibold);
     margin: var(--space-8) 0 var(--space-3);
     color: var(--color-text-secondary);
   }
 
-  .content :global(p) {
+  .news-detail__body :global(p) {
     line-height: var(--leading-loose);
     margin-bottom: var(--space-6);
     color: var(--color-text-secondary);
-    font-size: var(--text-lg);
+    font-size: var(--fs-body);
   }
 
-  .content :global(ul),
-  .content :global(ol) {
+  .news-detail__body :global(ul),
+  .news-detail__body :global(ol) {
     margin: var(--space-6) 0;
     padding-left: var(--space-8);
   }
 
-  .content :global(li) {
+  .news-detail__body :global(li) {
     line-height: var(--leading-loose);
     color: var(--color-text-secondary);
     margin-bottom: var(--space-3);
   }
 
-  .content :global(blockquote) {
+  .news-detail__body :global(blockquote) {
     border-left: 4px solid var(--color-primary);
     padding-left: var(--space-5);
     margin: var(--space-8) 0;
@@ -141,7 +134,7 @@ if (!news) {
     font-style: italic;
   }
 
-  .content :global(img) {
+  .news-detail__body :global(img) {
     max-width: 100%;
     height: auto;
     border-radius: var(--radius-md);
@@ -149,24 +142,24 @@ if (!news) {
     box-shadow: var(--shadow-md);
   }
 
-  .content :global(a) {
+  .news-detail__body :global(a) {
     color: var(--color-primary);
     text-decoration: underline;
   }
 
-  .content :global(a:hover) {
+  .news-detail__body :global(a:hover) {
     text-decoration: none;
   }
 
-  .content :global(code) {
+  .news-detail__body :global(code) {
     background: var(--color-bg-tertiary);
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 0.125em 0.375em;
+    border-radius: 0.1875em;
     font-size: 0.9em;
     font-family: var(--font-mono);
   }
 
-  .content :global(pre) {
+  .news-detail__body :global(pre) {
     background: var(--color-gray-900);
     color: var(--color-white);
     padding: var(--space-5);
@@ -175,44 +168,33 @@ if (!news) {
     margin: var(--space-8) 0;
   }
 
-  .content :global(pre code) {
+  .news-detail__body :global(pre code) {
     background: none;
     padding: 0;
     color: inherit;
   }
+  .news-detail__content {
+    padding-block: var(--space-8);
+    width: 90%;
+    margin: auto;
+  }
 
-  .navigation {
-    padding: var(--space-10) 0 var(--space-20);
+  /* ===== ナビゲーション ===== */
+  .news-detail__actions {
+    margin-top: var(--space-10);
+    padding-top: var(--space-10);
     border-top: 1px solid var(--color-border-light);
   }
 
-  .back-link {
+  .news-detail__back-link {
     display: inline-flex;
     align-items: center;
-    color: var(--color-primary);
+    color: var(--color-gray-700);
     font-weight: var(--weight-semibold);
     transition: transform var(--duration-normal) var(--easing-default);
   }
 
-  .back-link:hover {
-    transform: translateX(-5px);
-  }
-
-  @media (max-width: 767px) {
-    .page-title {
-      font-size: var(--text-3xl);
-    }
-
-    .news-content {
-      padding: var(--space-10) 0 var(--space-16);
-    }
-
-    .content :global(h2) {
-      font-size: var(--text-2xl);
-    }
-
-    .content :global(h3) {
-      font-size: var(--text-xl);
-    }
+  .news-detail__back-link:hover {
+    transform: translateX(-0.3125rem);
   }
 </style>

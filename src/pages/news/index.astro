@@ -7,6 +7,7 @@ import {
   type NewsPage,
 } from "../../lib/microcms";
 import NewsMeta from "../../components/NewsMeta.astro";
+import { optimizeImageUrl } from "../../utils/imageOptimizer";
 
 // ページ情報の取得
 let page: NewsPage;
@@ -39,85 +40,109 @@ try {
 ---
 
 <Layout title={page.pageTitle} description={page.pageDescription}>
-  <!-- ページヘッダー -->
-  <section class="page-header">
-    <div class="container">
-      <h1 class="page-title">{page.pageTitle}</h1>
-      <p class="page-description">{page.pageDescription}</p>
-    </div>
-  </section>
+  <main>
+    <!-- ===== ページヘッダー (base-container) ===== -->
+    <section class="news-header u-full-bleed">
+      <div class="l-container news-header__container">
+        <h1 class="news-header__title">{page.pageTitle}</h1>
+        <p class="news-header__description">{page.pageDescription}</p>
+      </div>
+    </section>
 
-  <!-- お知らせ一覧 -->
-  <section class="news">
-    <div class="container">
-      <p class="subtitle">{page.subtitle}</p>
+    <!-- ===== お知らせ一覧 (base-container) ===== -->
+    <section class="news-content u-section-spacing">
+      <div class="l-container news-content__container">
+        <h2 class="news-content__heading">お知らせ一覧</h2>
 
-      <div class="news-list">
+        <div class="news-list">
+          {
+            newsList.map((news) => (
+              <article class="news-item">
+                <a class="news-item__link" href={`/news/${news.slug}`}>
+                  <div class="news-item__thumb">
+                    {news.thumbnail ? (
+                      <img
+                        class="news-item__img"
+                        src={optimizeImageUrl(news.thumbnail.url, {
+                          width: 180,
+                          height: 180,
+                          fit: "crop",
+                          format: "auto",
+                          quality: 80,
+                        })}
+                        alt=""
+                        width="180"
+                        height="180"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div
+                        class="news-item__thumb news-item__thumb--placeholder"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </div>
+                  <div class="news-item__body">
+                    <NewsMeta
+                      publishedDate={news.publishedDate}
+                      category={news.category}
+                    />
+                    <h2 class="news-title">{news.title}</h2>
+                    {news.excerpt && <p class="news-excerpt">{news.excerpt}</p>}
+                  </div>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+
         {
-          newsList.map((news) => (
-            <article class="news-item">
-              <a href={`/news/${news.slug}`}>
-                <NewsMeta
-                  publishedDate={news.publishedDate}
-                  category={news.category}
-                />
-                <h2 class="news-title">{news.title}</h2>
-                {news.excerpt && <p class="news-excerpt">{news.excerpt}</p>}
-              </a>
-            </article>
-          ))
+          newsList.length === 0 && (
+            <p class="no-news">現在、お知らせはありません。</p>
+          )
         }
       </div>
-
-      {
-        newsList.length === 0 && (
-          <p class="no-news">現在、お知らせはありません。</p>
-        )
-      }
-    </div>
-  </section>
+    </section>
+  </main>
 </Layout>
 
 <style>
-  .page-header {
+  /* ===== ヘッダー外枠 ===== */
+  .news-header {
     background: linear-gradient(
       135deg,
       var(--color-primary),
       var(--color-dark)
     );
     color: var(--color-white);
-    padding: var(--space-20) 0;
+    padding-block: var(--space-20);
     text-align: center;
   }
 
-  .page-title {
-    font-size: var(--text-5xl);
+  .news-header__title {
+    font-size: var(--fs-700);
     font-weight: var(--weight-bold);
     margin-bottom: var(--space-4);
   }
 
-  .page-description {
-    font-size: var(--text-lg);
+  .news-header__description {
+    font-size: var(--fs-300);
     opacity: 0.95;
     max-width: var(--width-description);
     margin: 0 auto;
   }
 
-  .news {
-    padding: var(--space-20) 0;
-  }
-
-  .subtitle {
+  /* ===== 一覧セクション ===== */
+  .news-content__heading {
+    font-size: var(--fs-750);
+    margin-inline: auto;
     text-align: center;
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-16);
-    line-height: var(--leading-relaxed);
   }
 
   .news-list {
     max-width: var(--width-news);
-    margin: 0 auto;
+    margin-inline: auto;
+    margin-top: clamp(2rem, 4vw, 3rem);
   }
 
   .news-item {
@@ -125,6 +150,7 @@ try {
     border-radius: var(--radius-md);
     padding: var(--space-8);
     margin-bottom: var(--space-5);
+    margin-inline: 1rem;
     box-shadow: var(--shadow-md);
     transition:
       box-shadow var(--duration-normal) var(--easing-default),
@@ -134,6 +160,45 @@ try {
   .news-item:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
+  }
+
+  /* --- news-item 内部 --- */
+  .news-item__link {
+    display: flex;
+    gap: var(--space-4);
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+  }
+
+  .news-item__thumb {
+    --news-item-thumb-size: clamp(5rem, 12vw, 10rem);
+    flex-shrink: 0;
+    width: var(--news-item-thumb-size);
+    height: var(--news-item-thumb-size);
+    border-radius: var(--radius-lg) 0 0 0;
+    overflow: hidden;
+    filter: drop-shadow(8px 8px 0 var(--color-gray-700));
+  }
+
+  .news-item__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .news-item__thumb--placeholder {
+    background-color: var(--color-gray-200);
+  }
+
+  .news-item__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-1);
   }
 
   .news-title {
@@ -157,21 +222,26 @@ try {
     font-size: var(--text-lg);
   }
 
-  @media (max-width: 767px) {
-    .page-title {
-      font-size: var(--text-4xl);
-    }
-
-    .news {
-      padding: var(--space-16) 0;
-    }
-
+  @media (max-width: 768px) {
     .news-item {
       padding: var(--space-6);
     }
 
     .news-title {
       font-size: var(--text-lg);
+    }
+  }
+
+  @media (max-width: 425px) {
+    .news-item__link {
+      flex-direction: column;
+    }
+
+    .news-item__thumb {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
   }
 </style>

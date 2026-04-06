@@ -8,64 +8,53 @@ import Gallery from "../components/Gallery.astro";
   description="施工事例ギャラリー — 塔・伽藍・神社・門・鐘楼・収蔵庫・教会"
 >
   <main>
-    <div class="page-hero">
-      <h1 class="page-title">施工事例</h1>
+    <section class="works-hero u-full-bleed">
+      <div class="works-hero__bg" aria-hidden="true"></div>
+      <div class="works-hero__tint" aria-hidden="true"></div>
+      <div class="l-container works-hero__inner">
+        <h1 class="works-hero__title">施工事例</h1>
+      </div>
+    </section>
+
+    <div class="works-gallery">
+      <Gallery />
     </div>
-    <Gallery />
   </main>
 </Layout>
 
 <style>
-  main {
-    margin: 0 auto;
-    padding: var(--space-8) 0;
+  .works-hero {
+    display: grid;
+    min-height: clamp(12rem, 25vw, 20rem);
   }
 
-  .page-hero {
+  .works-hero > * {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+
+  .works-hero__bg {
     background: url("/images/works/003_jinja_001heiannaihai-l.jpg") center /
-      100% auto no-repeat;
-    position: relative;
-    margin-bottom: var(--space-6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+      cover no-repeat;
   }
 
-  .page-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+  .works-hero__tint {
     background: rgba(0, 0, 0, 0.4);
-    z-index: 0;
   }
 
-  .page-title {
-    position: relative;
-    z-index: 1;
+  .works-hero__inner {
     display: flex;
     align-items: center;
-    font-size: var(--text-3xl);
-    max-width: var(--width-wide);
-    margin: 0 auto;
-    padding: var(--space-8) var(--space-6);
+    position: relative;
+  }
+
+  .works-hero__title {
+    font-size: var(--fs-700);
     color: var(--color-white);
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   }
 
-  @media (max-width: 479px) {
-    .page-hero {
-      background-size: cover;
-    }
-
-    .page-title {
-      font-size: var(--text-2xl);
-      padding: var(--space-6) var(--space-4);
-    }
-  }
-
-  @media (min-width: 480px) and (max-width: 767px) {
-    .page-hero {
-      background-size: cover;
-    }
+  .works-gallery {
+    padding-block: var(--space-8);
   }
 </style>
