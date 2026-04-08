@@ -1,0 +1,268 @@
+---
+interface Props {
+  introTitleLines: string[];
+  introBodyLines: string[];
+  cards: {
+    title: string;
+    copy: string;
+  }[];
+}
+
+const { introTitleLines, introBodyLines, cards } = Astro.props;
+---
+
+<section id="flow" class="services-flow u-full-bleed u-bg-primary-light">
+  <h2 class="services-section-display-title services-flow__display-title">
+    <span class="services-display-title__line">施工</span>
+    <span class="services-display-title__line">流れ</span>
+  </h2>
+  <div class="l-container">
+    <div class="services-flow__inner">
+      <div class="services-flow__main">
+        <h3 class="services-flow__subtitle">
+          {
+            introTitleLines.map((line) => (
+              <span class="services-flow__subtitle-line">{line}</span>
+            ))
+          }
+        </h3>
+        <p class="services-flow__lead">
+          {
+            introBodyLines.map((line) => (
+              <span class="services-flow__lead-line">{line}</span>
+            ))
+          }
+        </p>
+        <div class="services-flow__diagram">
+          <img
+            src="/images/service/workflow.png"
+            alt="施工の流れ図"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+      <div class="services-flow__actions">
+        {
+          cards.map((card) => (
+            <article class="services-flow__card-item">
+              <div class="services-flow__card">
+                <h3 class="services-flow__card-title">{card.title}</h3>
+              </div>
+              <p class="services-flow__card-copy">{card.copy}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===========================================
+     Shared display title
+     =========================================== */
+  .services-section-display-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: var(--services-section-display-title-position, absolute);
+    top: var(
+      --services-section-display-title-top,
+      var(--services-kodawari-display-top)
+    );
+    left: var(
+      --services-section-display-title-left,
+      var(--services-kodawari-display-left)
+    );
+    z-index: var(--services-section-display-title-z-index, 1);
+    width: var(
+      --services-section-display-title-width,
+      var(--services-kodawari-display-width)
+    );
+    min-height: var(
+      --services-section-display-title-min-height,
+      var(--services-kodawari-display-height)
+    );
+    max-width: none;
+    margin: var(--services-section-display-title-margin, 0);
+    font-size: var(--services-section-display-title-size, 6rem);
+    line-height: 1.0416667;
+    letter-spacing: 0;
+    color: var(--color-white);
+    pointer-events: var(--services-section-display-title-events, none);
+  }
+
+  .services-display-title__line {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  /* ===========================================
+     5. 施工の流れ
+     =========================================== */
+  .services-flow {
+    position: relative;
+    overflow: clip;
+    padding-top: var(--services-kodawari-display-top);
+    padding-bottom: var(--section-spacing-block, var(--space-16));
+  }
+
+  .services-flow__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    width: 100%;
+    column-gap: var(--services-flow-body-gap);
+    /* Keep the fixed display title clear by shifting content, not the title. */
+    padding-inline-start: max(
+      var(--services-flow-inline-start),
+      calc(
+        var(--services-flow-display-safe-space) -
+          max(calc((100vw - var(--width-layout)) / 2), 0px)
+      )
+    );
+    padding-inline-end: var(--services-flow-inline-start);
+    padding-top: calc(
+      var(--services-flow-content-top) - var(--services-kodawari-display-top)
+    );
+  }
+
+  .services-flow__main {
+    display: grid;
+    /* 604px is the agreed minimum left-column width before stacking. */
+    flex: 1 1 37.75rem;
+    width: min(100%, var(--services-flow-intro-width));
+    min-width: min(100%, 37.75rem);
+  }
+
+  .services-flow__subtitle {
+    margin: 0;
+    width: 100%;
+    max-width: var(--services-flow-intro-width);
+    font-size: var(--fs-750);
+    line-height: normal;
+    color: var(--color-text);
+    min-width: 0;
+  }
+
+  .services-flow__subtitle-line,
+  .services-flow__lead-line {
+    display: block;
+  }
+
+  .services-flow__lead {
+    margin: 0.8125rem 0 0;
+    width: 100%;
+    max-width: var(--services-flow-intro-width);
+    font-size: var(--fs-body);
+    line-height: 1.2222222222;
+    color: var(--color-text);
+    min-width: 0;
+  }
+
+  .services-flow__actions {
+    display: grid;
+    align-self: start;
+    justify-content: end;
+    gap: var(--space-5);
+    flex: 1 1 var(--services-flow-card-width);
+    width: min(100%, var(--services-flow-card-width));
+    min-width: min(100%, var(--services-flow-card-width));
+    padding-top: var(--services-flow-actions-offset-top);
+  }
+
+  .services-flow__diagram {
+    position: relative;
+    width: 100%;
+    max-width: var(--services-flow-diagram-width);
+    min-height: auto;
+    aspect-ratio: 61 / 64;
+    margin-top: var(--services-flow-diagram-gap);
+    min-width: 0;
+  }
+
+  .services-flow__diagram img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .services-flow__card-item {
+    display: grid;
+    width: 100%;
+    max-width: 650px;
+    gap: var(--space-1);
+  }
+
+  .services-flow__card-copy {
+    margin: 0;
+    width: min(100%, var(--services-flow-copy-width));
+    justify-self: center;
+    font-family: var(--font-serif);
+    font-weight: var(--weight-semibold);
+    font-size: var(--fs-350);
+    line-height: 1.2222222222;
+    color: var(--color-text);
+    text-align: left;
+    white-space: pre-line;
+  }
+
+  .services-flow__card {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: var(--services-flow-card-height);
+    background: var(--color-gray-700);
+    border: 1px solid var(--color-white);
+    border-radius: var(--services-flow-card-radius);
+  }
+
+  .services-flow__card-title {
+    margin: 0;
+    width: min(100%, 16.704875rem);
+    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+    font-weight: var(--weight-normal);
+    font-size: var(--fs-400);
+    line-height: normal;
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  /* ===========================================
+     Responsive — max-width: 1440px
+     =========================================== */
+  @media (max-width: 1440px) {
+    .services-flow {
+      --services-section-display-title-position: static;
+      --services-section-display-title-width: fit-content;
+      --services-section-display-title-min-height: auto;
+      --services-section-display-title-size: clamp(3rem, 9vw, 5rem);
+      --services-section-display-title-events: auto;
+      --services-section-display-title-margin: var(
+        --services-section-display-title-margin-stacked
+      );
+    }
+
+    .services-flow__inner {
+      padding-inline: var(--services-section-inline-padding);
+      padding-top: 0;
+    }
+  }
+
+  /* ===========================================
+     Responsive — max-width: 768px
+     =========================================== */
+  @media (max-width: 768px) {
+    .services-flow {
+      --services-section-display-title-size: clamp(2.5rem, 12vw, 4rem);
+    }
+
+    .services-flow__subtitle {
+      font-size: var(--fs-700);
+    }
+  }
+</style>

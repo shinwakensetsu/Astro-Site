@@ -1,0 +1,181 @@
+---
+
+---
+
+<section class="recruit-header u-bg-primary-light">
+  <h2 class="sr-only">RECRUIT</h2>
+  <div class="recruit-header__container">
+    <div class="recruit-header__left">
+      <img
+        class="recruit-header__logo"
+        src="/images/util/SHINWA CONSTRUCTION CO.,LTD.svg"
+        alt="伸和建設株式会社"
+        width="302"
+        height="58"
+      />
+      <img
+        class="recruit-header__recruit-svg"
+        src="/images/recruit/recruit.svg"
+        alt=""
+        aria-hidden="true"
+        width="295"
+        height="59"
+      />
+      <p class="recruit-header__lead">伸和建設の採用情報</p>
+      <a class="recruit-header__cta" href="/contact">
+        <span class="recruit-header__cta-text">
+          <span>エントリーは</span>
+          <span>こちら</span>
+        </span>
+        <svg
+          class="recruit-header__cta-arrow"
+          viewBox="0 0 14 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M3.406.584a2 2 0 0 0-2.822 0 2 2 0 0 0-.001 2.82l6.343 6.357a2 2 0 0 1 0 2.825L.583 18.943a2 2 0 0 0-.001 2.82 2 2 0 0 0 2.822 0l9.177-9.175a2 2 0 0 0 0-2.829L3.406.584Z"
+            fill="currentColor"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="recruit-header__hero">
+      <span class="recruit-header__hero-label">作業風景１</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===== 1. RECRUIT ヘッダー（recruit-header） ===== */
+  /* Figma: 親 RECRUIT_1.0 1920×13618
+     コンテンツ領域: x=350〜1920 (幅1570), y=0〜1080
+     左テキスト群 + 右白角丸ヒーローエリア */
+
+  .recruit-header {
+    padding-block-end: 4.6875rem;
+  }
+
+  .recruit-header__container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-8);
+    max-width: var(--width-layout);
+    margin-inline: auto;
+    padding: 4.1875rem 3.625rem 0;
+    min-height: 67.5rem;
+  }
+
+  .recruit-header__left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  /* Figma: Group 40 — 302×58, x=58(relative), y=67 */
+  .recruit-header__logo {
+    width: 18.875rem;
+    height: auto;
+  }
+
+  /* Figma: RECRUIT SVG — 295×59, x=65, y=152 → margin-top = 152-67-58 = 27px */
+  .recruit-header__recruit-svg {
+    margin-top: 1.6875rem;
+    width: 18.4375rem;
+    height: auto;
+  }
+
+  /* Figma: 20px W3 Hiragino Mincho, #000, underline, y=227 → margin-top = 227-152-60 = 15px */
+  .recruit-header__lead {
+    margin: 0;
+    margin-top: 0.9375rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-350);
+    font-weight: var(--weight-normal);
+    color: var(--color-black);
+    text-decoration: underline;
+    line-height: normal;
+  }
+
+  /* Figma: CTAボタン 250×100, bg #448AAC, border 1px #5C5C5C, rounded 15px
+     y=905 → ページ下部付近。margin-top: auto で下寄せ */
+  .recruit-header__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 15.625rem;
+    padding: var(--space-4) 1.6875rem;
+    margin-top: auto;
+    margin-bottom: 0;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-gray-500);
+    border-radius: 0.9375rem;
+    text-decoration: none;
+    color: var(--color-primary-light);
+  }
+
+  .recruit-header__cta-text {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-serif);
+    font-size: var(--fs-450);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-tight);
+  }
+
+  .recruit-header__cta-arrow {
+    width: 0.875rem;
+    height: 1.4375rem;
+    flex-shrink: 0;
+  }
+
+  /* Figma: Rectangle 75 — 992×851, bg white, border 1px black, rounded 30px
+     x=392(relative), y=154 → 右カラム上端から約154-67=87px下 */
+  .recruit-header__hero {
+    margin-top: 5.4375rem;
+    max-width: 62rem;
+    min-height: 53.1875rem;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black);
+    border-radius: 1.875rem;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .recruit-header__hero-label {
+    font-family: var(--font-serif);
+    font-size: var(--fs-400);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .recruit-header__container {
+      grid-template-columns: 1fr;
+      padding: var(--space-8) var(--space-6);
+      min-height: auto;
+    }
+
+    .recruit-header__hero {
+      margin-top: var(--space-6);
+      min-height: 25rem;
+    }
+
+    .recruit-header__cta {
+      margin-top: var(--space-8);
+      margin-bottom: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .recruit-header__container {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .recruit-header__hero {
+      min-height: 18.75rem;
+      border-radius: var(--radius-lg);
+    }
+  }
+</style>

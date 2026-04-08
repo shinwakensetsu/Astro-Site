@@ -1,0 +1,298 @@
+---
+import IconArrow from "../../IconArrow.astro";
+
+interface Location {
+  name: string;
+  addressLines: string[];
+  mapHref: string;
+  telLabel: string;
+  telHref: string;
+  faxLabel: string;
+  faxHref: string;
+}
+
+interface Props {
+  locations: Location[];
+}
+
+const { locations } = Astro.props;
+---
+
+<section
+  id="access"
+  class="about-access u-full-bleed u-section-spacing u-section-spacing-top-ex"
+>
+  <span class="deco-label about-access__deco-label" aria-hidden="true"
+    >ACCESS</span
+  >
+  <div class="l-container about-access__inner">
+    <h2 class="about-access__title">アクセス</h2>
+    <div class="about-access__locations">
+      {
+        locations.map((location, index) => (
+          <div class="about-access__location">
+            <div class="about-access__location-body">
+              <h3 class="about-access__location-title">{location.name}</h3>
+              <p class="about-access__address">
+                {location.addressLines.map((line) => (
+                  <span class="about-access__address-line">{line}</span>
+                ))}
+              </p>
+            </div>
+            <figure class="about-access__map">
+              <iframe
+                src={
+                  index === 0
+                    ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d135.7295854!3d35.00814829999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600107b6ea0c74df%3A0x3f507db37a0b2d0a!2z44CSNjE1LTAwMDcg5Lqs6YO95bqc5Lqs6YO95biC5Y-z5Lqs5Yy66KW_6Zmi5LiK6Iqx55Sw55S677yS77yR!5e0!3m2!1sja!2sjp!4v1773822616709!5m2!1sja!2sjp"
+                    : "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3000!2d135.74291561694665!3d34.87609299394302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzTCsDUyJzMzLjkiTiAxMzXCsDQ0JzM4LjkiRQ!5e0!3m2!1sja!2sjp!4v1773823957012!5m2!1sja!2sjp"
+                }
+                title={`${location.name}のGoogleマップ`}
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              />
+            </figure>
+            <div class="l-container about-access__map-link-container">
+              <a
+                class="arrow-link arrow-link--on-light about-access__map-link"
+                href={location.mapHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="arrow-link__text">
+                  <span>Google Mapはこちら</span>
+                </span>
+                <IconArrow width="72" height="72" />
+              </a>
+            </div>
+            <div class="about-access__contacts">
+              <a class="about-access__contact-link" href={location.telHref}>
+                <span class="about-access__contact-label">TEL</span>
+                <span class="about-access__contact-value">
+                  {location.telLabel}
+                </span>
+              </a>
+              <a class="about-access__contact-link" href={location.faxHref}>
+                <span class="about-access__contact-label">FAX</span>
+                <span class="about-access__contact-value">
+                  {location.faxLabel}
+                </span>
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-access {
+    position: relative;
+    background-color: var(--color-primary-light);
+    color: var(--color-text);
+    overflow: clip;
+  }
+
+  .about-access__inner {
+    display: grid;
+    width: 100%;
+    max-width: calc(
+      var(--width-layout) + (var(--about-access-section-inline-padding) * 2)
+    );
+    padding-inline: var(--about-access-section-inline-padding);
+  }
+
+  /* Decorative label floating outside content area */
+  .about-access__deco-label {
+    position: absolute;
+    top: calc(var(--about-access-title-size) * 3);
+    left: var(--about-deco-label-inline-start);
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: left top;
+  }
+
+  .about-access__title {
+    font-size: var(--about-access-title-size);
+    margin: 0;
+  }
+
+  .about-access__locations {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+    gap: var(--space-20);
+  }
+
+  .about-access__location {
+    display: grid;
+    align-content: start;
+    width: min(100%, var(--about-access-card-width));
+    min-width: 0;
+    justify-items: stretch;
+  }
+
+  .about-access__location-body {
+    display: grid;
+    min-width: 0;
+    width: min(100%, var(--about-access-content-width));
+    justify-self: center;
+    text-align: left;
+  }
+
+  .about-access__location-title,
+  .about-access__address {
+    font-size: var(--about-access-location-size);
+  }
+
+  .about-access__address-line {
+    display: block;
+  }
+
+  .about-access__map {
+    width: min(100%, var(--about-access-content-width));
+    margin-top: var(--space-4);
+    justify-self: center;
+    border-radius: 3.125rem;
+    overflow: hidden;
+  }
+
+  .about-access .arrow-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--about-access-location-size);
+    text-decoration: none;
+    max-width: 100%;
+    --icon-arrow-circle-fill: var(--color-primary-light);
+    --icon-arrow-path-stroke: var(--color-gray-500);
+    --icon-arrow-border: rgba(0, 0, 0, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-gray-500);
+    --icon-arrow-path-stroke-hover: var(--color-primary-light);
+    --icon-arrow-border-hover: rgba(255, 255, 255, 0.5);
+  }
+
+  .about-access .arrow-link:hover {
+    text-decoration: none;
+  }
+
+  .about-access .arrow-link__text {
+    display: flex;
+    flex-direction: column;
+    line-height: var(--leading-tight);
+    text-align: center;
+    min-width: 0;
+  }
+
+  .about-access .arrow-link__text span {
+    overflow-wrap: break-word;
+  }
+
+  .about-access .arrow-link :global(svg) {
+    width: clamp(32px, 4.6875vw, 75px);
+    height: auto;
+    min-width: 32px;
+    min-height: 32px;
+    flex-shrink: 1;
+  }
+
+  .about-access .arrow-link--on-light {
+    color: var(--color-dark);
+    --icon-arrow-circle-fill: var(--color-gray-500);
+    --icon-arrow-path-stroke: var(--color-primary-light);
+    --icon-arrow-border: rgba(255, 255, 255, 0.5);
+    --icon-arrow-circle-fill-hover: var(--color-primary-light);
+    --icon-arrow-path-stroke-hover: var(--color-gray-500);
+    --icon-arrow-border-hover: rgba(0, 0, 0, 0.5);
+  }
+
+  .about-access__map iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 78 / 47;
+    border: 0;
+  }
+
+  .about-access__map-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 78 / 47;
+    background-color: #e0dfdf;
+    background-image: url("/images/util/noise-tile-300.svg");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    color: #5c5c5c;
+  }
+
+  .about-access__map-placeholder-text {
+    font-size: var(--about-access-location-size);
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .about-access__map-link-container {
+    width: 100vw;
+    max-width: var(--width-layout);
+    margin-inline: calc(50% - 50vw);
+    padding-inline: inherit;
+    padding-top: var(--space-2);
+    padding-right: clamp(2.4rem, -4rem + 13.333vw, 12rem);
+    color: #448aac;
+    display: flex;
+    justify-content: flex-end;
+    justify-self: center;
+  }
+
+  .about-access__map-link {
+    width: fit-content;
+  }
+
+  .about-access__contacts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: min(100%, var(--about-access-content-width));
+    justify-self: center;
+    margin-top: var(--space-10);
+  }
+
+  .about-access__contact-link {
+    display: grid;
+    align-content: center;
+    min-width: 0;
+    min-block-size: var(--about-access-contact-height);
+    padding-inline: clamp(1rem, 2.2vw, 1.5rem);
+    border: 3px solid currentColor;
+    border-radius: 15px;
+    color: inherit;
+    font-size: var(--about-access-contact-size);
+    line-height: 1.5;
+    text-decoration: none;
+    grid-auto-flow: column;
+  }
+
+  .about-access__contact-label,
+  .about-access__contact-value {
+    display: block;
+    margin: auto;
+  }
+
+  @media (max-width: 1024px) {
+    .about-access__deco-label {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .about-access__contacts {
+      grid-template-columns: 1fr;
+      max-width: 18.75rem;
+      justify-self: start;
+    }
+  }
+</style>

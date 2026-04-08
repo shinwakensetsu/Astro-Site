@@ -1,0 +1,366 @@
+---
+interface Props {
+  items: {
+    title: string;
+    accent: string;
+    sub: string;
+    text: string;
+    mediaLabel: string;
+    imageAlt: string;
+    cardSide: "right" | "left";
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<section
+  class="services-kodawari u-full-bleed u-bg-primary-light u-bg-noise-light"
+>
+  <h2 class="services-section-display-title services-kodawari__display-title">
+    <span class="services-display-title__line">こだ</span>
+    <span class="services-display-title__line">わり</span>
+  </h2>
+  <div class="l-container services-kodawari__inner">
+    <ul class="services-kodawari__items">
+      {
+        items.map((item) => (
+          <li class="services-kodawari__item">
+            <h3 class="services-kodawari__item-title">
+              <>
+                <span class="services-kodawari__item-title-main">
+                  {item.title}
+                </span>
+                <span class="services-kodawari__accent">{item.accent}</span>
+              </>
+            </h3>
+            <div
+              class={`services-kodawari__card services-kodawari__card--${item.cardSide} u-bg-noise-dark`}
+            >
+              <p class="services-kodawari__card-sub">{item.sub}</p>
+              <div class="services-kodawari__card-media">
+                <span class="services-kodawari__card-media-label">
+                  {item.mediaLabel}
+                </span>
+              </div>
+              <p class="services-kodawari__card-text">{item.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* ===========================================
+     Shared: display title
+     =========================================== */
+  .services-section-display-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: var(--services-section-display-title-position, absolute);
+    top: var(
+      --services-section-display-title-top,
+      var(--services-kodawari-display-top)
+    );
+    left: var(
+      --services-section-display-title-left,
+      var(--services-kodawari-display-left)
+    );
+    z-index: var(--services-section-display-title-z-index, 1);
+    width: var(
+      --services-section-display-title-width,
+      var(--services-kodawari-display-width)
+    );
+    min-height: var(
+      --services-section-display-title-min-height,
+      var(--services-kodawari-display-height)
+    );
+    max-width: none;
+    margin: var(--services-section-display-title-margin, 0);
+    font-size: var(--services-section-display-title-size, 6rem);
+    line-height: 1.0416667;
+    letter-spacing: 0;
+    color: var(--color-white);
+    pointer-events: var(--services-section-display-title-events, none);
+  }
+
+  .services-display-title__line {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  /* ===========================================
+     3. こだわり
+     =========================================== */
+  .services-kodawari {
+    position: relative;
+    overflow: clip;
+    padding-top: var(--services-kodawari-display-top);
+    padding-bottom: var(--section-spacing-block, var(--space-16));
+  }
+
+  .services-kodawari {
+    --services-section-display-title-position: absolute;
+    --services-section-display-title-top: var(--services-kodawari-display-top);
+    --services-section-display-title-left: var(
+      --services-kodawari-display-left
+    );
+    --services-section-display-title-z-index: 1;
+    --services-section-display-title-width: var(
+      --services-kodawari-display-width
+    );
+    --services-section-display-title-min-height: var(
+      --services-kodawari-display-height
+    );
+    --services-section-display-title-size: 6rem;
+    --services-section-display-title-margin: 0;
+    --services-section-display-title-events: none;
+  }
+
+  .services-kodawari__inner {
+    max-width: var(--width-layout);
+    padding-inline: var(--services-section-inline-padding);
+    padding-top: calc(
+      var(--services-kodawari-content-top) -
+        var(--services-kodawari-display-top)
+    );
+  }
+
+  .services-kodawari__items {
+    display: grid;
+    gap: 4.375rem;
+    width: min(
+      var(--services-kodawari-items-max-width),
+      calc(100vw - (var(--services-kodawari-display-safe-space) * 2))
+    );
+    min-width: 0;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .services-kodawari__item {
+    --services-kodawari-title-height: 20.1875rem;
+    --services-kodawari-title-offset: 4.1875rem;
+    --services-kodawari-card-sub-left: 2.25rem;
+    --services-kodawari-card-sub-top: 1.875rem;
+    --services-kodawari-card-sub-width: 22rem;
+    --services-kodawari-card-text-right: 0.3125rem;
+    --services-kodawari-card-text-bottom: 1.6875rem;
+    --services-kodawari-card-text-width: 22rem;
+    display: grid;
+    grid-template-columns: 1.875rem minmax(0, 1fr);
+    column-gap: 1.5625rem;
+    align-items: start;
+    min-width: 0;
+  }
+
+  .services-kodawari__item:nth-child(2) {
+    --services-kodawari-title-height: 27.6875rem;
+    --services-kodawari-title-offset: 3.125rem;
+    --services-kodawari-card-sub-top: 1.9375rem;
+    --services-kodawari-card-text-bottom: 1.3125rem;
+  }
+
+  .services-kodawari__item:nth-child(3) {
+    --services-kodawari-title-height: 15.625rem;
+    --services-kodawari-title-offset: 4.1875rem;
+    --services-kodawari-card-sub-left: 1.3125rem;
+    --services-kodawari-card-sub-top: 1.4375rem;
+    --services-kodawari-card-text-right: 1.75rem;
+    --services-kodawari-card-text-bottom: 1.4375rem;
+    --services-kodawari-card-text-width: 20.5625rem;
+    margin-top: 1.6875rem;
+  }
+
+  .services-kodawari__item-title {
+    display: block;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    width: 1.875rem;
+    height: var(--services-kodawari-title-height);
+    transform: translateY(calc(var(--services-kodawari-title-offset) * -1));
+    font-size: var(--fs-650);
+    line-height: 1.2;
+    color: var(--color-text);
+    letter-spacing: 0.06em;
+    margin-top: 0;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .services-kodawari__item-title-main {
+    line-height: inherit;
+  }
+
+  .services-kodawari__accent {
+    color: var(--color-primary);
+  }
+
+  .services-kodawari__card {
+    position: relative;
+    background: var(--color-dark);
+    border: 1px solid var(--color-white);
+    width: 100%;
+    min-height: 31.25rem;
+    padding: 0;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--services-kodawari-card-radius) 0 0
+      var(--services-kodawari-card-radius);
+  }
+
+  .services-kodawari__card-sub {
+    position: absolute;
+    top: var(--services-kodawari-card-sub-top);
+    left: var(--services-kodawari-card-sub-left);
+    z-index: 1;
+    width: var(--services-kodawari-card-sub-width);
+    max-width: none;
+    font-size: var(--fs-body);
+    color: var(--color-white);
+    line-height: var(--leading-normal);
+    min-width: 0;
+  }
+
+  .services-kodawari__card-media {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: clamp(var(--space-4), 3vw, var(--space-10));
+    min-width: 0;
+    pointer-events: none;
+  }
+
+  .services-kodawari__card-media-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25.75rem;
+    min-height: 1.8125rem;
+    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+    font-size: var(--fs-400);
+    line-height: 1.2;
+    color: var(--color-white);
+    letter-spacing: 0.04em;
+  }
+
+  .services-kodawari__card-text {
+    position: absolute;
+    right: var(--services-kodawari-card-text-right);
+    bottom: var(--services-kodawari-card-text-bottom);
+    z-index: 1;
+    width: var(--services-kodawari-card-text-width);
+    max-width: none;
+    font-size: var(--fs-body);
+    color: var(--color-white);
+    line-height: var(--leading-normal);
+    text-align: left;
+    min-width: 0;
+  }
+
+  /* ===========================================
+     Responsive — max-width: 1280px
+     =========================================== */
+  @media (max-width: 1280px) {
+    .services-kodawari__items {
+      width: 100%;
+      max-width: none;
+      gap: clamp(var(--space-8), 4vw, var(--space-12));
+    }
+
+    .services-kodawari__item,
+    .services-kodawari__item:nth-child(3) {
+      grid-template-columns: 1fr;
+      column-gap: 0;
+      margin-top: 0;
+    }
+
+    .services-kodawari__item-title {
+      width: auto;
+      height: auto;
+      transform: none;
+      writing-mode: horizontal-tb;
+      text-orientation: mixed;
+      font-size: var(--fs-650);
+      letter-spacing: normal;
+      white-space: normal;
+    }
+
+    .services-kodawari__card {
+      width: 100%;
+      min-height: auto;
+      padding: clamp(var(--space-5), 3vw, var(--space-8));
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .services-kodawari__card-sub,
+    .services-kodawari__card-text {
+      position: relative;
+      left: auto;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      width: auto;
+      max-width: none;
+      text-align: left;
+    }
+
+    .services-kodawari__card-media {
+      position: relative;
+      inset: auto;
+      min-height: 12rem;
+      padding: 0;
+    }
+
+    .services-kodawari__card-media-label {
+      width: 100%;
+      min-height: 8rem;
+    }
+  }
+
+  /* ===========================================
+     Responsive — max-width: 1440px
+     =========================================== */
+  @media (max-width: 1440px) {
+    .services-kodawari {
+      --services-section-display-title-position: static;
+      --services-section-display-title-width: fit-content;
+      --services-section-display-title-min-height: auto;
+      --services-section-display-title-size: clamp(3rem, 9vw, 5rem);
+      --services-section-display-title-events: auto;
+      --services-section-display-title-margin: var(
+        --services-section-display-title-margin-stacked
+      );
+    }
+
+    .services-kodawari__inner {
+      padding-inline: var(--services-section-inline-padding);
+      padding-top: 0;
+    }
+  }
+
+  /* ===========================================
+     Responsive — max-width: 768px
+     =========================================== */
+  @media (max-width: 768px) {
+    .services-kodawari {
+      --services-section-display-title-size: clamp(2.5rem, 12vw, 4rem);
+    }
+
+    .services-kodawari__card {
+      gap: var(--space-5);
+    }
+
+    .services-kodawari__card-media {
+      min-height: 10rem;
+    }
+  }
+</style>

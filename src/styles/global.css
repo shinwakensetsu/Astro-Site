@@ -36,6 +36,9 @@
   --color-header-bg:       var(--color-dark);
   --header-height:         80px;
 
+  /* --- Gradients --- */
+  --gradient-page-header:  linear-gradient(135deg, #333333, var(--color-dark));
+
   /* --- Status Colors --- */
   --color-success:         #00a859;
   --color-warning:         #ff9500;

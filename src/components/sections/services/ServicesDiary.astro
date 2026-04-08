@@ -1,0 +1,602 @@
+---
+interface DiaryEntry {
+  title: string;
+  paragraphs: string[];
+  date?: string;
+  dateTime?: string;
+}
+
+interface Props {
+  entries: DiaryEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<section id="diary" class="services-diary u-full-bleed u-bg-primary-light">
+  <h2 class="services-section-display-title services-diary__display-title">
+    <span class="services-display-title__line">業務</span>
+    <span class="services-display-title__line">日記</span>
+  </h2>
+  <div class="l-container services-diary__inner">
+    <div class="services-diary__frame u-bg-noise-dark">
+      <div class="services-diary__scroll-rail">
+        <button
+          type="button"
+          class="services-diary__scroll-arrow services-diary__scroll-arrow--top"
+          aria-controls="services-diary-frame"
+          aria-label="上へスクロール"></button>
+        <div class="services-diary__scroll-track">
+          <button
+            type="button"
+            class="services-diary__scroll-thumb"
+            aria-hidden="true"
+            tabindex="-1"></button>
+        </div>
+        <button
+          type="button"
+          class="services-diary__scroll-arrow services-diary__scroll-arrow--bottom"
+          aria-controls="services-diary-frame"
+          aria-label="下へスクロール"></button>
+      </div>
+      <div
+        id="services-diary-frame"
+        class="services-diary__scroller"
+        tabindex="0"
+        aria-label="業務日記の一覧"
+      >
+        {
+          entries.map((entry) => (
+            <article class="services-diary__entry">
+              <h3 class="services-diary__entry-title">{entry.title}</h3>
+              <div class="services-diary__entry-body">
+                {entry.paragraphs.map((p) => (
+                  <p class="services-diary__entry-text">{p}</p>
+                ))}
+              </div>
+              {entry.date && (
+                <time
+                  class="services-diary__entry-date"
+                  datetime={entry.dateTime}
+                >
+                  {entry.date}
+                </time>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const diaryFrame = document.querySelector<HTMLElement>(
+    ".services-diary__frame",
+  );
+  const diaryScroller = document.querySelector<HTMLElement>(
+    ".services-diary__scroller",
+  );
+  const diaryScrollbar = document.querySelector<HTMLElement>(
+    ".services-diary__scroll-rail",
+  );
+  const diaryScrollbarTrack = document.querySelector<HTMLElement>(
+    ".services-diary__scroll-track",
+  );
+  const diaryScrollbarThumb = document.querySelector<HTMLElement>(
+    ".services-diary__scroll-thumb",
+  );
+  const diaryScrollUpButton = document.querySelector<HTMLButtonElement>(
+    ".services-diary__scroll-arrow--top",
+  );
+  const diaryScrollDownButton = document.querySelector<HTMLButtonElement>(
+    ".services-diary__scroll-arrow--bottom",
+  );
+  const diaryEntriesList = Array.from(
+    document.querySelectorAll<HTMLElement>(".services-diary__entry"),
+  );
+
+  if (
+    diaryFrame &&
+    diaryScroller &&
+    diaryScrollbar &&
+    diaryScrollbarTrack &&
+    diaryScrollbarThumb &&
+    diaryScrollUpButton &&
+    diaryScrollDownButton
+  ) {
+    let measureRafId = 0;
+    let positionRafId = 0;
+    let maxScrollTop = 0;
+    let maxThumbOffset = 0;
+    let thumbOffset = 0;
+    let activePointerId: number | null = null;
+    let dragStartClientY = 0;
+    let dragStartThumbOffset = 0;
+
+    const clamp = (value: number, min: number, max: number) =>
+      Math.min(Math.max(value, min), max);
+
+    const updateDiaryScrollbarPosition = () => {
+      positionRafId = 0;
+
+      const progress =
+        maxScrollTop > 0 ? diaryScroller.scrollTop / maxScrollTop : 0;
+
+      thumbOffset = progress * maxThumbOffset;
+      diaryScrollbarThumb.style.transform = `translate3d(-50%, ${thumbOffset}px, 0)`;
+
+      const isInactive = maxScrollTop <= 0;
+
+      diaryScrollbar.classList.toggle(
+        "services-diary__scroll-rail--inactive",
+        isInactive,
+      );
+      diaryScrollUpButton.disabled = isInactive;
+      diaryScrollDownButton.disabled = isInactive;
+    };
+
+    const requestDiaryScrollbarPositionUpdate = () => {
+      if (positionRafId !== 0) return;
+      positionRafId = window.requestAnimationFrame(
+        updateDiaryScrollbarPosition,
+      );
+    };
+
+    const measureDiaryScrollbar = () => {
+      measureRafId = 0;
+      maxScrollTop = Math.max(
+        diaryScroller.scrollHeight - diaryScroller.clientHeight,
+        0,
+      );
+      maxThumbOffset = Math.max(
+        diaryScrollbarTrack.clientHeight - diaryScrollbarThumb.offsetHeight,
+        0,
+      );
+      requestDiaryScrollbarPositionUpdate();
+    };
+
+    const requestDiaryScrollbarMeasure = () => {
+      if (measureRafId !== 0) return;
+      measureRafId = window.requestAnimationFrame(measureDiaryScrollbar);
+    };
+
+    const syncDiaryScrollFromThumbOffset = (nextThumbOffset: number) => {
+      const clampedThumbOffset = clamp(nextThumbOffset, 0, maxThumbOffset);
+      const progress =
+        maxThumbOffset > 0 ? clampedThumbOffset / maxThumbOffset : 0;
+
+      diaryScroller.scrollTop = progress * maxScrollTop;
+    };
+
+    const endDiaryScrollbarDrag = () => {
+      activePointerId = null;
+      diaryScrollbarThumb.classList.remove("is-dragging");
+    };
+
+    const scrollDiaryByStep = (direction: 1 | -1) => {
+      if (maxScrollTop <= 0) return;
+
+      diaryScroller.scrollBy({
+        top: direction * Math.max(diaryScroller.clientHeight * 0.45, 120),
+        behavior: "smooth",
+      });
+    };
+
+    requestDiaryScrollbarMeasure();
+
+    diaryScroller.addEventListener(
+      "scroll",
+      requestDiaryScrollbarPositionUpdate,
+      {
+        passive: true,
+      },
+    );
+    window.addEventListener("resize", requestDiaryScrollbarMeasure, {
+      passive: true,
+    });
+
+    diaryScrollUpButton.addEventListener("click", () => {
+      scrollDiaryByStep(-1);
+    });
+
+    diaryScrollDownButton.addEventListener("click", () => {
+      scrollDiaryByStep(1);
+    });
+
+    diaryScrollbarTrack.addEventListener("pointerdown", (event) => {
+      if (event.target === diaryScrollbarThumb || maxScrollTop <= 0) return;
+
+      const trackRect = diaryScrollbarTrack.getBoundingClientRect();
+      const nextThumbOffset =
+        event.clientY - trackRect.top - diaryScrollbarThumb.offsetHeight / 2;
+
+      syncDiaryScrollFromThumbOffset(nextThumbOffset);
+      event.preventDefault();
+    });
+
+    diaryScrollbarThumb.addEventListener("pointerdown", (event) => {
+      if (maxScrollTop <= 0) return;
+
+      activePointerId = event.pointerId;
+      dragStartClientY = event.clientY;
+      dragStartThumbOffset = thumbOffset;
+
+      diaryScrollbarThumb.setPointerCapture(event.pointerId);
+      diaryScrollbarThumb.classList.add("is-dragging");
+      event.preventDefault();
+    });
+
+    diaryScrollbarThumb.addEventListener("pointermove", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      const deltaY = event.clientY - dragStartClientY;
+
+      syncDiaryScrollFromThumbOffset(dragStartThumbOffset + deltaY);
+      event.preventDefault();
+    });
+
+    diaryScrollbarThumb.addEventListener("pointerup", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      diaryScrollbarThumb.releasePointerCapture(event.pointerId);
+    });
+
+    diaryScrollbarThumb.addEventListener("pointercancel", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      diaryScrollbarThumb.releasePointerCapture(event.pointerId);
+    });
+
+    diaryScrollbarThumb.addEventListener(
+      "lostpointercapture",
+      endDiaryScrollbarDrag,
+    );
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(requestDiaryScrollbarMeasure);
+
+      resizeObserver.observe(diaryFrame);
+      resizeObserver.observe(diaryScroller);
+      resizeObserver.observe(diaryScrollbarTrack);
+      diaryEntriesList.forEach((entry) => resizeObserver.observe(entry));
+    }
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(requestDiaryScrollbarMeasure).catch(() => {});
+    }
+  }
+</script>
+
+<style>
+  /* ===========================================
+     Display Title (shared)
+     =========================================== */
+  .services-section-display-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: var(--services-section-display-title-position, absolute);
+    top: var(
+      --services-section-display-title-top,
+      var(--services-kodawari-display-top)
+    );
+    left: var(
+      --services-section-display-title-left,
+      var(--services-kodawari-display-left)
+    );
+    z-index: var(--services-section-display-title-z-index, 1);
+    width: var(
+      --services-section-display-title-width,
+      var(--services-kodawari-display-width)
+    );
+    min-height: var(
+      --services-section-display-title-min-height,
+      var(--services-kodawari-display-height)
+    );
+    max-width: none;
+    margin: var(--services-section-display-title-margin, 0);
+    font-size: var(--services-section-display-title-size, 6rem);
+    line-height: 1.0416667;
+    letter-spacing: 0;
+    color: var(--color-white);
+    pointer-events: var(--services-section-display-title-events, none);
+  }
+
+  .services-display-title__line {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  /* ===========================================
+     6. 業務日記
+     =========================================== */
+  .services-diary {
+    position: relative;
+    overflow: clip;
+    padding-top: var(--services-kodawari-display-top);
+    padding-bottom: var(--section-spacing-block, var(--space-16));
+  }
+
+  .services-diary__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    max-width: var(--width-layout);
+    padding-inline-start: max(
+      var(--services-diary-content-inline),
+      calc(
+        var(--services-diary-display-safe-space) -
+          max(calc((100vw - var(--width-layout)) / 2), 0px)
+      )
+    );
+    padding-inline-end: var(--services-diary-content-inline);
+    padding-top: calc(
+      var(--services-diary-content-top) - var(--services-kodawari-display-top)
+    );
+  }
+
+  .services-diary__frame {
+    position: relative;
+    width: 100%;
+    background: var(--color-dark);
+    border: 0.625rem solid var(--color-white);
+    border-radius: 0.625rem;
+    height: 48.75rem;
+    overflow: hidden;
+  }
+
+  .services-diary__scroller {
+    height: 100%;
+    padding-block: 1.875rem 0.625rem;
+    padding-inline: 4.6875rem;
+    display: grid;
+    align-content: start;
+    grid-auto-rows: max-content;
+    gap: 0.625rem;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .services-diary__scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .services-diary__scroll-rail {
+    position: absolute;
+    top: 4.875rem;
+    right: 1.6875rem;
+    width: 0.9375rem;
+    height: 34.5625rem;
+    pointer-events: auto;
+  }
+
+  .services-diary__scroll-rail--inactive {
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .services-diary__scroll-track {
+    position: absolute;
+    top: 0.625rem;
+    bottom: 0.625rem;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+  }
+
+  .services-diary__scroll-track::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 0.0625rem;
+    transform: translateX(-50%);
+    background: #e0dfdf;
+  }
+
+  .services-diary__scroll-thumb {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent url("/images/util/services-diary-scroll-thumb.svg")
+      center / 13px 13px no-repeat;
+    transform: translate3d(-50%, 0, 0);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    appearance: none;
+  }
+
+  .services-diary__scroll-thumb.is-dragging {
+    cursor: grabbing;
+  }
+
+  .services-diary__scroll-arrow {
+    position: absolute;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 0.9375rem;
+    height: 0.625rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    transform: translateX(-50%);
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .services-diary__scroll-arrow::before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 0.28125rem solid transparent;
+    border-right: 0.28125rem solid transparent;
+  }
+
+  .services-diary__scroll-arrow--top {
+    top: 0;
+  }
+
+  .services-diary__scroll-arrow--bottom {
+    bottom: 0;
+  }
+
+  .services-diary__scroll-arrow--top::before {
+    border-bottom: 0.5rem solid #e0dfdf;
+  }
+
+  .services-diary__scroll-arrow--bottom::before {
+    border-top: 0.5rem solid #e0dfdf;
+  }
+
+  .services-diary__scroll-arrow:focus-visible,
+  .services-diary__scroll-thumb:focus-visible {
+    outline: 0.125rem solid #e0dfdf;
+    outline-offset: 0.125rem;
+  }
+
+  .services-diary__entry {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    row-gap: 0.8125rem;
+    align-content: start;
+    height: auto;
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-white);
+    border-radius: 3.125rem;
+    min-height: 18.75rem;
+    padding: 1.6875rem 1.4375rem 1.5rem;
+    min-width: 0;
+  }
+
+  .services-diary__entry-body {
+    display: flex;
+    flex-direction: column;
+    max-width: 72.125rem;
+    min-width: 0;
+  }
+
+  .services-diary__entry-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--weight-semibold);
+    font-size: var(--fs-450);
+    line-height: 1.4230769231;
+    color: var(--color-text);
+  }
+
+  .services-diary__entry-text {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--weight-semibold);
+    font-size: var(--fs-body);
+    line-height: 1.4444444444;
+    color: var(--color-text);
+  }
+
+  .services-diary__entry-text + .services-diary__entry-text {
+    margin-top: 0.25rem;
+  }
+
+  .services-diary__entry-date {
+    width: 8.125rem;
+    justify-self: end;
+    align-self: end;
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    line-height: 1.1111111111;
+    text-align: right;
+    color: var(--color-text);
+  }
+
+  /* ===========================================
+     Responsive — max-width: 1440px
+     =========================================== */
+  @media (max-width: 1440px) {
+    .services-diary {
+      --services-section-display-title-position: static;
+      --services-section-display-title-width: fit-content;
+      --services-section-display-title-min-height: auto;
+      --services-section-display-title-size: clamp(3rem, 9vw, 5rem);
+      --services-section-display-title-events: auto;
+      --services-section-display-title-margin: var(
+        --services-section-display-title-margin-stacked
+      );
+    }
+
+    .services-diary__inner {
+      padding-inline: var(--services-section-inline-padding);
+      padding-top: 0;
+    }
+  }
+
+  /* ===========================================
+     Responsive — max-width: 768px
+     =========================================== */
+  @media (max-width: 768px) {
+    .services-diary__frame {
+      height: auto;
+    }
+
+    .services-diary__scroller {
+      height: auto;
+      padding: var(--space-5);
+      gap: var(--space-4);
+      overflow: visible;
+    }
+
+    .services-diary__scroll-rail {
+      display: none;
+    }
+
+    .services-diary__entry {
+      min-height: auto;
+      padding: var(--space-5);
+      border-radius: var(--space-6);
+    }
+
+    .services-diary__entry:last-child {
+      min-height: auto;
+      border-radius: var(--space-6);
+      padding: var(--space-5);
+    }
+
+    .services-diary__entry-date {
+      position: static;
+      display: block;
+      width: auto;
+      margin-top: var(--space-4);
+    }
+  }
+
+  /* ===========================================
+     Responsive — max-width: 425px
+     =========================================== */
+  @media (max-width: 425px) {
+    .services-diary__entry {
+      border-radius: var(--space-4);
+      padding: var(--space-5);
+    }
+
+    .services-diary__entry:last-child {
+      border-radius: var(--space-4);
+      padding: var(--space-5);
+    }
+
+    .services-diary__entry-date {
+      margin-top: var(--space-3);
+    }
+  }
+</style>

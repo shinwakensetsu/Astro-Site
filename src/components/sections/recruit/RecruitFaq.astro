@@ -1,0 +1,217 @@
+---
+import Accordion from "../../Accordion.astro";
+import AccordionItem from "../../AccordionItem.astro";
+
+interface Props {
+  items: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<section id="faq" class="recruit-faq u-bg-primary-light">
+  <div class="recruit-faq__container">
+    <div class="recruit-faq__deco-label-wrap" aria-hidden="true">
+      <span class="recruit-faq__deco-label">FAQ</span>
+    </div>
+    <div class="recruit-faq__header">
+      <h2 class="recruit-faq__title">よくあるご質問</h2>
+    </div>
+    <div class="recruit-faq__body">
+      <Accordion>
+        {
+          items.map((item) => (
+            <AccordionItem title={item.question}>
+              <p class="recruit-faq__answer">
+                {item.answer.split("\n").map((line, i, arr) => (
+                  <>
+                    {line}
+                    {i < arr.length - 1 && <br />}
+                  </>
+                ))}
+              </p>
+            </AccordionItem>
+          ))
+        }
+      </Accordion>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===== 6. よくある質問（recruit-faq） ===== */
+  /* Figma: 1920×1450, node 58:26940
+     左サイドバー350px。Q&A中央寄せ。
+     質問: 20px W6。回答: 18px W6, 白背景 下角丸50px。
+     +アイコン: Inter 40px, primary色。 */
+
+  .recruit-faq {
+    background-image: url("/images/recruit/recruit_bg_pattern.svg");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
+    display: grid;
+  }
+
+  .recruit-faq__decorative,
+  .recruit-faq__container {
+    grid-area: 1 / 1;
+  }
+
+  .recruit-faq__decorative {
+    background-color: var(--color-dark);
+    width: 350px;
+    justify-self: start;
+  }
+
+  .recruit-faq__container {
+    position: relative;
+    padding-block: 3rem 5rem;
+    padding-inline: var(--space-10);
+  }
+
+  /* Figma: 見出し左寄せ + 装飾ラベル右端 rotate90° */
+  .recruit-faq__header {
+    max-width: 55.25rem;
+    margin-inline: auto;
+    margin-bottom: var(--space-8);
+  }
+
+  /* Figma: 48px W6, #1F1F1F */
+  .recruit-faq__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-750);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    line-height: normal;
+    margin: 0;
+  }
+
+  /* Figma: 96px W6, #5C5C5C, 右上配置, 縦書き */
+  .recruit-faq__deco-label-wrap {
+    position: absolute;
+    top: var(--space-10);
+    right: var(--space-10);
+    z-index: 1;
+  }
+
+  .recruit-faq__deco-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: var(--font-serif);
+    font-size: var(--fs-1000);
+    font-weight: var(--weight-semibold);
+    line-height: 1;
+    color: var(--color-primary-light);
+  }
+
+  @media (max-width: 1440px) {
+    .recruit-faq__deco-label {
+      writing-mode: horizontal-tb;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .recruit-faq__deco-label-wrap {
+      display: none;
+    }
+  }
+
+  .recruit-faq__body {
+    position: relative;
+    z-index: 2;
+    max-width: 55.25rem;
+    margin-inline: auto;
+  }
+
+  /* --- Accordion上書き（:global） --- */
+
+  .recruit-faq__body :global(.accordion) {
+    border-top: none;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .recruit-faq__body :global(.accordion-item) {
+    list-style: none;
+  }
+
+  /* Figma: 質問行 — 20px W6, #000, +アイコン付き */
+  .recruit-faq__body :global(.accordion-summary) {
+    font-family: var(--font-serif);
+    font-size: var(--fs-300);
+    font-weight: var(--weight-semibold);
+    color: var(--color-black);
+    line-height: var(--leading-normal);
+    padding: var(--space-3) 0 var(--space-3) 48px;
+    display: flex;
+    align-items: center;
+    gap: 3.875rem;
+    cursor: pointer;
+    list-style: none;
+    border-bottom: 4px solid var(--color-primary);
+  }
+
+  .recruit-faq__body :global(.accordion-summary::-webkit-details-marker) {
+    display: none;
+  }
+
+  .recruit-faq__body :global(.accordion-summary::marker) {
+    display: none;
+    content: "";
+  }
+
+  /* Figma: +アイコン Inter 40px, #448AAC */
+  .recruit-faq__body :global(.accordion-summary::before) {
+    content: "+";
+    flex: 0 0 auto;
+    font-family: "Inter", sans-serif;
+    font-size: 2.5rem;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    line-height: 1;
+    text-shadow: none;
+  }
+
+  /* Figma: 回答背景 白, 下角丸50px, 幅824px */
+  .recruit-faq__body :global(.accordion-content) {
+    overflow: hidden;
+  }
+
+  .recruit-faq__body :global(.accordion-content-inner) {
+    background-color: var(--color-white);
+    border-radius: 0 0 3.125rem 3.125rem;
+    padding: clamp(1.5rem, calc(1.5rem + (100vw - 64rem) * 0.02567), 2.9375rem)
+      clamp(4rem, calc(4rem + (100vw - 64rem) * 0.04799), 6.6875rem);
+    max-width: 51.5rem;
+    margin-inline: auto;
+  }
+
+  /* Figma: 回答テキスト 18px W6, #000 */
+  .recruit-faq__answer {
+    font-family: var(--font-serif);
+    font-size: var(--fs-200);
+    font-weight: var(--weight-semibold);
+    color: var(--color-black);
+    line-height: var(--leading-normal);
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .recruit-faq__container {
+      padding-inline: clamp(
+        var(--space-6),
+        calc(1.5rem + (100vw - 20rem) * 0.03571),
+        var(--space-10)
+      );
+    }
+
+    .recruit-faq__body :global(.accordion-summary) {
+      padding-left: var(--space-4);
+      gap: clamp(1rem, calc(1rem + (100vw - 20rem) * 0.10268), 3.875rem);
+    }
+  }
+</style>

@@ -1,0 +1,171 @@
+---
+interface Props {
+  rows: {
+    label: string;
+    value: string;
+  }[];
+}
+
+const { rows } = Astro.props;
+---
+
+<section id="requirements" class="recruit-requirements u-bg-primary-light">
+  <div class="recruit-requirements__container">
+    <h2 class="recruit-requirements__title">募集要項</h2>
+    <table class="recruit-requirements__table">
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr class="recruit-requirements__row">
+              <th class="recruit-requirements__label" scope="row">
+                {row.label}
+              </th>
+              <td class="recruit-requirements__value">
+                {row.value.split("\n").map((line, i, arr) => (
+                  <>
+                    {line}
+                    {i < arr.length - 1 && <br />}
+                  </>
+                ))}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  /* ===== 5. 募集要項（recruit-requirements） ===== */
+  /* Figma: 1920×1400, node 58:24101
+     左サイドバー350px + テーブル幅900px中央寄せ。
+     罫線: 白3px。2列不等分（ラベル約425px / 値約475px）。 */
+
+  .recruit-requirements {
+    display: grid;
+  }
+
+  .recruit-requirements__decorative,
+  .recruit-requirements__container {
+    grid-area: 1 / 1;
+  }
+
+  /* Figma sideBox: 350px at 1920px */
+  .recruit-requirements__decorative {
+    background-color: var(--color-dark);
+    width: 350px;
+    justify-self: start;
+  }
+
+  .recruit-requirements__container {
+    padding-block: 5rem 5.4375rem;
+    padding-inline: var(--space-10);
+  }
+
+  /* Figma: 48px W6, #1F1F1F, center */
+  .recruit-requirements__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-750);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    text-align: center;
+    margin: 0 0 var(--space-8);
+    line-height: normal;
+  }
+
+  .recruit-requirements__table {
+    max-width: 56.25rem;
+    margin-inline: auto;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /* Figma: 白3px罫線で区切り */
+  .recruit-requirements__row {
+    border-top: 3px solid var(--color-white);
+  }
+
+  .recruit-requirements__row:last-child {
+    border-bottom: 3px solid var(--color-white);
+  }
+
+  /* Figma: 20px W6, #000 — 共通 */
+  .recruit-requirements__label,
+  .recruit-requirements__value {
+    font-family: var(--font-serif);
+    font-size: var(--fs-300);
+    font-weight: var(--weight-semibold);
+    color: var(--color-black);
+    line-height: var(--leading-normal);
+    padding-block: var(--space-5);
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  /* Figma: ラベル列 約425/900 ≒ 47% */
+  .recruit-requirements__label {
+    width: 47%;
+    padding-inline-start: 4.875rem;
+  }
+
+  /* --- MQ: ≤1024px --- */
+  @media (max-width: 1024px) {
+    .recruit-requirements__decorative {
+      display: none;
+    }
+
+    .recruit-requirements__container {
+      padding-block: var(--space-12) var(--space-16);
+    }
+
+    .recruit-requirements__label {
+      padding-inline-start: var(--space-4);
+    }
+  }
+
+  /* --- MQ: ≤768px --- */
+  @media (max-width: 768px) {
+    .recruit-requirements__title {
+      font-size: 1.75rem;
+    }
+
+    .recruit-requirements__table,
+    .recruit-requirements__table tbody,
+    .recruit-requirements__row,
+    .recruit-requirements__label,
+    .recruit-requirements__value {
+      display: block;
+    }
+
+    .recruit-requirements__label {
+      width: auto;
+      padding-inline-start: 0;
+      padding-block: var(--space-4) var(--space-1);
+      font-weight: var(--weight-bold);
+    }
+
+    .recruit-requirements__value {
+      padding-block: 0 var(--space-4);
+    }
+
+    .recruit-requirements__container {
+      padding-inline: var(--space-6);
+      padding-block: var(--space-10) var(--space-12);
+    }
+  }
+
+  /* --- MQ: ≤425px --- */
+  @media (max-width: 425px) {
+    .recruit-requirements__container {
+      padding-inline: var(--space-5);
+    }
+  }
+
+  /* --- MQ: ≤320px --- */
+  @media (max-width: 320px) {
+    .recruit-requirements__container {
+      padding-inline: var(--space-3);
+    }
+  }
+</style>

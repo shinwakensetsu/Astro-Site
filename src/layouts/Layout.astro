@@ -73,7 +73,11 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     <header class="site-header" role="banner">
       <div class="site-header__inner">
         <a href="/" class="site-header__logo" aria-label="トップページへ戻る"
-          >ロゴ</a
+          ><img
+            src="/images/util/SHINWA CONSTRUCTION CO.,LTD.svg"
+            alt="SHINWA CONSTRUCTION CO.,LTD."
+            class="site-header__logo-img"
+          /></a
         >
 
         <div class="site-header__controls">
@@ -219,17 +223,17 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
   .site-header__logo {
     width: 18.875rem;
     max-width: 100%;
-    height: 3.625rem;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    color: var(--color-white);
     text-decoration: none;
-    font-size: 1.25rem;
-    font-weight: var(--weight-bold);
-    letter-spacing: 0.02em;
-    border: 1px solid var(--color-white);
     min-width: 0;
+  }
+
+  .site-header__logo-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: brightness(0) invert(1);
   }
 
   .site-header__controls {

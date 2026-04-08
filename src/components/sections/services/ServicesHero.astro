@@ -1,0 +1,121 @@
+---
+
+---
+
+<section class="services-hero u-full-bleed">
+  <div class="services-hero__bg" aria-hidden="true"></div>
+  <div class="services-hero__tint" aria-hidden="true"></div>
+  <div class="l-container services-hero__inner">
+    <div class="services-hero__content">
+      <div class="services-hero__title-frame">
+        <span class="services-hero__title" aria-hidden="true">仕事内容</span>
+      </div>
+      <p class="services-hero__lead">
+        神社・寺院などの社寺建築を守り、継承し、進化させながら日本文化や地域コミュニティの拠り所として意味を問い直します。
+      </p>
+    </div>
+  </div>
+  <div class="services-hero__scroll" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+<style>
+  /* ===========================================
+     1. ヒーロー
+     =========================================== */
+  .services-hero {
+    display: grid;
+    min-height: clamp(25rem, 52vw, 62.5rem);
+  }
+
+  .services-hero > * {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+
+  .services-hero__bg {
+    /* TODO: 背景画像パスを設定 */
+    background: var(--color-dark) center / cover no-repeat;
+    opacity: 0.5;
+  }
+
+  .services-hero__tint {
+    background: rgba(109, 141, 155, 0.4);
+    mix-blend-mode: multiply;
+  }
+
+  .services-hero__inner {
+    display: flex;
+    align-items: center;
+    padding-inline: var(--services-section-inline-padding);
+    padding-left: clamp(var(--space-6), 10.5vw, 12.625rem);
+    z-index: 1;
+  }
+
+  .services-hero__content {
+    display: flex;
+    align-items: center;
+    gap: clamp(var(--space-6), 3vw, var(--space-8));
+  }
+
+  .services-hero__title-frame {
+    width: clamp(10rem, 18vw, 18.75rem);
+    aspect-ratio: 1;
+    border: 3px solid var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .services-hero__title {
+    font-size: var(--fs-1000);
+    color: var(--color-white);
+    line-height: 1.04;
+    text-align: center;
+    max-width: 2.1em;
+  }
+
+  .services-hero__lead {
+    font-size: var(--fs-200);
+    color: var(--color-white);
+    line-height: var(--leading-relaxed);
+    max-width: 20.83em;
+  }
+
+  .services-hero__scroll {
+    align-self: end;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-bottom: var(--space-6);
+    z-index: 1;
+  }
+
+  .services-hero__scroll span {
+    display: block;
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 1px solid var(--color-white);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 768px) {
+    .services-hero__content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .services-hero__lead {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .services-hero__title-frame {
+      width: clamp(8rem, 50vw, 12rem);
+    }
+  }
+</style>

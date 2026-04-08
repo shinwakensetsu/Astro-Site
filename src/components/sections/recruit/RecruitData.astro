@@ -1,0 +1,442 @@
+---
+interface Props {
+  items: {
+    label: string;
+    values: string[];
+    layout?: "row";
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="recruit-data">
+  <div class="recruit-data__container">
+    <h2 class="recruit-data__title">伸和建設の見える化</h2>
+
+    <div class="recruit-data__card">
+      <div class="recruit-data__grid">
+        {
+          items.map((item) => (
+            <div class="recruit-data__cell">
+              <p class="recruit-data__cell-label">{item.label}</p>
+              <div
+                class:list={[
+                  "recruit-data__cell-value",
+                  {
+                    "recruit-data__cell-value--row": item.layout === "row",
+                  },
+                ]}
+              >
+                {item.values.map((v) => (
+                  <p class="recruit-data__cell-text">{v}</p>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="recruit-data__note">※2026年3月時点</p>
+  </div>
+</section>
+
+<style>
+  /* ===== 3. 見える化 ===== */
+  /* Figma: 1920×630, node 58:23291
+     サイズ固定 + MQ管理。200%テキストズーム耐性。
+     height固定なし。font-sizeはrem。 */
+
+  .recruit-data {
+    background-color: var(--color-primary-light);
+    display: grid;
+  }
+
+  .recruit-data__decorative,
+  .recruit-data__container {
+    grid-area: 1 / 1;
+  }
+
+  /* Figma sideBox: 350px at 1920px (18.23%) */
+  .recruit-data__decorative {
+    background-color: var(--color-dark);
+    width: 350px;
+    justify-self: start;
+  }
+
+  .recruit-data__container {
+    padding-block: 2.8125rem 1.75rem;
+    padding-inline: var(--space-10);
+  }
+
+  /* Figma: 40px, Hiragino Mincho Pro W6, black, center */
+  .recruit-data__title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-black);
+    text-align: center;
+    margin: 0 0 var(--space-6);
+    line-height: normal;
+  }
+
+  /* Figma: 1136px at 1920px。固定幅 + 中央寄せ。
+     bg rgba(68,138,172,0.4), border 1px solid black, rounded 30px */
+  .recruit-data__card {
+    max-width: 1136px;
+    margin-inline: auto;
+    background: rgba(68, 138, 172, 0.4);
+    border: 1px solid var(--color-black);
+    border-radius: var(--radius-2xl);
+  }
+
+  /* 4列グリッド: Figma罫線位置から算出
+     columns: 251 / 336 / 273 / 276 (px at 1136px) */
+  .recruit-data__grid {
+    display: grid;
+    grid-template-columns: 251fr 336fr 273fr 276fr;
+    /* 横仕切り線: 白3px、左右2%余白 */
+    background-image: linear-gradient(
+      to right,
+      transparent 2%,
+      var(--color-white) 2%,
+      var(--color-white) 98%,
+      transparent 98%
+    );
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .recruit-data__grid > * {
+    min-width: 0;
+  }
+
+  .recruit-data__cell {
+    display: grid;
+    gap: var(--space-4);
+    align-content: center;
+    justify-items: center;
+    padding: var(--space-6) var(--space-4);
+  }
+
+  /* --- セル配置 + 縦仕切り線 ---
+     縦線: 白3px、セル高さの一部のみ描画
+     上段: 24%〜86%  下段: 17%〜85% */
+
+  /* 1: 平均年齢 — 上段 col1 */
+  .recruit-data__cell:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    background-image: linear-gradient(
+      to bottom,
+      transparent 24%,
+      var(--color-white) 24%,
+      var(--color-white) 86%,
+      transparent 86%
+    );
+    background-size: 3px 100%;
+    background-repeat: no-repeat;
+    background-position: right center;
+  }
+
+  /* 2: スタッフ人数 — 上段 col2-3 span */
+  .recruit-data__cell:nth-child(2) {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    background-image: linear-gradient(
+      to bottom,
+      transparent 24%,
+      var(--color-white) 24%,
+      var(--color-white) 86%,
+      transparent 86%
+    );
+    background-size: 3px 100%;
+    background-repeat: no-repeat;
+    background-position: right center;
+  }
+
+  /* 3: 資格支援制度 — 上段 col4 */
+  .recruit-data__cell:nth-child(3) {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  /* 4: 教育制度 — 下段 col1-2 span */
+  .recruit-data__cell:nth-child(4) {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    background-image: linear-gradient(
+      to bottom,
+      transparent 17%,
+      var(--color-white) 17%,
+      var(--color-white) 85%,
+      transparent 85%
+    );
+    background-size: 3px 100%;
+    background-repeat: no-repeat;
+    background-position: right center;
+  }
+
+  /* 5: 社宅制度 — 下段 col3 */
+  .recruit-data__cell:nth-child(5) {
+    grid-column: 3;
+    grid-row: 2;
+    background-image: linear-gradient(
+      to bottom,
+      transparent 17%,
+      var(--color-white) 17%,
+      var(--color-white) 85%,
+      transparent 85%
+    );
+    background-size: 3px 100%;
+    background-repeat: no-repeat;
+    background-position: right center;
+  }
+
+  /* 6: 技術手当 — 下段 col4 */
+  .recruit-data__cell:nth-child(6) {
+    grid-column: 4;
+    grid-row: 2;
+  }
+
+  /* --- テキストスタイル --- */
+
+  /* ラベル: Figma 36px, black */
+  .recruit-data__cell-label {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-black);
+    text-align: center;
+    line-height: normal;
+  }
+
+  .recruit-data__cell-value {
+    display: grid;
+    gap: 0.25em;
+    justify-items: center;
+  }
+
+  /* スタッフ人数: 大工/監督を横並び */
+  .recruit-data__cell-value--row {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+  }
+
+  .recruit-data__cell-value--row > * {
+    min-width: 0;
+  }
+
+  /* 値: Figma 36px, white */
+  .recruit-data__cell-text {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-white);
+    text-align: center;
+    line-height: normal;
+  }
+
+  /* 注釈: Figma 18px, black, right-align */
+  .recruit-data__note {
+    max-width: 1136px;
+    margin: var(--space-4) auto 0;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-black);
+    text-align: end;
+    line-height: 1.333;
+  }
+
+  /* --- MQ: ≤1440px --- */
+  @media (max-width: 1440px) {
+    .recruit-data__decorative {
+      width: 280px;
+    }
+
+    .recruit-data__card {
+      max-width: 900px;
+    }
+
+    .recruit-data__note {
+      max-width: 900px;
+    }
+  }
+
+  /* --- MQ: ≤1024px --- */
+  @media (max-width: 1024px) {
+    .recruit-data__decorative {
+      display: none;
+    }
+
+    .recruit-data__card {
+      max-width: 100%;
+    }
+
+    .recruit-data__note {
+      max-width: 100%;
+    }
+
+    .recruit-data__cell-label {
+      font-size: 1.75rem;
+    }
+
+    .recruit-data__cell-text {
+      font-size: 1.75rem;
+    }
+
+    .recruit-data__title {
+      font-size: 2rem;
+    }
+  }
+
+  /* --- MQ: ≤768px --- */
+  @media (max-width: 768px) {
+    .recruit-data__grid {
+      grid-template-columns: 1fr 1fr;
+      background-image: none;
+    }
+
+    .recruit-data__cell:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .recruit-data__cell:nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .recruit-data__cell:nth-child(3) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .recruit-data__cell:nth-child(4) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .recruit-data__cell:nth-child(5) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+    .recruit-data__cell:nth-child(6) {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    /* 仕切り線リセット → 2列用ボーダー */
+    .recruit-data__cell:nth-child(1),
+    .recruit-data__cell:nth-child(2),
+    .recruit-data__cell:nth-child(3),
+    .recruit-data__cell:nth-child(4),
+    .recruit-data__cell:nth-child(5),
+    .recruit-data__cell:nth-child(6) {
+      background-image: none;
+    }
+
+    .recruit-data__cell:nth-child(odd) {
+      border-right: 3px solid var(--color-white);
+    }
+
+    .recruit-data__cell:nth-child(1),
+    .recruit-data__cell:nth-child(2),
+    .recruit-data__cell:nth-child(3),
+    .recruit-data__cell:nth-child(4) {
+      border-bottom: 3px solid var(--color-white);
+    }
+
+    /* スタッフ人数: 横並び解除 */
+    .recruit-data__cell-value--row {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25em;
+    }
+
+    .recruit-data__cell-label {
+      font-size: 1.5rem;
+    }
+
+    .recruit-data__cell-text {
+      font-size: 1.5rem;
+    }
+
+    .recruit-data__title {
+      font-size: 1.75rem;
+    }
+
+    .recruit-data__note {
+      font-size: 1rem;
+    }
+  }
+
+  /* --- MQ: ≤425px --- */
+  @media (max-width: 425px) {
+    .recruit-data__container {
+      padding-inline: var(--space-5);
+    }
+
+    .recruit-data__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .recruit-data__cell:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .recruit-data__cell:nth-child(2) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .recruit-data__cell:nth-child(3) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+    .recruit-data__cell:nth-child(4) {
+      grid-column: 1;
+      grid-row: 4;
+    }
+    .recruit-data__cell:nth-child(5) {
+      grid-column: 1;
+      grid-row: 5;
+    }
+    .recruit-data__cell:nth-child(6) {
+      grid-column: 1;
+      grid-row: 6;
+    }
+
+    .recruit-data__cell:nth-child(odd) {
+      border-right: none;
+    }
+
+    .recruit-data__cell:nth-child(1),
+    .recruit-data__cell:nth-child(2),
+    .recruit-data__cell:nth-child(3),
+    .recruit-data__cell:nth-child(4),
+    .recruit-data__cell:nth-child(5) {
+      border-bottom: 3px solid var(--color-white);
+    }
+
+    .recruit-data__cell-label {
+      font-size: 1.25rem;
+    }
+
+    .recruit-data__cell-text {
+      font-size: 1.25rem;
+    }
+
+    .recruit-data__title {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* --- MQ: ≤320px --- */
+  @media (max-width: 320px) {
+    .recruit-data__container {
+      padding-inline: var(--space-3);
+    }
+  }
+</style>

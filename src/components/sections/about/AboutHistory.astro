@@ -1,0 +1,594 @@
+---
+interface HistoryItem {
+  year: string;
+  era: string;
+  text: string;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+interface Props {
+  items: HistoryItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section id="history" class="about-history u-full-bleed u-bg-dark">
+  <span class="deco-label about-history__deco-label" aria-hidden="true"
+    >HISTORY</span
+  >
+  <div
+    class="about-history__surface u-section-spacing u-section-spacing-top-ex u-bg-primary-light u-bg-noise-light"
+  >
+    <div class="l-container about-history__inner">
+      <div class="about-history__intro">
+        <header class="about-history__header">
+          <h2 class="about-history__title">沿革</h2>
+          <p class="about-history__subtitle">伸和建設の歩み</p>
+        </header>
+        <p class="about-history__lead">
+          1948年に「伸和建設株式会社」として設立した伸和建設。創業から現在まで築いてきた伸和建設の歩みをご紹介します。
+        </p>
+      </div>
+
+      <div class="about-history__slider-wrap" tabindex="0">
+        <ul class="about-history__list">
+          {
+            items.map((item) => (
+              <li class="about-history__item u-bg-dark u-bg-noise-dark">
+                <div class="about-history__item-body">
+                  <div class="about-history__item-heading">
+                    <span class="about-history__year">{item.year}</span>
+                    <span class="about-history__era">{item.era}</span>
+                  </div>
+                  <p class="about-history__item-text">{item.text}</p>
+                </div>
+                <div class="about-history__item-media">
+                  {item.imageSrc ? (
+                    <img
+                      src={item.imageSrc}
+                      alt={item.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : null}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="about-history__scrollbar" aria-hidden="true">
+        <div class="about-history__scrollbar-track">
+          <div class="about-history__scrollbar-thumb">
+            <span class="about-history__scrollbar-thumb-core"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-history {
+    position: relative;
+    color: var(--color-text);
+    overflow: clip;
+    margin-block: 0;
+  }
+
+  .about-history__deco-label {
+    position: absolute;
+    top: calc(var(--about-history-title-size) * 2);
+    left: var(--about-deco-label-inline-start);
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: left top;
+  }
+
+  .about-history__surface {
+    width: 100%;
+    overflow: hidden;
+    border-bottom-left-radius: clamp(
+      5rem,
+      calc(1.9643rem + 15.1786vw),
+      15.625rem
+    );
+  }
+
+  .about-history__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: calc(
+      var(--width-layout) + (var(--about-history-section-inline-padding) * 2)
+    );
+    padding-inline-start: var(--about-history-section-inline-padding-left);
+    padding-inline-end: var(--about-history-section-inline-padding);
+  }
+
+  .about-history__intro {
+    display: grid;
+    gap: 25px;
+    min-width: 0;
+    max-inline-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .about-history__header {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .about-history__title {
+    margin: 0;
+    font-size: var(--about-history-title-size);
+    font-weight: var(--weight-bold);
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .about-history__subtitle {
+    margin: 0;
+    font-size: var(--about-history-subtitle-size);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+  }
+
+  .about-history__lead {
+    min-width: 0;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    font-size: var(--about-history-lead-size);
+    font-weight: var(--weight-bold);
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+  }
+
+  .about-history__slider-wrap {
+    width: 100vw;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .about-history__slider-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-history__list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--about-history-card-width);
+    gap: 0.125rem;
+    min-width: max-content;
+    margin: 0;
+    padding-inline-start: 0;
+    padding-inline-end: var(--about-history-section-inline-padding);
+    list-style: none;
+  }
+
+  .about-history__item {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    max-height: 450px;
+    min-width: 0;
+    min-block-size: var(--about-history-card-height);
+    padding: 2.5rem 0.5rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 0 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    color: rgba(255, 255, 255, 0.92);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .about-history__item-body {
+    display: grid;
+    align-content: start;
+    gap: 2.1875rem;
+  }
+
+  .about-history__item-heading {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+  }
+
+  .about-history__year {
+    font-family: var(--font-serif);
+    font-size: var(--about-history-year-size);
+    font-weight: var(--weight-bold);
+    line-height: 0.9;
+    letter-spacing: 0.08em;
+    color: #fff;
+  }
+
+  .about-history__era {
+    padding-bottom: 0;
+    font-size: var(--about-history-era-size);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .about-history__item-text {
+    margin: 0;
+    font-size: var(--about-history-item-text-size);
+    font-weight: var(--weight-bold);
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.84);
+  }
+
+  .about-history__item-media {
+    display: grid;
+    place-items: center;
+    width: min(100%, var(--about-history-media-width));
+    min-width: 0;
+    height: var(--about-history-media-height);
+    margin-block: var(--about-history-media-gap);
+    margin-inline: auto;
+    align-self: end;
+    overflow: hidden;
+  }
+
+  .about-history__item-media :global(img) {
+    min-width: 0;
+    height: 100%;
+    object-fit: fill;
+  }
+
+  .about-history__scrollbar {
+    width: min(
+      var(--about-history-scrollbar-width),
+      calc(100vw - var(--about-history-section-inline-padding-left))
+    );
+    margin-top: var(--about-history-scrollbar-gap);
+  }
+
+  .about-history__scrollbar--inactive {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .about-history__scrollbar-track {
+    position: relative;
+    width: 100%;
+    min-height: var(--about-history-scrollbar-height);
+    background-image: linear-gradient(
+      var(--color-gray-500),
+      var(--color-gray-500)
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: calc(100% - (var(--about-history-scrollbar-cap-width) * 2))
+      var(--about-history-scrollbar-line-thickness);
+  }
+
+  .about-history__scrollbar-track::before,
+  .about-history__scrollbar-track::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: var(--about-history-scrollbar-cap-width);
+    height: var(--about-history-scrollbar-height);
+    background-color: var(--color-gray-500);
+    transform: translateY(-50%);
+  }
+
+  .about-history__scrollbar-track::before {
+    left: var(--about-history-scrollbar-cap-inset);
+    clip-path: polygon(0 0, 0 100%, 89.5% 50%);
+  }
+
+  .about-history__scrollbar-track::after {
+    right: var(--about-history-scrollbar-cap-inset);
+    clip-path: polygon(100% 0, 100% 100%, 10.5% 50%);
+  }
+
+  .about-history__scrollbar-thumb {
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: var(--about-history-scrollbar-height);
+    min-width: var(--about-history-scrollbar-height);
+    aspect-ratio: 1 / 1;
+    height: var(--about-history-scrollbar-height);
+    padding: 2px;
+    border: 2px solid var(--color-gray-500);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background-color: var(--color-primary-light);
+    transform: translate3d(0, -50%, 0);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    will-change: transform, width;
+  }
+
+  .about-history__scrollbar-thumb.is-dragging {
+    cursor: grabbing;
+  }
+
+  .about-history__scrollbar-thumb-core {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: var(--color-primary-light);
+    pointer-events: none;
+  }
+
+  @media (max-width: 1024px) {
+    .about-history__deco-label {
+      display: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .about-history__intro {
+      padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .about-history__list {
+      grid-auto-columns: clamp(14.5rem, 38vw, var(--about-history-card-width));
+    }
+
+    .about-history__item {
+      min-block-size: clamp(22rem, 52vw, var(--about-history-card-height));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-history__item-heading {
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .about-history__year,
+    .about-history__era {
+      width: 100%;
+    }
+
+    .about-history__era {
+      padding-bottom: 0;
+    }
+  }
+</style>
+
+<script>
+  const historySliderWrap = document.querySelector<HTMLElement>(
+    ".about-history__slider-wrap",
+  );
+  const historyScrollbar = document.querySelector<HTMLElement>(
+    ".about-history__scrollbar",
+  );
+  const historyScrollbarTrack = document.querySelector<HTMLElement>(
+    ".about-history__scrollbar-track",
+  );
+  const historyScrollbarThumb = document.querySelector<HTMLElement>(
+    ".about-history__scrollbar-thumb",
+  );
+  const historyList = historySliderWrap?.querySelector<HTMLElement>(
+    ".about-history__list",
+  );
+
+  if (
+    historySliderWrap &&
+    historyScrollbar &&
+    historyScrollbarTrack &&
+    historyScrollbarThumb
+  ) {
+    let measureRafId = 0;
+    let positionRafId = 0;
+    let maxScrollLeft = 0;
+    let maxThumbOffset = 0;
+    let thumbBaseOffset = 0;
+    let thumbOffset = 0;
+    let activePointerId: number | null = null;
+    let dragStartClientX = 0;
+    let dragStartThumbOffset = 0;
+
+    const readCssLengthAsPixels = (
+      element: HTMLElement,
+      propertyName: string,
+    ) => {
+      const value = getComputedStyle(element)
+        .getPropertyValue(propertyName)
+        .trim();
+
+      if (value === "") return 0;
+
+      const probe = document.createElement("div");
+
+      probe.style.position = "absolute";
+      probe.style.visibility = "hidden";
+      probe.style.pointerEvents = "none";
+      probe.style.width = value;
+
+      element.append(probe);
+
+      const pixels = probe.getBoundingClientRect().width;
+
+      probe.remove();
+
+      return Number.isFinite(pixels) ? pixels : 0;
+    };
+
+    const getTrackCapWidth = () => {
+      return readCssLengthAsPixels(
+        historyScrollbarTrack,
+        "--about-history-scrollbar-cap-width",
+      );
+    };
+
+    const getThumbGap = () => {
+      return readCssLengthAsPixels(
+        historyScrollbarTrack,
+        "--about-history-scrollbar-thumb-gap",
+      );
+    };
+
+    const getTrackCapInset = () => {
+      return readCssLengthAsPixels(
+        historyScrollbarTrack,
+        "--about-history-scrollbar-cap-inset",
+      );
+    };
+
+    const getPreferredScrollbarWidth = () => {
+      return readCssLengthAsPixels(
+        historyScrollbar,
+        "--about-history-scrollbar-width",
+      );
+    };
+
+    const clamp = (value: number, min: number, max: number) =>
+      Math.min(Math.max(value, min), max);
+
+    const updateHistoryScrollbarPosition = () => {
+      positionRafId = 0;
+
+      const progress =
+        maxScrollLeft > 0 ? historySliderWrap.scrollLeft / maxScrollLeft : 0;
+
+      thumbOffset = progress * maxThumbOffset;
+      historyScrollbarThumb.style.transform = `translate3d(${thumbBaseOffset + thumbOffset}px, -50%, 0)`;
+      historyScrollbar.classList.toggle(
+        "about-history__scrollbar--inactive",
+        maxScrollLeft <= 0,
+      );
+    };
+
+    const requestHistoryScrollbarPositionUpdate = () => {
+      if (positionRafId !== 0) return;
+      positionRafId = window.requestAnimationFrame(
+        updateHistoryScrollbarPosition,
+      );
+    };
+
+    const measureHistoryScrollbar = () => {
+      measureRafId = 0;
+
+      const sliderWrapRect = historySliderWrap.getBoundingClientRect();
+      const visibleLeft = clamp(sliderWrapRect.left, 0, window.innerWidth);
+      const visibleRight = clamp(sliderWrapRect.right, 0, window.innerWidth);
+      const visibleWidth = Math.max(visibleRight - visibleLeft, 0);
+      const preferredScrollbarWidth = getPreferredScrollbarWidth();
+      const resolvedScrollbarWidth = Math.min(
+        preferredScrollbarWidth,
+        visibleWidth,
+      );
+      const scrollbarOffset = visibleLeft - sliderWrapRect.left;
+
+      historyScrollbar.style.width = `${resolvedScrollbarWidth}px`;
+      historyScrollbar.style.marginInlineStart = `${Math.max(scrollbarOffset, 0)}px`;
+
+      const trackWidth = historyScrollbarTrack.clientWidth;
+      const capWidth = getTrackCapWidth();
+      const capInset = getTrackCapInset();
+      const thumbGap = getThumbGap();
+      const sliderViewportWidth = historySliderWrap.clientWidth;
+      const scrollWidth = historySliderWrap.scrollWidth;
+      const nextMaxScrollLeft = Math.max(scrollWidth - sliderViewportWidth, 0);
+      const thumbWidth = historyScrollbarThumb.offsetWidth;
+      const usableTrackWidth = Math.max(
+        trackWidth - (capWidth + capInset + thumbGap) * 2 - thumbWidth,
+        0,
+      );
+
+      maxScrollLeft = nextMaxScrollLeft;
+      thumbBaseOffset = capWidth + capInset + thumbGap;
+      maxThumbOffset = usableTrackWidth;
+      requestHistoryScrollbarPositionUpdate();
+    };
+
+    const requestHistoryScrollbarMeasure = () => {
+      if (measureRafId !== 0) return;
+      measureRafId = window.requestAnimationFrame(measureHistoryScrollbar);
+    };
+
+    const endHistoryScrollbarDrag = () => {
+      activePointerId = null;
+      historyScrollbarThumb.classList.remove("is-dragging");
+    };
+
+    const syncHistoryScrollFromThumbOffset = (nextThumbOffset: number) => {
+      const clampedThumbOffset = clamp(nextThumbOffset, 0, maxThumbOffset);
+      const progress =
+        maxThumbOffset > 0 ? clampedThumbOffset / maxThumbOffset : 0;
+
+      historySliderWrap.scrollLeft = progress * maxScrollLeft;
+    };
+
+    requestHistoryScrollbarMeasure();
+
+    historySliderWrap.addEventListener(
+      "scroll",
+      requestHistoryScrollbarPositionUpdate,
+      {
+        passive: true,
+      },
+    );
+    window.addEventListener("resize", requestHistoryScrollbarMeasure, {
+      passive: true,
+    });
+
+    historyScrollbarThumb.addEventListener("pointerdown", (event) => {
+      if (maxScrollLeft <= 0) return;
+
+      activePointerId = event.pointerId;
+      dragStartClientX = event.clientX;
+      dragStartThumbOffset = thumbOffset;
+
+      historyScrollbarThumb.setPointerCapture(event.pointerId);
+      historyScrollbarThumb.classList.add("is-dragging");
+      event.preventDefault();
+    });
+
+    historyScrollbarThumb.addEventListener("pointermove", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      const deltaX = event.clientX - dragStartClientX;
+
+      syncHistoryScrollFromThumbOffset(dragStartThumbOffset + deltaX);
+      event.preventDefault();
+    });
+
+    historyScrollbarThumb.addEventListener("pointerup", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      historyScrollbarThumb.releasePointerCapture(event.pointerId);
+    });
+
+    historyScrollbarThumb.addEventListener("pointercancel", (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      historyScrollbarThumb.releasePointerCapture(event.pointerId);
+    });
+
+    historyScrollbarThumb.addEventListener(
+      "lostpointercapture",
+      endHistoryScrollbarDrag,
+    );
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(requestHistoryScrollbarMeasure);
+
+      resizeObserver.observe(historySliderWrap);
+      resizeObserver.observe(historyScrollbarTrack);
+
+      if (historyList) {
+        resizeObserver.observe(historyList);
+      }
+    }
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(requestHistoryScrollbarMeasure).catch(() => {});
+    }
+  }
+</script>

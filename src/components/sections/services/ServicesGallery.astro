@@ -1,0 +1,201 @@
+---
+interface Props {
+  items: {
+    alt: string;
+    caption: string;
+    detailLines: string[];
+    imageSrc: string;
+    captionWidth: string;
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="services-gallery u-full-bleed u-section-spacing u-bg-dark">
+  <div class="l-container services-gallery__inner">
+    <div class="services-gallery__grid">
+      <div class="services-gallery__header-cell">
+        <h2 class="services-gallery__title">
+          <span class="services-gallery__title-line">施工</span>
+          <span class="services-gallery__title-line">事例</span>
+        </h2>
+        <a href="/works" class="services-gallery__cta">
+          <span class="services-gallery__cta-arrow" aria-hidden="true"></span>
+          詳しく見る
+        </a>
+      </div>
+      {
+        items.map((item) => (
+          <figure
+            class="services-gallery__cell"
+            style={`--services-gallery-caption-copy-width: ${item.captionWidth};`}
+          >
+            <div class="services-gallery__media">
+              <img
+                src={item.imageSrc}
+                alt={item.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption class="services-gallery__caption">
+              <span class="services-gallery__caption-line">{item.caption}</span>
+              {item.detailLines.map((line) => (
+                <span class="services-gallery__caption-line">{line}</span>
+              ))}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-gallery__inner {
+    padding-inline: var(--services-section-inline-padding);
+  }
+
+  .services-gallery__grid {
+    display: grid;
+    width: min(100%, 87.875rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(21.875rem, 100%), 1fr));
+    gap: 0.125rem;
+    justify-content: center;
+    margin-inline: auto;
+    min-width: 0;
+  }
+
+  .services-gallery__grid > * {
+    min-width: 0;
+  }
+
+  .services-gallery__cell {
+    display: grid;
+    grid-template-rows: minmax(0, 26.875rem) minmax(4.375rem, auto);
+    border: 3px solid var(--color-gray-300);
+    border-radius: 1.875rem 0 0 0;
+    overflow: hidden;
+    margin: 0;
+    min-height: 31.25rem;
+  }
+
+  .services-gallery__header-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 31.25rem;
+    padding-block: 7.0625rem 2.625rem;
+    padding-inline: clamp(1rem, calc((100% - 13.25rem) / 2), 4.3125rem);
+    border: 3px solid var(--color-gray-300);
+    border-radius: 1.875rem 0 0 0;
+  }
+
+  .services-gallery__title {
+    width: 13.25rem;
+    max-inline-size: 100%;
+    font-family: var(--font-serif);
+    font-size: var(--fs-1000);
+    line-height: 1.0416667;
+    letter-spacing: 0;
+    color: var(--color-gray-300);
+    text-align: center;
+  }
+
+  .services-gallery__title-line {
+    display: block;
+  }
+
+  .services-gallery__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.75em;
+    margin-top: auto;
+    inline-size: min(100%, 12.5625rem);
+    max-inline-size: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-gray-500);
+    border-radius: 0.9375rem;
+    min-height: 3.5rem;
+    padding-block: 0.625rem;
+    padding-inline: 1.1875rem;
+    font-family: var(--font-serif);
+    color: var(--color-gray-500);
+    font-size: var(--fs-350);
+    text-decoration: none;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .services-gallery__cta-arrow {
+    display: inline-block;
+    width: 2rem;
+    height: 0.625rem;
+    flex: 0 0 auto;
+    background: currentColor;
+    clip-path: polygon(
+      0 35%,
+      80% 35%,
+      65% 0,
+      100% 50%,
+      65% 100%,
+      80% 65%,
+      0 65%
+    );
+  }
+
+  .services-gallery__caption {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.3125rem 0.75rem 0.375rem;
+    min-height: 4.375rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-350);
+    color: var(--color-black);
+    line-height: 1.625rem;
+    display: grid;
+    align-content: center;
+    overflow-wrap: anywhere;
+  }
+
+  .services-gallery__caption-line {
+    display: block;
+    width: min(100%, var(--services-gallery-caption-copy-width, 14rem));
+    margin-inline: auto;
+  }
+
+  .services-gallery__media {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+      linear-gradient(135deg, rgba(68, 138, 172, 0.24), rgba(31, 31, 31, 0.12));
+  }
+
+  .services-gallery__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1024px) {
+    .services-gallery__title {
+      font-size: var(--fs-900);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .services-gallery__header-cell {
+      min-height: 0;
+      padding-block: 2rem;
+      gap: var(--space-6);
+    }
+  }
+</style>

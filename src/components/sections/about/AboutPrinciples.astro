@@ -1,0 +1,220 @@
+---
+interface PrincipleItem {
+  title: string;
+  lines: string[];
+}
+
+interface Props {
+  philosophyLines: string[];
+  guidelines: PrincipleItem[];
+  managementPolicies: PrincipleItem[];
+}
+
+const { philosophyLines, guidelines, managementPolicies } = Astro.props;
+---
+
+<article class="about-principles-group u-full-bleed u-section-spacing">
+  <section id="philosophy" class="about-philosophy">
+    <div class="l-container about-principles__inner about-philosophy__inner">
+      <header class="about-principles__header about-philosophy__header">
+        <div class="about-principles__header-copy">
+          <p class="about-principles__eyebrow about-philosophy__eyebrow">
+            Philosophy
+          </p>
+          <h2 class="about-principles__title about-philosophy__title">
+            企業理念
+          </h2>
+        </div>
+      </header>
+      <div
+        class="about-principles__panel about-philosophy__panel u-bg-noise-dark"
+      >
+        <p class="about-principles__text about-philosophy__text">
+          {
+            philosophyLines.map((line) => (
+              <span class="about-principles__line about-philosophy__line">
+                {line}
+              </span>
+            ))
+          }
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guidelines" class="about-guidelines">
+    <div class="l-container about-principles__inner about-guidelines__inner">
+      <header class="about-principles__header about-guidelines__header">
+        <div class="about-principles__header-copy">
+          <p class="about-principles__eyebrow about-guidelines__eyebrow">
+            Guidelines
+          </p>
+          <h2 class="about-principles__title about-guidelines__title">
+            行動指針
+          </h2>
+        </div>
+      </header>
+      <div
+        class="about-principles__panel about-guidelines__panel u-bg-noise-dark"
+      >
+        <ul class="about-principles__list about-guidelines__list">
+          {
+            guidelines.map((item) => (
+              <li class="about-principles__item about-guidelines__item">
+                <span class="about-principles__item-title about-guidelines__item-title">
+                  {item.title}
+                </span>
+                <p class="about-principles__item-body about-guidelines__item-body">
+                  {item.lines.join("")}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="management-policy" class="about-management-policy">
+    <div
+      class="l-container about-principles__inner about-management-policy__inner"
+    >
+      <header class="about-principles__header about-management-policy__header">
+        <div class="about-principles__header-copy">
+          <p class="about-principles__eyebrow about-management-policy__eyebrow">
+            Management Policy
+          </p>
+          <h2 class="about-principles__title about-management-policy__title">
+            経営方針
+          </h2>
+        </div>
+      </header>
+      <div
+        class="about-principles__panel about-management-policy__panel u-bg-noise-dark"
+      >
+        <ul class="about-principles__list about-management-policy__list">
+          {
+            managementPolicies.map((item) => (
+              <li class="about-principles__item about-management-policy__item">
+                <span class="about-principles__item-title about-management-policy__item-title">
+                  {item.title}
+                </span>
+                <p class="about-principles__item-body about-management-policy__item-body">
+                  {item.lines.join("")}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</article>
+
+<style>
+  .about-principles__inner {
+    max-width: calc(
+      var(--width-layout) + (var(--about-principles-section-inline-padding) * 2)
+    );
+    padding-inline: var(--about-principles-section-inline-padding);
+  }
+
+  .about-principles-group {
+    display: grid;
+    gap: var(--space-16);
+  }
+
+  .about-principles__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--about-principles-header-line-gap);
+    inline-size: var(--about-principles-header-max-inline-size);
+    max-inline-size: 100%;
+    margin-inline: auto;
+    margin-bottom: var(--space-3);
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .about-principles__header::before,
+  .about-principles__header::after {
+    content: "";
+    display: block;
+    inline-size: min(100%, var(--about-principles-header-line-max-width));
+    block-size: 1px;
+    margin-block-start: calc(var(--about-principles-eyebrow-size) / 2);
+    background-color: currentColor;
+  }
+
+  .about-principles__header::before {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .about-principles__header::after {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .about-principles__header-copy {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: center;
+    grid-column: 2;
+  }
+
+  .about-principles__eyebrow {
+    font-size: var(--about-principles-eyebrow-size);
+    line-height: 1;
+  }
+
+  .about-principles__title {
+    font-size: var(--about-principles-title-size);
+    line-height: var(--leading-tight);
+  }
+
+  .about-principles__panel {
+    width: 100%;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    padding-inline: var(--about-principles-panel-inline-padding);
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    border-radius: var(--radius-xl);
+  }
+
+  .about-principles__text {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: var(--about-principles-body-size);
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-principles__line {
+    display: block;
+  }
+
+  .about-principles__list {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    list-style: none;
+  }
+
+  .about-principles__item {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .about-principles__item-title {
+    font-size: var(--about-principles-body-size);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+  }
+
+  .about-principles__item-body {
+    margin: 0;
+    font-size: var(--about-principles-body-size);
+    line-height: var(--leading-relaxed);
+  }
+</style>

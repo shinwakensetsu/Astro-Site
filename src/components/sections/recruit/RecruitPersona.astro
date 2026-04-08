@@ -1,0 +1,566 @@
+---
+interface PersonaCard {
+  number: string;
+  title: string;
+  paragraphs: string[];
+  mediaLabel?: string;
+  mediaPosition?: "start" | "end";
+}
+
+interface Props {
+  cards: PersonaCard[];
+}
+
+const { cards } = Astro.props;
+---
+
+<section id="persona" class="recruit-persona">
+  <div class="l-container recruit-persona__container">
+    <div class="recruit-persona__content">
+      <div class="recruit-persona__intro">
+        <div class="recruit-persona__photo">
+          <div class="recruit-persona__photo-visual">
+            <span class="recruit-persona__photo-label">代表者の写真</span>
+          </div>
+          <div class="recruit-persona__photo-meta">
+            <p class="recruit-persona__author">
+              <span class="recruit-persona__author-role">代表取締役社長</span>
+              <span class="recruit-persona__author-name">小西 隆夫</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="recruit-persona__body">
+          <div class="recruit-persona__heading-group">
+            <h2 class="recruit-persona__title">
+              <span class="recruit-persona__title-line">技術だけでなく</span>
+              <span
+                class="recruit-persona__title-line recruit-persona__title-line--accent"
+                >人もまたつないでいく</span
+              >
+              <span class="recruit-persona__title-line">企業でありたい</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="recruit-persona__cards">
+        <ul class="recruit-persona__list">
+          {
+            cards.map((card) => (
+              <li class="recruit-persona__item">
+                <article
+                  class:list={[
+                    "recruit-persona-card",
+                    {
+                      "recruit-persona-card--with-media": Boolean(
+                        card.mediaLabel,
+                      ),
+                    },
+                    {
+                      "recruit-persona-card--media-start":
+                        card.mediaPosition === "start",
+                    },
+                    {
+                      "recruit-persona-card--media-end":
+                        card.mediaPosition === "end",
+                    },
+                  ]}
+                >
+                  {card.mediaLabel ? (
+                    <>
+                      <div class="recruit-persona-card__content">
+                        <header class="recruit-persona-card__header">
+                          <span class="recruit-persona-card__number">
+                            {card.number}
+                          </span>
+                          <h3 class="recruit-persona-card__title">
+                            {card.title}
+                          </h3>
+                        </header>
+
+                        <div class="recruit-persona-card__body">
+                          {card.paragraphs.map((paragraph) => (
+                            <p>
+                              {paragraph
+                                .split("\n")
+                                .map((line, index, lines) => (
+                                  <>
+                                    {line}
+                                    {index < lines.length - 1 && <br />}
+                                  </>
+                                ))}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+
+                      <footer class="recruit-persona-card__footer">
+                        <div class="recruit-persona-card__media">
+                          <span class="recruit-persona-card__media-label">
+                            {card.mediaLabel}
+                          </span>
+                        </div>
+                      </footer>
+                    </>
+                  ) : (
+                    <>
+                      <header class="recruit-persona-card__header">
+                        <span class="recruit-persona-card__number">
+                          {card.number}
+                        </span>
+                        <h3 class="recruit-persona-card__title">
+                          {card.title}
+                        </h3>
+                      </header>
+
+                      <div class="recruit-persona-card__body">
+                        {card.paragraphs.map((paragraph) => (
+                          <p>
+                            {paragraph.split("\n").map((line, index, lines) => (
+                              <>
+                                {line}
+                                {index < lines.length - 1 && <br />}
+                              </>
+                            ))}
+                          </p>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .recruit-persona {
+    background-color: var(--color-primary-light);
+    background-image: url("/images/recruit/recruit_bg_pattern.svg");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
+    display: grid;
+  }
+
+  /* l-containerと併記するセクション固有classを追加していく */
+  .recruit-persona__decorative,
+  .recruit-persona__container {
+    grid-area: 1 / 1;
+    padding-inline: var(--space-10);
+    padding-left: clamp(
+      0px,
+      calc(6.5625rem * ((100vw - 1024px) / 416)),
+      6.5625rem
+    );
+    box-sizing: content-box;
+  }
+
+  @media (max-width: 1024px) {
+    .recruit-persona__decorative,
+    .recruit-persona__container {
+      padding-left: var(--space-10);
+      box-sizing: border-box;
+    }
+  }
+
+  .recruit-persona__decorative {
+    background-image: radial-gradient(
+      circle at 100% 100%,
+      rgba(92, 92, 92, 0.14) 0 1.375rem,
+      transparent 1.4375rem
+    );
+    background-position:
+      left top,
+      0 0;
+    background-repeat: no-repeat, repeat;
+    background-size:
+      auto,
+      var(--space-10) var(--space-10);
+  }
+
+  .recruit-persona__container {
+    container-type: inline-size;
+    container-name: recruit-persona;
+    padding-block-start: 7.25rem;
+  }
+
+  .recruit-persona__content {
+    display: grid;
+  }
+
+  .recruit-persona__intro {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 7.1875rem;
+    margin: auto;
+  }
+
+  .recruit-persona__intro > * {
+    min-width: 0;
+  }
+
+  .recruit-persona__photo {
+    width: 40.625rem;
+    aspect-ratio: 650 / 500;
+    padding: var(--space-6);
+    border: 1px solid var(--color-white);
+    border-radius: var(--radius-2xl);
+    background-color: var(--color-gray-700);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .recruit-persona__photo-visual {
+    flex: 1 1 auto;
+    display: grid;
+    place-items: center;
+  }
+
+  .recruit-persona__photo-label {
+    color: var(--color-white);
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: var(--fs-400);
+    font-weight: var(--weight-normal);
+    line-height: 1;
+    text-align: center;
+    text-shadow: none;
+  }
+
+  .recruit-persona__photo-meta {
+    margin-top: auto;
+  }
+
+  .recruit-persona__author {
+    color: var(--color-white);
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--weight-normal);
+    line-height: 1.25;
+    display: grid;
+    gap: 0.125rem;
+    text-shadow: none;
+  }
+
+  .recruit-persona__author-role,
+  .recruit-persona__author-name {
+    display: block;
+  }
+
+  .recruit-persona__body {
+    display: flex;
+    align-items: center;
+    top: -40px;
+    /* Figma: タイトル上端が写真上端より40px下 → タイトルのline-heightを考慮して-40px */
+    position: relative;
+  }
+
+  .recruit-persona__heading-group {
+    display: block;
+  }
+
+  .recruit-persona__title {
+    color: var(--color-text);
+    font-size: var(--fs-750);
+    font-weight: var(--weight-semibold);
+    line-height: 3.25rem;
+    display: flex;
+    direction: rtl;
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-block-size: 38.375rem;
+    margin: 0;
+    text-shadow: none;
+  }
+
+  .recruit-persona__title-line {
+    display: block;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-shadow: none;
+  }
+
+  .recruit-persona__title-line--accent {
+    color: var(--color-primary);
+  }
+
+  .recruit-persona__title-line:nth-child(1) {
+    align-self: flex-start;
+  }
+
+  .recruit-persona__title-line:nth-child(2) {
+    align-self: center;
+  }
+
+  .recruit-persona__title-line:nth-child(3) {
+    align-self: flex-end;
+  }
+
+  .recruit-persona__cards {
+    margin-top: 6.25rem;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .recruit-persona__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6.25rem;
+    width: 100%;
+  }
+
+  .recruit-persona__item {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .recruit-persona-card {
+    display: grid;
+    row-gap: var(--space-5);
+    width: 100%;
+    min-width: 0;
+  }
+
+  .recruit-persona-card__content {
+    display: grid;
+    align-content: start;
+    row-gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .recruit-persona-card--with-media {
+    column-gap: 2.25rem;
+    align-items: start;
+    row-gap: 0;
+    width: 100%;
+  }
+
+  .recruit-persona-card--with-media > * {
+    min-width: 0;
+  }
+
+  .recruit-persona-card--media-start {
+    grid-template-columns: 32.375rem 38.75rem;
+    grid-template-areas: "footer content";
+  }
+
+  .recruit-persona-card--media-end {
+    grid-template-columns: 38.75rem 32.375rem;
+    grid-template-areas: "content footer";
+  }
+
+  .recruit-persona-card__header {
+    font-size: var(--fs-600);
+    inline-size: min(100%, 20.25em);
+    min-height: var(--space-20);
+    padding-block: var(--space-3);
+    padding-inline: 0.6875rem var(--space-6);
+    border: 1px solid var(--color-primary-light);
+    border-radius: 0 0 var(--radius-xl) 0;
+    background-color: var(--color-gray-500);
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .recruit-persona-card--with-media .recruit-persona-card__content {
+    grid-area: content;
+    width: 100%;
+    max-width: 38.75rem;
+    min-width: 0;
+    align-self: start;
+  }
+
+  .recruit-persona__item:nth-child(2) .recruit-persona-card__content {
+    margin-block: auto;
+  }
+
+  .recruit-persona-card__number {
+    flex: 0 0 auto;
+    color: var(--color-white);
+    font-family: var(--font-serif);
+    font-size: var(--fs-350);
+    font-weight: var(--weight-semibold);
+    text-shadow: none;
+    margin: 0 0 auto;
+    line-height: 1;
+  }
+
+  .recruit-persona-card__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: auto 0 0;
+    color: var(--color-white);
+    font-family: var(--font-serif);
+    font-size: var(--fs-600);
+    font-weight: var(--weight-semibold);
+    line-height: 1.1875;
+    text-shadow: none;
+  }
+
+  .recruit-persona-card__body {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    gap: var(--space-6);
+    color: var(--color-text);
+    font-family: var(--font-serif);
+    font-size: var(--fs-200);
+    line-height: 1.3333333333;
+    overflow-wrap: break-word;
+  }
+
+  .recruit-persona-card--with-media .recruit-persona-card__body {
+    max-width: 35.5625rem;
+  }
+
+  .recruit-persona-card__body p {
+    margin: 0;
+  }
+
+  .recruit-persona-card--with-media .recruit-persona-card__footer {
+    grid-area: footer;
+  }
+
+  .recruit-persona-card__media {
+    width: 100%;
+    max-width: 32.375rem;
+    min-width: 0;
+    aspect-ratio: 518 / 500;
+    border: 1px solid var(--color-white);
+    border-radius: var(--radius-2xl);
+    background-color: var(--color-gray-700);
+    display: grid;
+    place-items: center;
+  }
+
+  .recruit-persona-card__media-label {
+    color: var(--color-white);
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: var(--fs-400);
+    font-weight: var(--weight-normal);
+    line-height: 1;
+    text-align: center;
+    text-shadow: none;
+  }
+
+  @media (max-width: 425px) {
+    .recruit-persona__decorative,
+    .recruit-persona__container {
+      padding-inline: var(--space-5);
+    }
+  }
+
+  @media (max-width: 320px) {
+    .recruit-persona__decorative,
+    .recruit-persona__container {
+      padding-inline: var(--space-3);
+    }
+  }
+
+  @media (max-width: 1440px) {
+    .recruit-persona__intro {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 100%;
+      gap: var(--space-10);
+    }
+
+    .recruit-persona__photo {
+      width: min(100%, 40.625rem);
+    }
+
+    .recruit-persona__body {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .recruit-persona__heading-group {
+      width: 100%;
+    }
+
+    .recruit-persona__title {
+      display: grid;
+      width: 100%;
+      font-size: var(--fs-650);
+      max-width: max-content;
+      margin-inline: 0;
+      margin-top: var(--space-3);
+      direction: ltr;
+      line-height: 1.0833333333;
+      row-gap: 0.25em;
+      min-block-size: 0;
+    }
+
+    .recruit-persona__title-line {
+      writing-mode: horizontal-tb;
+      text-orientation: mixed;
+    }
+
+    .recruit-persona__title-line:nth-child(1) {
+      align-self: auto;
+      justify-self: start;
+    }
+
+    .recruit-persona__title-line:nth-child(2) {
+      align-self: auto;
+      justify-self: center;
+    }
+
+    .recruit-persona__title-line:nth-child(3) {
+      align-self: auto;
+      justify-self: end;
+    }
+  }
+
+  @container recruit-persona (max-width: 1359px) {
+    .recruit-persona-card--with-media {
+      grid-template-columns: 1fr;
+      row-gap: var(--space-6);
+    }
+
+    .recruit-persona-card--media-start {
+      grid-template-areas:
+        "footer"
+        "content";
+    }
+
+    .recruit-persona-card--media-end {
+      grid-template-areas:
+        "content"
+        "footer";
+    }
+
+    .recruit-persona-card--with-media .recruit-persona-card__content {
+      width: 100%;
+      max-width: none;
+    }
+
+    .recruit-persona-card__body {
+      max-width: 35.5625rem;
+    }
+
+    .recruit-persona-card__header {
+      inline-size: min(100%, 38.75rem);
+    }
+
+    .recruit-persona-card__media {
+      max-width: 20rem;
+    }
+  }
+  @media (max-width: 425px) {
+    .recruit-persona__title {
+      font-size: clamp(1.5rem, calc(7.619047619vw - 0.023809524rem), 2rem);
+      margin: auto;
+    }
+  }
+</style>
