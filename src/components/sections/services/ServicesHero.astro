@@ -8,7 +8,14 @@
   <div class="l-container services-hero__inner">
     <div class="services-hero__content">
       <div class="services-hero__title-frame">
-        <span class="services-hero__title" aria-hidden="true">仕事内容</span>
+        <img
+          class="services-hero__title-image"
+          src="/images/service/services-hero-title.svg"
+          alt="仕事内容"
+          width="300"
+          height="300"
+          decoding="async"
+        />
       </div>
       <p class="services-hero__lead">
         神社・寺院などの社寺建築を守り、継承し、進化させながら日本文化や地域コミュニティの拠り所として意味を問い直します。
@@ -35,9 +42,8 @@
   }
 
   .services-hero__bg {
-    /* TODO: 背景画像パスを設定 */
-    background: var(--color-dark) center / cover no-repeat;
-    opacity: 0.5;
+    background: var(--color-dark) url("/images/service/services-hero.png")
+      center / cover no-repeat;
   }
 
   .services-hero__tint {
@@ -62,19 +68,16 @@
   .services-hero__title-frame {
     width: clamp(10rem, 18vw, 18.75rem);
     aspect-ratio: 1;
-    border: 3px solid var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
-  .services-hero__title {
-    font-size: var(--fs-1000);
-    color: var(--color-white);
-    line-height: 1.04;
-    text-align: center;
-    max-width: 2.1em;
+  .services-hero__title-image {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .services-hero__lead {
@@ -103,6 +106,11 @@
 
   /* ---- Responsive ---- */
   @media (max-width: 768px) {
+    .services-hero__inner {
+      justify-content: center;
+      padding-inline: var(--services-section-inline-padding);
+    }
+
     .services-hero__content {
       flex-direction: column;
       text-align: center;

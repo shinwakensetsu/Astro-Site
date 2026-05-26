@@ -4,159 +4,166 @@
 
 :root {
   /* --- Brand Colors --- */
-  --color-primary:         #448AAC;
-  --color-primary-light:   #E0DFDF;
+  --color-primary: #448aac;
+  --color-primary-light: #e0dfdf;
 
   /* --- Dark Surface --- */
-  --color-dark:            #1F1F1F;
+  --color-dark: #1f1f1f;
 
   /* --- Grayscale --- */
-  --color-white:           #ffffff;
-  --color-gray-50:         #f8f9fa;
-  --color-gray-100:        #f1f3f5;
-  --color-gray-200:        #e9ecef;
-  --color-gray-300:        #DBDBDB;
-  --color-gray-400:        #B9B9B9;
-  --color-gray-500:        #5C5C5C;
-  --color-gray-600:        #6c757d;
-  --color-gray-700:        #4B4B4B;
-  --color-gray-900:        #1F1F1F;
-  --color-gold:            #D1C92B;
-  --color-black:           #000000;
+  --color-white: #ffffff;
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #f1f3f5;
+  --color-gray-200: #e9ecef;
+  --color-gray-300: #dbdbdb;
+  --color-gray-400: #b9b9b9;
+  --color-gray-500: #5c5c5c;
+  --color-gray-600: #6c757d;
+  --color-gray-700: #4b4b4b;
+  --color-gray-900: #1f1f1f;
+  --color-gold: #d1c92b;
+  --color-black: #000000;
 
   /* --- Semantic Colors --- */
-  --color-text:            var(--color-gray-900);
-  --color-text-secondary:  var(--color-gray-700);
-  --color-text-muted:      var(--color-gray-600);
-  --color-bg:              var(--color-white);
-  --color-bg-secondary:    var(--color-gray-100);
-  --color-bg-tertiary:     var(--color-gray-400);
-  --color-border:          var(--color-gray-600);
-  --color-border-light:    var(--color-gray-300);
-  --color-header-bg:       var(--color-dark);
-  --header-height:         80px;
+  --color-text: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-700);
+  --color-text-muted: var(--color-gray-600);
+  --color-bg: var(--color-white);
+  --color-bg-secondary: var(--color-gray-100);
+  --color-bg-tertiary: var(--color-gray-400);
+  --color-border: var(--color-gray-600);
+  --color-border-light: var(--color-gray-300);
+  --color-header-bg: var(--color-dark);
+  --header-height: 80px;
 
   /* --- Gradients --- */
-  --gradient-page-header:  linear-gradient(135deg, #333333, var(--color-dark));
+  --gradient-page-header: linear-gradient(135deg, #333333, var(--color-dark));
 
   /* --- Status Colors --- */
-  --color-success:         #00a859;
-  --color-warning:         #ff9500;
-  --color-error:           #e03131;
-  --color-error-bg:        #fff5f5;
-  --color-info:            var(--color-primary);
+  --color-success: #00a859;
+  --color-warning: #ff9500;
+  --color-error: #e03131;
+  --color-error-bg: #fff5f5;
+  --color-info: var(--color-primary);
 
   /* --- News Category Colors (white text WCAG AA 4.5:1+) --- */
-  --color-cat-notice:      #0066cc;  /* 5.40:1 */
-  --color-cat-press:       #007a3d;  /* 5.22:1 */
-  --color-cat-event:       #aa6200;  /* 4.71:1 */
-  --color-cat-other:       var(--color-gray-600);  /* 4.71:1 */
+  --color-cat-notice: #0066cc; /* 5.40:1 */
+  --color-cat-press: #007a3d; /* 5.22:1 */
+  --color-cat-event: #aa6200; /* 4.71:1 */
+  --color-cat-other: var(--color-gray-600); /* 4.71:1 */
 
   /* --- Font Family --- */
-  --font-serif: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Shippori Mincho",
-                "Yu Mincho", "MS PMincho", serif;
-  --font-mono:  "Monaco", "Consolas", "Courier New", monospace;
+  --font-serif:
+    "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Shippori Mincho",
+    "Yu Mincho", "MS PMincho", serif;
+  --font-mono: "Monaco", "Consolas", "Courier New", monospace;
 
-  /* --- Font Size --- */
-  --text-xs:      0.75rem;
-  --text-sm:      0.875rem;
-  --text-base:    1rem;
-  --text-lg:      1.125rem;
-  --text-xl:      1.25rem;
-  --text-2xl:     1.5rem;
-  --text-3xl:     1.875rem;
-  --text-4xl:     2.25rem;
-  --text-5xl:     3rem;
-  --text-heritage-title:   2.25rem;
-  --text-heritage-body:    1.125rem;
-  --text-heritage-caption: 2rem;
+  /* --- Font Size (1rem = 16px) --- */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-heritage-title: clamp(
+    1.5rem,
+    calc(0.571rem + 3.499vw),
+    2.25rem
+  ); /* 24–36px */
+  --text-heritage-body: 1.125rem; /* 18px */
+  --text-heritage-caption: 2rem; /* 32px */
 
   /* --- Responsive Font Size (clamp) ---
      VP幅に応じて滑らかに伸縮する汎用フォントスケール。
      基本は --fs-100 〜 --fs-900 を使用し、用途別トークンは互換エイリアスとして残す。
   */
-  --fs-100:        clamp(0.75rem,   1.5vw, 1.125rem); /* 12–18px */
-  --fs-200:        clamp(1rem,      1.4vw, 1.125rem); /* 16–18px */
-  --fs-300:        clamp(0.875rem,  2.5vw, 1.25rem);  /* 14–20px */
-  --fs-350:        clamp(1rem,      2.5vw, 1.25rem);  /* 16–20px */
-  --fs-400:        clamp(1rem,      2.8vw, 1.5rem);   /* 16–24px */
-  --fs-450:        clamp(1.125rem,  2vw,   1.625rem); /* 18–26px */
-  --fs-500:        clamp(1.25rem,   2.8vw, 1.875rem); /* 20–30px */
-  --fs-600:        clamp(1.25rem,   2.2vw, 2rem);     /* 20–32px */
-  --fs-650:        clamp(1.5rem,    2.78vw, 2.5rem);  /* 24–40px */
-  --fs-700:        clamp(1.25rem,   4vw,   2.25rem);  /* 20–36px */
-  --fs-750:        clamp(2rem,      5vw,   3rem);     /* 32–48px */
-  --fs-800:        clamp(2rem,      8vw,   3.75rem);  /* 32–60px */
-  --fs-900:        clamp(2rem,      9vw,   4.375rem); /* 32–70px */
-  --fs-1000:       clamp(3rem,      7vw,   6rem);     /* 48–96px */
+  --fs-100: clamp(0.75rem, 1.5vw, 1.125rem); /* 1rem=16px: 12–18px */
+  --fs-200: clamp(1rem, 1.4vw, 1.125rem); /* 1rem=16px: 16–18px */
+  --fs-300: clamp(0.875rem, 2.5vw, 1.25rem); /* 1rem=16px: 14–20px */
+  --fs-350: clamp(1rem, 2.5vw, 1.25rem); /* 1rem=16px: 16–20px */
+  --fs-400: clamp(1rem, 2.8vw, 1.5rem); /* 1rem=16px: 16–24px */
+  --fs-450: clamp(1.125rem, 2vw, 1.625rem); /* 1rem=16px: 18–26px */
+  --fs-500: clamp(1.25rem, 2.8vw, 1.875rem); /* 1rem=16px: 20–30px */
+  --fs-600: clamp(1.25rem, 2.2vw, 2rem); /* 1rem=16px: 20–32px */
+  --fs-650: clamp(1.5rem, 2.78vw, 2.5rem); /* 1rem=16px: 24–40px */
+  --fs-700: clamp(1.25rem, 4vw, 2.25rem); /* 1rem=16px: 20–36px */
+  --fs-750: clamp(2rem, 5vw, 3rem); /* 1rem=16px: 32–48px */
+  --fs-800: clamp(2rem, 8vw, 3.75rem); /* 1rem=16px: 32–60px */
+  --fs-900: clamp(2rem, 9vw, 4.375rem); /* 1rem=16px: 32–70px */
+  --fs-1000: clamp(3rem, 7vw, 6rem); /* 1rem=16px: 48–96px */
 
-  --fs-caption:    var(--fs-100);
-  --fs-body:       var(--fs-200);
-  --fs-body-lg:    var(--fs-300);
-  --fs-title:      var(--fs-400);
-  --fs-title-lg:   var(--fs-500);
-  --fs-title-xl:   var(--fs-600);
-  --fs-title-2xl:  var(--fs-700);
-  --fs-display:    var(--fs-800);
+  --fs-caption: var(--fs-100); /* 12–18px */
+  --fs-body: var(--fs-200); /* 16–18px */
+  --fs-body-lg: var(--fs-300); /* 14–20px */
+  --fs-title: var(--fs-400); /* 16–24px */
+  --fs-title-lg: var(--fs-500); /* 20–30px */
+  --fs-title-xl: var(--fs-600); /* 20–32px */
+  --fs-title-2xl: var(--fs-700); /* 20–36px */
+  --fs-display: var(--fs-800); /* 32–60px */
 
   /* --- Line Height --- */
-  --leading-tight:    1.3;
-  --leading-normal:   1.6;
-  --leading-relaxed:  1.8;
-  --leading-loose:    2.0;
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+  --leading-loose: 2;
 
   /* --- Font Weight --- */
-  --weight-normal:    400;
-  --weight-medium:    500;
-  --weight-semibold:  600;
-  --weight-bold:      700;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
 
   /* --- Spacing (4px base) --- */
-  --space-0:    0;
-  --space-1:    0.25rem;
-  --space-2:    0.5rem;
-  --space-3:    0.75rem;
-  --space-4:    1rem;
-  --space-5:    1.25rem;
-  --space-6:    1.5rem;
-  --space-8:    2rem;
-  --space-10:   2.5rem;
-  --space-12:   3rem;
-  --space-16:   4rem;
-  --space-20:   5rem;
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
 
   /* --- Content Width --- */
   --width-description: 600px;
-  --width-narrow:     640px;
-  --width-content:    800px;
-  --width-news:       900px;
-  --width-wide:       1000px;
-  --width-max:        1200px;
-  --width-layout:     1440px;
-
+  --width-narrow: 640px;
+  --width-content: 800px;
+  --width-news: 900px;
+  --width-wide: 1000px;
+  --width-max: 1200px;
+  --width-layout: 1440px;
 
   /* --- Border Radius --- */
-  --radius-sm:    clamp(2px, 0.5vw, 4px);
-  --radius-md:    clamp(4px, 1vw, 8px);
-  --radius-lg:    clamp(6px, 1.5vw, 12px);
-  --radius-2xl:   clamp(15px, 3vw, 30px);
-  --radius-xl:    clamp(25px, 5vw, 50px);
-  --radius-full:  9999px;
+  --radius-sm: clamp(2px, 0.5vw, 4px);
+  --radius-md: clamp(4px, 1vw, 8px);
+  --radius-lg: clamp(6px, 1.5vw, 12px);
+  --radius-2xl: clamp(15px, 3vw, 30px);
+  --radius-xl: clamp(25px, 5vw, 50px);
+  --radius-full: 9999px;
 
   /* --- Contact Card --- */
   --contact-card-radius: clamp(20px, 4vw, 40px);
 
   /* --- Shadow --- */
-  --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md:    0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg:    0 4px 16px rgba(0, 0, 0, 0.12);
-  --shadow-xl:    0 8px 32px rgba(0, 0, 0, 0.16);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.16);
+
+  /* --- Text Shadow --- */
+  --text-shadow-md: 0 2px 2px rgba(0, 0, 0, 0.75);
 
   /* --- Transition --- */
-  --duration-fast:    150ms;
-  --duration-normal:  250ms;
-  --duration-slow:    400ms;
-  --easing-default:   ease-in-out;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --easing-default: ease-in-out;
 }
 
 /* ===================================================
@@ -173,8 +180,8 @@
 .deco-label {
   font-size: 96px;
   font-weight: 700;
-  color: #5C5C5C;
-   mix-blend-mode: screen;
+  color: #5c5c5c;
+  mix-blend-mode: screen;
   line-height: 1;
   letter-spacing: 0.08em;
   white-space: nowrap;
@@ -202,7 +209,7 @@
 }
 
 .u-bg-primary-light {
-background-color: var(--color-primary-light);
+  background-color: var(--color-primary-light);
 }
 
 .u-bg-dark {

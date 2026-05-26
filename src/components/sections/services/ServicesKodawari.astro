@@ -5,7 +5,7 @@ interface Props {
     accent: string;
     sub: string;
     text: string;
-    mediaLabel: string;
+    imageSrc: string;
     imageAlt: string;
     cardSide: "right" | "left";
   }[];
@@ -27,23 +27,23 @@ const { items } = Astro.props;
         items.map((item) => (
           <li class="services-kodawari__item">
             <h3 class="services-kodawari__item-title">
-              <>
-                <span class="services-kodawari__item-title-main">
-                  {item.title}
-                </span>
-                <span class="services-kodawari__accent">{item.accent}</span>
-              </>
+              <span class="services-kodawari__item-title-main">
+                <>
+                  <span>{item.title}</span>
+                  <span>{item.accent}</span>
+                </>
+              </span>
             </h3>
             <div
               class={`services-kodawari__card services-kodawari__card--${item.cardSide} u-bg-noise-dark`}
             >
-              <p class="services-kodawari__card-sub">{item.sub}</p>
-              <div class="services-kodawari__card-media">
-                <span class="services-kodawari__card-media-label">
-                  {item.mediaLabel}
-                </span>
+              <div
+                class="services-kodawari__card-media"
+                style={`--services-kodawari-card-media-image: url(${item.imageSrc});`}
+              >
+                <p class="services-kodawari__card-sub">{item.sub}</p>
+                <p class="services-kodawari__card-text">{item.text}</p>
               </div>
-              <p class="services-kodawari__card-text">{item.text}</p>
             </div>
           </li>
         ))
@@ -101,7 +101,7 @@ const { items } = Astro.props;
     position: relative;
     overflow: clip;
     padding-top: var(--services-kodawari-display-top);
-    padding-bottom: var(--section-spacing-block, var(--space-16));
+    padding-bottom: 10rem;
   }
 
   .services-kodawari {
@@ -125,19 +125,18 @@ const { items } = Astro.props;
   .services-kodawari__inner {
     max-width: var(--width-layout);
     padding-inline: var(--services-section-inline-padding);
-    padding-top: calc(
-      var(--services-kodawari-content-top) -
-        var(--services-kodawari-display-top)
-    );
+    padding-top: 3rem;
   }
 
   .services-kodawari__items {
+    --services-kodawari-item-max-width: calc(
+      var(--services-kodawari-title-column-width) +
+        var(--services-kodawari-title-card-gap) +
+        var(--services-kodawari-card-width)
+    );
     display: grid;
     gap: 4.375rem;
-    width: min(
-      var(--services-kodawari-items-max-width),
-      calc(100vw - (var(--services-kodawari-display-safe-space) * 2))
-    );
+    width: min(var(--services-kodawari-item-max-width), 100%);
     min-width: 0;
     list-style: none;
     margin: 0 auto;
@@ -153,9 +152,12 @@ const { items } = Astro.props;
     --services-kodawari-card-text-right: 0.3125rem;
     --services-kodawari-card-text-bottom: 1.6875rem;
     --services-kodawari-card-text-width: 22rem;
+    --services-kodawari-card-media-text-padding: 0.75rem 1rem;
     display: grid;
-    grid-template-columns: 1.875rem minmax(0, 1fr);
-    column-gap: 1.5625rem;
+    grid-template-columns:
+      var(--services-kodawari-title-column-width)
+      minmax(0, 1fr);
+    column-gap: var(--services-kodawari-title-card-gap);
     align-items: start;
     min-width: 0;
   }
@@ -182,9 +184,9 @@ const { items } = Astro.props;
     display: block;
     writing-mode: vertical-rl;
     text-orientation: upright;
-    width: 1.875rem;
+    width: var(--services-kodawari-title-column-width);
     height: var(--services-kodawari-title-height);
-    transform: translateY(calc(var(--services-kodawari-title-offset) * -1));
+    position: relative;
     font-size: var(--fs-650);
     line-height: 1.2;
     color: var(--color-text);
@@ -195,20 +197,27 @@ const { items } = Astro.props;
   }
 
   .services-kodawari__item-title-main {
+    font-size: 0;
     line-height: inherit;
   }
 
-  .services-kodawari__accent {
+  .services-kodawari__item-title-main > span {
+    font-size: 2.5rem;
+    line-height: inherit;
+  }
+
+  .services-kodawari__item-title-main > span:last-child {
     color: var(--color-primary);
   }
 
   .services-kodawari__card {
     position: relative;
-    background: var(--color-dark);
     border: 1px solid var(--color-white);
-    width: 100%;
-    min-height: 31.25rem;
+    box-sizing: border-box;
+    width: min(var(--services-kodawari-card-width), 100%);
+    height: var(--services-kodawari-card-height);
     padding: 0;
+    top: 4rem;
     min-width: 0;
     overflow: hidden;
     border-radius: var(--services-kodawari-card-radius) 0 0
@@ -216,114 +225,58 @@ const { items } = Astro.props;
   }
 
   .services-kodawari__card-sub {
-    position: absolute;
-    top: var(--services-kodawari-card-sub-top);
-    left: var(--services-kodawari-card-sub-left);
-    z-index: 1;
-    width: var(--services-kodawari-card-sub-width);
-    max-width: none;
+    grid-area: stack;
+    align-self: start;
+    justify-self: start;
+    width: min(var(--services-kodawari-card-sub-width), 100%);
+    max-width: 100%;
+    margin: 0;
     font-size: var(--fs-body);
     color: var(--color-white);
     line-height: var(--leading-normal);
+    background-color: rgb(92 92 92 / 0.8);
+    padding: var(--services-kodawari-card-media-text-padding);
+    box-sizing: border-box;
     min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
   }
 
   .services-kodawari__card-media {
     position: absolute;
     inset: 0;
     display: grid;
+    grid-template-areas: "stack";
     place-items: center;
-    padding: clamp(var(--space-4), 3vw, var(--space-10));
+    padding-block: var(--services-kodawari-card-sub-top)
+      var(--services-kodawari-card-text-bottom);
+    padding-inline: var(--services-kodawari-card-sub-left)
+      var(--services-kodawari-card-text-right);
+    background-image: var(--services-kodawari-card-media-image, none);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     min-width: 0;
     pointer-events: none;
   }
 
-  .services-kodawari__card-media-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25.75rem;
-    min-height: 1.8125rem;
-    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-    font-size: var(--fs-400);
-    line-height: 1.2;
-    color: var(--color-white);
-    letter-spacing: 0.04em;
-  }
-
   .services-kodawari__card-text {
-    position: absolute;
-    right: var(--services-kodawari-card-text-right);
-    bottom: var(--services-kodawari-card-text-bottom);
-    z-index: 1;
-    width: var(--services-kodawari-card-text-width);
-    max-width: none;
+    grid-area: stack;
+    align-self: end;
+    justify-self: end;
+    width: min(var(--services-kodawari-card-text-width), 100%);
+    max-width: 100%;
+    margin: 0;
     font-size: var(--fs-body);
     color: var(--color-white);
     line-height: var(--leading-normal);
     text-align: left;
+    background-color: rgb(92 92 92 / 0.8);
+    padding: var(--services-kodawari-card-media-text-padding);
+    box-sizing: border-box;
     min-width: 0;
-  }
-
-  /* ===========================================
-     Responsive — max-width: 1280px
-     =========================================== */
-  @media (max-width: 1280px) {
-    .services-kodawari__items {
-      width: 100%;
-      max-width: none;
-      gap: clamp(var(--space-8), 4vw, var(--space-12));
-    }
-
-    .services-kodawari__item,
-    .services-kodawari__item:nth-child(3) {
-      grid-template-columns: 1fr;
-      column-gap: 0;
-      margin-top: 0;
-    }
-
-    .services-kodawari__item-title {
-      width: auto;
-      height: auto;
-      transform: none;
-      writing-mode: horizontal-tb;
-      text-orientation: mixed;
-      font-size: var(--fs-650);
-      letter-spacing: normal;
-      white-space: normal;
-    }
-
-    .services-kodawari__card {
-      width: 100%;
-      min-height: auto;
-      padding: clamp(var(--space-5), 3vw, var(--space-8));
-      display: grid;
-      gap: var(--space-6);
-    }
-
-    .services-kodawari__card-sub,
-    .services-kodawari__card-text {
-      position: relative;
-      left: auto;
-      top: auto;
-      right: auto;
-      bottom: auto;
-      width: auto;
-      max-width: none;
-      text-align: left;
-    }
-
-    .services-kodawari__card-media {
-      position: relative;
-      inset: auto;
-      min-height: 12rem;
-      padding: 0;
-    }
-
-    .services-kodawari__card-media-label {
-      width: 100%;
-      min-height: 8rem;
-    }
+    overflow-wrap: anywhere;
+    white-space: normal;
   }
 
   /* ===========================================
@@ -340,11 +293,6 @@ const { items } = Astro.props;
         --services-section-display-title-margin-stacked
       );
     }
-
-    .services-kodawari__inner {
-      padding-inline: var(--services-section-inline-padding);
-      padding-top: 0;
-    }
   }
 
   /* ===========================================
@@ -355,12 +303,20 @@ const { items } = Astro.props;
       --services-section-display-title-size: clamp(2.5rem, 12vw, 4rem);
     }
 
-    .services-kodawari__card {
-      gap: var(--space-5);
+    .services-kodawari__item,
+    .services-kodawari__item:nth-child(3) {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-4);
+      margin-top: 0;
     }
 
-    .services-kodawari__card-media {
-      min-height: 10rem;
+    .services-kodawari__item-title {
+      width: 100%;
+      height: auto;
+      writing-mode: horizontal-tb;
+      text-orientation: mixed;
+      text-align: left;
+      white-space: normal;
     }
   }
 </style>

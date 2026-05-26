@@ -38,7 +38,7 @@ const kodawariItems = [
     accent: "継承",
     sub: "伝統的な宮大工技術や社寺建築様式を重視",
     text: "後世に伝えるべき技を守ることを社是としている点が大きな特徴です。これには木組みや継手／仕口など、古来の工法を尊重する姿勢が含まれます。",
-    mediaLabel: "作業風景１",
+    imageSrc: "/images/service/traditional-technology-inheritance.webp",
     imageAlt: "伝統技術の継承 — 作業風景",
     cardSide: "right" as const,
   },
@@ -47,7 +47,7 @@ const kodawariItems = [
     accent: "敬意",
     sub: "単なる建築施工ではなく、地域の信仰・文化・歴史そのものを支えるという視点での仕事が基本です。",
     text: "建物ではなく「祈りの場」をつくるという意識が従業員・職人に共有されています。",
-    mediaLabel: "作業風景2",
+    imageSrc: "/images/service/respect-for-history-and-culture.webp",
     imageAlt: "歴史と文化への敬意 — 作業風景",
     cardSide: "left" as const,
   },
@@ -56,7 +56,7 @@ const kodawariItems = [
     accent: "精度",
     sub: "造作や型板作成など精密な作業により、細部の納まりや木組みの強度や見栄えにこだわりがあります。",
     text: "耐久力・美しさともに誇れる精度で施工",
-    mediaLabel: "作業風景3",
+    imageSrc: "/images/service/construction-precision.webp",
     imageAlt: "施工の精度 — 作業風景",
     cardSide: "left" as const,
   },
@@ -120,22 +120,17 @@ const flowIntroTitleLines = [
 ];
 
 const flowIntroBodyLines = [
-  "社寺建築の流れは、技術だけでは語れません。",
-  "文化を学び、木と向き合い、仲間と技を重ね、時間をかけて建物と向き合う。",
-  "その積み重ねが、未来の伝統をつくります。",
+  "社寺建築の流れは、単なる技術の積み重ねだけでは語ることができません。私たちはまず、その建物が持つ歴史や背景にある文化を深く学び、そこに込められた想いを理解することから始めます。そして木という自然素材と真摯に向き合い、その個性や特性を見極めながら、最適な形へと仕上げていきます。",
+  "現場では仲間と密に連携し、長年受け継がれてきた技を一つひとつ丁寧に重ねていきます。時間を惜しまず、細部にまで心を配りながら建物と向き合う姿勢こそが、品質を支える基盤です",
+  "そうした日々の積み重ねが、やがて次の時代へと受け継がれる価値となり、新たな伝統をかたちづくっていくのです。",
 ];
-
-const flowCardPlaceholderCopy = `〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇
-〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇`;
 
 const flowCards = [
   {
-    title: "こんな取り組み1",
-    copy: flowCardPlaceholderCopy,
+    copy: `現場では職人同士の対話を大切にし、細かな確認を重ねながら作業を進めます。安全管理はもちろん、周囲の環境や既存建物との調和にも配慮し、確かな品質を築いていきます。`,
   },
   {
-    title: "こんな取り組み2",
-    copy: flowCardPlaceholderCopy,
+    copy: `加工前の木材一本一本を丁寧に確認し、反りや木目の状態を見極めて最適な使い方を判断します。見えない部分まで妥協せず、精度の高い仕上がりを追求することにこだわっています。`,
   },
 ];
 
@@ -232,14 +227,24 @@ try {
      =========================================== */
   .services {
     --services-section-inline-padding: clamp(var(--space-6), 5.56vw, 5rem);
+    --services-section-display-title-clearance: 6.875rem;
+    --services-section-display-title-safe-space: calc(
+      var(--services-kodawari-display-left) +
+        var(--services-kodawari-display-width) +
+        var(--services-section-display-title-clearance)
+    );
     --services-kodawari-card-radius: 50px;
     --services-kodawari-display-left: 1.4375rem;
     --services-kodawari-display-top: 2.5625rem;
     --services-kodawari-display-width: 12.0625rem;
     --services-kodawari-display-height: 14.5rem;
     --services-kodawari-display-size: 6rem;
-    --services-kodawari-card-width: 33.25rem;
-    --services-kodawari-card-height: 33.25rem;
+    --services-kodawari-content-top: 7.8125rem;
+    --services-kodawari-display-safe-space: 0px;
+    --services-kodawari-title-column-width: 1.875rem;
+    --services-kodawari-title-card-gap: 1.5625rem;
+    --services-kodawari-card-width: 62.5rem;
+    --services-kodawari-card-height: 31.25rem;
     --services-kodawari-card-image-left: 53%;
     --services-kodawari-sub-top: 2rem;
     --services-kodawari-sub-left: 0.75rem;
@@ -248,9 +253,24 @@ try {
     --services-kodawari-text-right: 0.375rem;
     --services-kodawari-text-left: 52%;
     --services-kodawari-text-width: auto;
-    --services-flow-card-width: clamp(15rem, 36vw, 25rem);
-    --services-flow-card-height: clamp(15rem, 36vw, 25rem);
-    --services-flow-card-title-size: var(--fs-600);
+    --services-flow-content-inline: var(--services-section-inline-padding);
+    --services-flow-display-safe-space: var(
+      --services-section-display-title-safe-space
+    );
+    --services-flow-content-top: 7.8125rem;
+    --services-flow-intro-gap: var(--space-10);
+    --services-flow-card-gap: 5rem;
+    --services-flow-intro-width: 44.125rem;
+    --services-flow-diagram-width: 33.125rem;
+    --services-flow-row-gap: var(--space-10);
+    --services-flow-mobile-row-gap: var(--space-6);
+    --services-flow-card-width: 40.625rem;
+    --services-flow-card-radius: 50px;
+    --services-diary-content-inline: var(--services-section-inline-padding);
+    --services-diary-display-safe-space: var(
+      --services-section-display-title-safe-space
+    );
+    --services-diary-content-top: 7.8125rem;
     --services-section-display-title-margin-stacked: 0 0 0
       var(--services-section-inline-padding);
   }

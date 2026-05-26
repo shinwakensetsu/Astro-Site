@@ -3,7 +3,6 @@ interface Props {
   introTitleLines: string[];
   introBodyLines: string[];
   cards: {
-    title: string;
     copy: string;
   }[];
 }
@@ -16,8 +15,8 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
     <span class="services-display-title__line">施工</span>
     <span class="services-display-title__line">流れ</span>
   </h2>
-  <div class="l-container">
-    <div class="services-flow__inner">
+  <div class="l-container services-flow__inner">
+    <div class="services-flow__row services-flow__row--intro">
       <div class="services-flow__main">
         <h3 class="services-flow__subtitle">
           {
@@ -33,27 +32,27 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
             ))
           }
         </p>
-        <div class="services-flow__diagram">
-          <img
-            src="/images/service/workflow.png"
-            alt="施工の流れ図"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
       </div>
-      <div class="services-flow__actions">
-        {
-          cards.map((card) => (
-            <article class="services-flow__card-item">
-              <div class="services-flow__card">
-                <h3 class="services-flow__card-title">{card.title}</h3>
-              </div>
-              <p class="services-flow__card-copy">{card.copy}</p>
-            </article>
-          ))
-        }
+      <div class="services-flow__diagram">
+        <img
+          src="/images/service/workflow.png"
+          alt="施工の流れ図"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
+    </div>
+    <div class="services-flow__row services-flow__row--cards">
+      {
+        cards.map((card, index) => (
+          <article
+            class={`services-flow__card-item services-flow__card-item--image-${index + 1}`}
+          >
+            <div class="services-flow__card" aria-hidden="true" />
+            <p class="services-flow__card-copy">{card.copy}</p>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -111,31 +110,51 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
   }
 
   .services-flow__inner {
-    display: flex;
-    flex-wrap: wrap;
+    box-sizing: border-box;
+    container: services-flow-layout / inline-size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
-    width: 100%;
-    column-gap: var(--services-flow-body-gap);
-    /* Keep the fixed display title clear by shifting content, not the title. */
+    max-width: var(--width-layout);
+    row-gap: var(--services-flow-row-gap);
     padding-inline-start: max(
-      var(--services-flow-inline-start),
+      var(--services-flow-content-inline),
       calc(
         var(--services-flow-display-safe-space) -
           max(calc((100vw - var(--width-layout)) / 2), 0px)
       )
     );
-    padding-inline-end: var(--services-flow-inline-start);
+    padding-inline-end: var(--services-flow-content-inline);
     padding-top: calc(
       var(--services-flow-content-top) - var(--services-kodawari-display-top)
     );
   }
 
+  .services-flow__row {
+    display: grid;
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .services-flow__row--intro {
+    grid-template-columns:
+      minmax(0, var(--services-flow-intro-width))
+      minmax(0, 1fr);
+    column-gap: var(--services-flow-intro-gap);
+  }
+
+  .services-flow__row--cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--services-flow-card-gap);
+  }
+
   .services-flow__main {
     display: grid;
-    /* 604px is the agreed minimum left-column width before stacking. */
-    flex: 1 1 37.75rem;
-    width: min(100%, var(--services-flow-intro-width));
-    min-width: min(100%, 37.75rem);
+    width: 100%;
+    max-width: var(--services-flow-intro-width);
+    min-width: 0;
+    justify-self: center;
   }
 
   .services-flow__subtitle {
@@ -157,21 +176,11 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
     margin: 0.8125rem 0 0;
     width: 100%;
     max-width: var(--services-flow-intro-width);
-    font-size: var(--fs-body);
+    font-size: 1.25rem;
     line-height: 1.2222222222;
     color: var(--color-text);
     min-width: 0;
-  }
-
-  .services-flow__actions {
-    display: grid;
-    align-self: start;
-    justify-content: end;
-    gap: var(--space-5);
-    flex: 1 1 var(--services-flow-card-width);
-    width: min(100%, var(--services-flow-card-width));
-    min-width: min(100%, var(--services-flow-card-width));
-    padding-top: var(--services-flow-actions-offset-top);
+    word-break: auto-phrase;
   }
 
   .services-flow__diagram {
@@ -180,8 +189,8 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
     max-width: var(--services-flow-diagram-width);
     min-height: auto;
     aspect-ratio: 61 / 64;
-    margin-top: var(--services-flow-diagram-gap);
     min-width: 0;
+    justify-self: center;
   }
 
   .services-flow__diagram img {
@@ -193,14 +202,15 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
 
   .services-flow__card-item {
     display: grid;
-    width: 100%;
+    width: min(100%, var(--services-flow-card-width));
     max-width: 650px;
     gap: var(--space-1);
+    justify-self: center;
   }
 
   .services-flow__card-copy {
     margin: 0;
-    width: min(100%, var(--services-flow-copy-width));
+    width: 93.385%;
     justify-self: center;
     font-family: var(--font-serif);
     font-weight: var(--weight-semibold);
@@ -212,24 +222,23 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
   }
 
   .services-flow__card {
-    display: grid;
-    place-items: center;
     width: 100%;
-    min-height: var(--services-flow-card-height);
-    background: var(--color-gray-700);
-    border: 1px solid var(--color-white);
+    aspect-ratio: 600 / 400;
+    background-color: var(--color-gray-700);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     border-radius: var(--services-flow-card-radius);
+    box-shadow: inset 0 0 0 3px var(--color-white);
+    overflow: hidden;
   }
 
-  .services-flow__card-title {
-    margin: 0;
-    width: min(100%, 16.704875rem);
-    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-    font-weight: var(--weight-normal);
-    font-size: var(--fs-400);
-    line-height: normal;
-    color: var(--color-white);
-    text-align: center;
+  .services-flow__card-item--image-1 .services-flow__card {
+    background-image: url("/images/service/flow-card-image-1.webp");
+  }
+
+  .services-flow__card-item--image-2 .services-flow__card {
+    background-image: url("/images/service/flow-card-image-2.webp");
   }
 
   /* ===========================================
@@ -251,6 +260,13 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
       padding-inline: var(--services-section-inline-padding);
       padding-top: 0;
     }
+
+    @container services-flow-layout (max-width: 68.75rem) {
+      .services-flow__row--intro {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: var(--services-flow-mobile-row-gap);
+      }
+    }
   }
 
   /* ===========================================
@@ -263,6 +279,25 @@ const { introTitleLines, introBodyLines, cards } = Astro.props;
 
     .services-flow__subtitle {
       font-size: var(--fs-700);
+    }
+
+    .services-flow__lead {
+      font-size: 1rem;
+    }
+
+    .services-flow__inner {
+      row-gap: var(--services-flow-mobile-row-gap);
+    }
+
+    .services-flow__row--intro,
+    .services-flow__row--cards {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--services-flow-mobile-row-gap);
+    }
+
+    .services-flow__card-item {
+      width: 100%;
+      max-width: none;
     }
   }
 </style>

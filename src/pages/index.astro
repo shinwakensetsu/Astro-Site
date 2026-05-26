@@ -187,16 +187,16 @@ const newsList = newsResponse.contents;
             <div class="heritage__bottom">
               <div class="heritage__bottom-images">
                 <img
-                  class="heritage__bottom-img"
-                  src="/images/index/pillar.jpg"
+                  class="heritage__bottom-img heritage__bottom-img-left"
+                  src="/images/index/heritage__bottom-image-left.webp"
                   alt="社寺建築の木組み構造"
                   width="1000"
                   height="1206"
                   loading="lazy"
                 />
                 <img
-                  class="heritage__bottom-img"
-                  src="/images/index/wood.jpg"
+                  class="heritage__bottom-img heritage__bottom-right"
+                  src="/images/index/heritage__bottom-image-right.webp"
                   alt="伝統的な継手・仕口"
                   width="1032"
                   height="708"
@@ -319,20 +319,23 @@ const newsList = newsResponse.contents;
       <div class="l-container recruit__inner">
         <div
           class="recruit__card"
-          style="--recruit-bg: url('/images/index/recruit-bg.jpg');"
+          style="--recruit-bg: url('/images/index/recruit-bg.webp');"
         >
           <div class="recruit__intro">
             <h2 class="recruit__heading" id="recruit-heading">RECRUIT</h2>
             <p class="recruit__desc">
               <span class="recruit__desc-line"
-                >ただのものづくりではなく、歴史と文化を守る仕事があります。</span
-              >
-              <span class="recruit__desc-line"
-                >親しみやすい社風の中で、伝統技術を磨き、次世代へ伝えていく。</span
-              >
-              <span class="recruit__desc-line"
-                >まずはお気軽に話を聞きに来てください。</span
-              >
+                >ただのものづくりではなく、歴史と文化を
+              </span>
+              <span class="recruit__desc-line">
+                守る仕事があります。 親しみやすい社風の中で、
+              </span>
+              <span class="recruit__desc-line">
+                伝統技術を磨き、次世代へ伝えていく。
+              </span>
+              <span class="recruit__desc-line">
+                まずはお気軽に話を聞きに来てください。
+              </span>
             </p>
           </div>
 
@@ -726,7 +729,7 @@ const newsList = newsResponse.contents;
   }
 
   .news__card-title {
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     line-height: var(--leading-tight);
     margin: 0;
     display: block;
@@ -843,6 +846,7 @@ const newsList = newsResponse.contents;
     line-height: var(--leading-relaxed);
     line-break: strict;
     text-align: start;
+    text-shadow: var(--text-shadow-md);
     overflow-wrap: break-word;
     min-height: 15.3125rem;
     padding-top: var(--space-4);
@@ -904,6 +908,7 @@ const newsList = newsResponse.contents;
     filter: brightness(0.8);
     z-index: 0;
     border-radius: 0 0 0 20px;
+    filter: brightness(0.5);
   }
 
   .heritage__tower-overlay {
@@ -943,7 +948,7 @@ const newsList = newsResponse.contents;
   .heritage__tower-caption p {
     margin: 0;
     padding-inline: 6%;
-    overflow-wrap: break-word;
+    word-break: auto-phrase;
   }
 
   .heritage__tower-caption p + p {
@@ -1061,7 +1066,7 @@ const newsList = newsResponse.contents;
     grid-row: 2 / 3;
     min-width: 0;
     color: rgba(255, 255, 255, 0.85);
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     line-height: var(--leading-relaxed);
   }
 
@@ -1451,33 +1456,63 @@ const newsList = newsResponse.contents;
 
   /* ---------- 5. Recruit ---------- */
   .recruit__inner {
-    --recruit-cta-size: clamp(240px, 30vw, 348px);
+    --recruit-cta-size: clamp(223px, calc(33.397vw - 132.921px), 348px);
+    --recruit-cta-text-size: clamp(32px, calc(4.798vw - 19.098px), 50px);
+    --recruit-cta-icon-size: clamp(46px, calc(6.91vw - 27.501px), 72px);
+    --recruit-cta-overhang: 120px;
+    --recruit-cta-align: center;
+    --recruit-cta-offset-x: 0px;
+    --recruit-note-gap: var(--space-4);
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 80%;
   }
 
   .recruit__card {
+    --recruit-card-radius: 50px;
+    --recruit-card-padding-block-start: var(--space-12);
+    --recruit-card-padding-inline: var(--space-10);
+    --recruit-card-padding-block-end: 0px;
+    --recruit-card-column-gap: clamp(var(--space-8), 6vw, var(--space-20));
+    --recruit-card-row-gap: var(--space-10);
     position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "intro catchphrase"
+      "cta cta";
+    column-gap: var(--recruit-card-column-gap);
+    row-gap: var(--recruit-card-row-gap);
+    align-items: start;
+    box-sizing: border-box;
+    width: 100%;
     max-width: 1307px;
-    min-height: 823px;
+
     margin-inline: auto;
-    border-radius: 50px;
-    background-color: var(--color-gray-700);
-    padding: var(--space-12) var(--space-10)
-      calc(var(--recruit-cta-size) * 0.8 + var(--space-4));
-    display: flex;
-    flex-direction: column;
+    border-radius: var(--recruit-card-radius);
+    padding: var(--recruit-card-padding-block-start)
+      var(--recruit-card-padding-inline) var(--recruit-card-padding-block-end);
     isolation: isolate;
-    filter: opacity(0.8);
+    overflow: visible;
+    text-shadow: var(--text-shadow-md);
   }
 
   /* 背景画像オーバーレイ: カード全面に敷くため absolute */
   .recruit__card::before {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: var(--recruit-cta-overhang);
+    left: 0;
     background-image: var(--recruit-bg);
+    background-blend-mode: darken;
     background-size: cover;
     background-position: center;
-    border-radius: 50px;
+    border-radius: var(--recruit-card-radius);
+    border: 1px solid black;
     filter: grayscale(100%);
     z-index: 0;
   }
@@ -1486,18 +1521,18 @@ const newsList = newsResponse.contents;
   .recruit__card::after {
     content: "";
     position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: var(--recruit-cta-overhang);
+    left: 0;
     background-image: var(--recruit-bg);
     background-size: cover;
     background-position: center;
-    border-radius: 50px;
-    transform: scale(1.1, 1.13);
-    filter: blur(5px);
+    border-radius: var(--recruit-card-radius);
+    filter: grayscale(100%) blur(8px);
     opacity: 0.45;
     z-index: -1;
+    transform: scale(1.051, 1.1);
   }
 
   .recruit__card > * {
@@ -1506,14 +1541,23 @@ const newsList = newsResponse.contents;
   }
 
   .recruit__intro {
+    grid-area: intro;
     max-width: 66%;
+    min-width: 0;
+    position: relative;
+    left: 10.5%;
+    transform: translateY(15%);
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    justify-content: space-between;
   }
 
   .recruit__heading {
-    font-size: clamp(var(--text-xl), 4vw, var(--text-4xl));
+    font-size: clamp(var(--text-2xl), 4vw, var(--text-5xl));
     color: var(--color-white);
     margin: 0 0 var(--space-4);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
     overflow-wrap: break-word;
     padding-bottom: 0.3125rem;
     border-bottom: 1px solid #448aab;
@@ -1523,52 +1567,68 @@ const newsList = newsResponse.contents;
 
   .recruit__desc {
     --recruit-desc-line-display: block;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    position: relative;
+    bottom: 15%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+    justify-items: start;
     color: rgba(255, 255, 255, 0.85);
     font-size: var(--text-lg);
     font-weight: var(--weight-bold);
     line-height: var(--leading-relaxed);
     margin: 0;
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .recruit__desc-line {
     display: var(--recruit-desc-line-display);
-    inline-size: max-content;
-    max-inline-size: 100%;
+    inline-size: 100%;
     min-width: 0;
+    overflow-wrap: anywhere;
   }
 
-  /* div-2: キャッチコピー — 右上縦書き。カード上に浮かせて配置するため absolute */
+  /* div-2: キャッチコピー — card grid 内の右列に配置、relative で微調整 */
   .recruit__catchphrase {
-    position: absolute;
-    top: var(--space-10);
-    right: var(--space-10);
+    grid-area: catchphrase;
+    justify-self: end;
+    align-self: start;
+    position: relative;
+    top: 2.625rem;
+    right: clamp(0px, calc((100vw - 768px) * 0.253), 130px);
     writing-mode: vertical-rl;
     color: var(--color-white);
-    font-size: clamp(var(--text-xl), 2.8vw, var(--text-3xl));
+    font-size: 2rem;
     line-height: var(--leading-tight);
     margin: 0;
+    background: rgb(255 255 255 / 40%);
+    outline: rgb(230 230 230 / 60%) solid 1px;
+    padding: 30px 7px;
+    letter-spacing: 0.31em;
+    overflow-wrap: anywhere;
   }
 
   .recruit__catchphrase-break {
     display: block;
   }
 
-  /* div-3: CTA 正円 — カード下辺から半分はみ出して浮かせるため absolute */
+  /* div-3: CTA 正円 — card 下端基準で下方向に指定量だけ突き出す */
   .recruit__cta {
+    grid-area: cta;
+    justify-self: var(--recruit-cta-align);
+    align-self: end;
+    position: relative;
+    inset-inline-start: var(--recruit-cta-offset-x);
+    box-sizing: border-box;
+    inline-size: min(var(--recruit-cta-size), 100%);
+    aspect-ratio: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 20%);
-    width: var(--recruit-cta-size);
-    aspect-ratio: 1;
     overflow: hidden;
     border-radius: 50%;
     outline: 2px solid var(--color-white);
@@ -1576,7 +1636,7 @@ const newsList = newsResponse.contents;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     color: var(--color-white);
-    font-size: clamp(var(--text-xl), 2.8vw, var(--text-2xl));
+    font-size: var(--recruit-cta-text-size);
     letter-spacing: 0.04em;
     text-decoration: none;
     transition: background-color var(--duration-fast) var(--easing-default);
@@ -1588,11 +1648,11 @@ const newsList = newsResponse.contents;
 
   .recruit__cta-text {
     text-align: center;
-    font-size: clamp(1.5rem, 3vw, 3.125rem);
+    font-size: var(--recruit-cta-text-size);
   }
 
   .recruit__cta :global(svg) {
-    width: clamp(40px, 4vw, 72px);
+    width: var(--recruit-cta-icon-size);
     height: auto;
   }
 
@@ -1613,9 +1673,10 @@ const newsList = newsResponse.contents;
 
   .recruit__note {
     max-width: 682px;
-    margin: calc(var(--recruit-cta-size) * 0.2 + var(--space-4)) auto 0;
+    margin: var(--recruit-note-gap) auto 0;
     color: var(--color-text-secondary);
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
+    font-weight: bold;
     line-height: var(--leading-normal);
     text-align: center;
   }
@@ -1630,27 +1691,17 @@ const newsList = newsResponse.contents;
 
   /* Recruit レスポンシブ: 1440px以下 */
   @media (max-width: 1440px) {
-    .recruit__inner {
-      max-width: 80%;
-      --recruit-cta-size: clamp(200px, 20vw, 280px);
-    }
     .recruit__card {
-      min-height: calc((80vw - 3rem) * 823 / 1307);
-    }
-    .recruit__cta-text {
-      font-size: 1.5rem;
-      max-width: 8cap;
+      min-height: calc(
+        (80vw - 3rem) * 823 / 1307 + var(--recruit-cta-overhang)
+      );
     }
   }
 
   /* Recruit レスポンシブ: 1024px以下 */
   @media (max-width: 1024px) {
-    .recruit__inner {
-    }
-
-    .recruit__cta-text {
-      font-size: 1.3rem;
-      max-width: 8cap;
+    .recruit__desc {
+      font-size: clamp(0.875rem, calc(0.125rem + 1.5625vw), var(--text-lg));
     }
   }
 
@@ -1661,38 +1712,60 @@ const newsList = newsResponse.contents;
     }
 
     .recruit__card {
-      padding: var(--space-8) var(--space-6)
-        calc(var(--recruit-cta-size) * 0.8 + var(--space-4));
-      border-radius: 30px;
+      --recruit-card-radius: 30px;
+      --recruit-card-padding-block-start: var(--space-8);
+      --recruit-card-padding-inline: var(--space-6);
+      --recruit-card-padding-block-end: 0px;
+      --recruit-card-row-gap: var(--space-6);
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        "catchphrase"
+        "intro"
+        "cta";
       min-height: 0;
     }
 
     .recruit__intro {
       max-width: 100%;
       margin-bottom: var(--space-4);
+      left: 0;
+      transform: none;
+      height: auto;
     }
     .recruit__desc {
-      font-size: var(--text-base);
+      bottom: auto;
+      font-size: 0.875rem;
     }
 
     .recruit__catchphrase {
-      position: relative;
+      justify-self: start;
       top: auto;
       right: auto;
       text-align: left;
       margin-bottom: var(--space-6);
+      writing-mode: revert;
+      box-sizing: border-box;
+      inline-size: fit-content;
+      max-width: 100%;
+      font-size: max(
+        18px,
+        min(
+          clamp(1.125rem, calc(0.5rem + 3.125vw), 2rem),
+          calc(7.03125vw - 7.5px)
+        )
+      );
+      letter-spacing: clamp(0.08em, 0.5vw, 0.18em);
+      padding: 8px 0.875em;
     }
 
     .recruit__cta {
-      margin-inline: auto;
-      margin-bottom: var(--space-4);
+      align-self: end;
+      margin-top: var(--space-6);
     }
 
-    .recruit__heading {
-      font-size: clamp(var(--text-lg), 4vw, var(--text-3xl));
-    }
     .recruit__note {
-      margin: calc(var(--recruit-cta-size) * 0.2 + var(--space-4)) auto 0;
+      margin: var(--recruit-note-gap) auto 0;
     }
   }
 
@@ -1703,13 +1776,24 @@ const newsList = newsResponse.contents;
     }
 
     .recruit__card {
-      border-radius: 24px;
-      padding: var(--space-6) var(--space-4)
-        calc(var(--recruit-cta-size) * 0.8 + var(--space-4));
+      --recruit-card-radius: 24px;
+      --recruit-card-padding-block-start: var(--space-6);
+      --recruit-card-padding-inline: var(--space-4);
+      --recruit-card-padding-block-end: 0px;
+    }
+
+    .recruit__catchphrase {
+      font-size: max(
+        18px,
+        min(
+          clamp(1.125rem, calc(0.5rem + 3.125vw), 2rem),
+          calc(7.8125vw - 6.25px)
+        )
+      );
     }
 
     .recruit__desc {
-      font-size: var(--text-base);
+      font-size: 0.875rem;
     }
 
     .recruit__note {
@@ -1720,11 +1804,16 @@ const newsList = newsResponse.contents;
   /* Recruit レスポンシブ: 320px以下 */
   @media (max-width: 320px) {
     .recruit__card {
-      padding-bottom: var(--space-6);
+      padding-bottom: 0;
+    }
+
+    .recruit__desc {
+      --recruit-desc-line-display: inline;
+      display: block;
     }
 
     .recruit__note {
-      margin-top: var(--space-4);
+      margin-top: var(--recruit-note-gap);
     }
 
     .recruit__cta {
@@ -1732,14 +1821,13 @@ const newsList = newsResponse.contents;
       grid-template-columns: minmax(0, 1fr) auto;
       grid-template-rows: auto auto;
       gap: var(--space-4);
-      width: 100%;
+      inline-size: 100%;
       aspect-ratio: auto;
+      margin-top: var(--space-4);
       overflow: visible;
       border-radius: 20px;
-      transform: unset;
-      left: 0;
-      position: relative;
-      padding: var(--space-4);
+      padding: 10px;
+      background: color-mix(in srgb, var(--color-gray-500) 90%, transparent);
       overflow-wrap: break-word;
     }
 
@@ -1762,9 +1850,7 @@ const newsList = newsResponse.contents;
       align-content: center;
     }
   }
-  .recruit__card::after {
-    transform: scale(1.051, 1.051);
-  }
+
   /* ---------- 6. Contact ---------- */
   .contact__inner {
     display: block;

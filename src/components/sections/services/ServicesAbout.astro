@@ -10,9 +10,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<section
-  class="services-about u-full-bleed u-section-spacing u-bg-dark u-bg-noise-dark"
->
+<section class="services-about u-full-bleed u-section-spacing u-bg-dark">
   <div class="l-container services-about__inner">
     <h2 class="sr-only">事業紹介</h2>
     <dl class="services-about__list">
@@ -54,6 +52,7 @@ const { items } = Astro.props;
     justify-content: center;
     width: min(100%, var(--services-about-label-width, 22.8125rem));
     min-height: 3.6875rem;
+    min-width: fit-content;
     background: var(--color-gray-500);
     border: 1px solid var(--color-primary-light);
     border-radius: 0.9375rem;
@@ -61,7 +60,7 @@ const { items } = Astro.props;
     font-family: var(--font-serif);
     font-weight: var(--weight-normal);
     color: var(--color-white);
-    font-size: var(--fs-600);
+    font-size: 2rem;
     line-height: 1.1;
     text-align: center;
   }
