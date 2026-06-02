@@ -22,16 +22,21 @@
   }
 
   .recruit-cta__button {
+    --recruit-cta-button-font-size: clamp(
+      1.25rem,
+      calc(2.380952381vw + 0.1071428571rem),
+      2.25rem
+    );
+
     display: grid;
     place-items: center;
-    max-width: 31.25rem;
-    width: 100%;
-    padding: var(--space-6) var(--space-8);
+    width: min(100%, 13.8888888889em);
+    padding: 0.6666666667em 0.8888888889em;
     background-color: var(--color-primary);
     border: 1px solid var(--color-gray-500);
-    border-radius: 0.9375rem;
+    border-radius: 0.4166666667em;
     font-family: var(--font-serif);
-    font-size: 2.25rem;
+    font-size: var(--recruit-cta-button-font-size);
     font-weight: var(--weight-semibold);
     color: var(--color-primary-light);
     text-decoration: none;

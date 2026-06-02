@@ -166,14 +166,11 @@ const { items } = Astro.props;
 
   /* Figma: +アイコン Inter 40px, #448AAC */
   .recruit-faq__body :global(.accordion-summary::before) {
-    content: "+";
+    content: "";
     flex: 0 0 auto;
-    font-family: "Inter", sans-serif;
-    font-size: 2.5rem;
-    font-weight: var(--weight-normal);
-    color: var(--color-primary);
-    line-height: 1;
-    text-shadow: none;
+    width: 19px;
+    height: 19px;
+    background: url("/images/util/plus.svg") center / contain no-repeat;
   }
 
   /* Figma: 回答背景 白, 下角丸50px, 幅824px */

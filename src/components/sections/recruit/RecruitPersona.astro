@@ -3,7 +3,7 @@ interface PersonaCard {
   number: string;
   title: string;
   paragraphs: string[];
-  mediaLabel?: string;
+  mediaSrc?: string;
   mediaPosition?: "start" | "end";
 }
 
@@ -19,9 +19,7 @@ const { cards } = Astro.props;
     <div class="recruit-persona__content">
       <div class="recruit-persona__intro">
         <div class="recruit-persona__photo">
-          <div class="recruit-persona__photo-visual">
-            <span class="recruit-persona__photo-label">代表者の写真</span>
-          </div>
+          <div class="recruit-persona__photo-visual" aria-hidden="true"></div>
           <div class="recruit-persona__photo-meta">
             <p class="recruit-persona__author">
               <span class="recruit-persona__author-role">代表取締役社長</span>
@@ -54,7 +52,7 @@ const { cards } = Astro.props;
                     "recruit-persona-card",
                     {
                       "recruit-persona-card--with-media": Boolean(
-                        card.mediaLabel,
+                        card.mediaSrc,
                       ),
                     },
                     {
@@ -67,7 +65,7 @@ const { cards } = Astro.props;
                     },
                   ]}
                 >
-                  {card.mediaLabel ? (
+                  {card.mediaSrc ? (
                     <>
                       <div class="recruit-persona-card__content">
                         <header class="recruit-persona-card__header">
@@ -96,11 +94,14 @@ const { cards } = Astro.props;
                       </div>
 
                       <footer class="recruit-persona-card__footer">
-                        <div class="recruit-persona-card__media">
-                          <span class="recruit-persona-card__media-label">
-                            {card.mediaLabel}
-                          </span>
-                        </div>
+                        <div
+                          class:list={[
+                            "recruit-persona-card__media",
+                            "recruit-persona-card__media--image",
+                          ]}
+                          style={`--recruit-persona-card-media-image: url("${card.mediaSrc}")`}
+                          aria-hidden="true"
+                        />
                       </footer>
                     </>
                   ) : (
@@ -195,10 +196,17 @@ const { cards } = Astro.props;
   }
 
   .recruit-persona__intro {
+    --recruit-persona-intro-gap-min: var(--space-10);
+    --recruit-persona-intro-gap-max: 7.1875rem;
+
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    gap: 7.1875rem;
+    gap: clamp(
+      var(--recruit-persona-intro-gap-min),
+      calc(53.5714286vw - 41.0267857rem),
+      var(--recruit-persona-intro-gap-max)
+    );
     margin: auto;
   }
 
@@ -209,35 +217,45 @@ const { cards } = Astro.props;
   .recruit-persona__photo {
     width: 40.625rem;
     aspect-ratio: 650 / 500;
-    padding: var(--space-6);
-    border: 1px solid var(--color-white);
     border-radius: var(--radius-2xl);
-    background-color: var(--color-gray-700);
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .recruit-persona__photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border: 1px solid var(--color-white);
+    border-radius: inherit;
+    box-sizing: border-box;
+    pointer-events: none;
   }
 
   .recruit-persona__photo-visual {
-    flex: 1 1 auto;
-    display: grid;
-    place-items: center;
-  }
-
-  .recruit-persona__photo-label {
-    color: var(--color-white);
-    font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: var(--fs-400);
-    font-weight: var(--weight-normal);
-    line-height: 1;
-    text-align: center;
-    text-shadow: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    background-image: url("/images/recruit/president.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
 
   .recruit-persona__photo-meta {
-    margin-top: auto;
+    position: absolute;
+    left: 0;
+    bottom: var(--space-6);
+    z-index: 1;
   }
 
   .recruit-persona__author {
+    margin: 0;
+    padding: 2px 40px 2px 16px;
+    background-color: #5c5c5c;
     color: var(--color-white);
     font-family: "Inter", "Noto Sans JP", sans-serif;
     font-size: var(--text-base);
@@ -263,11 +281,12 @@ const { cards } = Astro.props;
 
   .recruit-persona__heading-group {
     display: block;
+    margin-top: 1em;
   }
 
   .recruit-persona__title {
     color: var(--color-text);
-    font-size: var(--fs-750);
+    font-size: 3rem;
     font-weight: var(--weight-semibold);
     line-height: 3.25rem;
     display: flex;
@@ -283,6 +302,7 @@ const { cards } = Astro.props;
     display: block;
     writing-mode: vertical-rl;
     text-orientation: mixed;
+    white-space: nowrap;
     text-shadow: none;
   }
 
@@ -327,6 +347,7 @@ const { cards } = Astro.props;
     row-gap: var(--space-5);
     width: 100%;
     min-width: 0;
+    margin-bottom: 60px;
   }
 
   .recruit-persona-card__content {
@@ -435,28 +456,20 @@ const { cards } = Astro.props;
     max-width: 32.375rem;
     min-width: 0;
     aspect-ratio: 518 / 500;
-    border: 1px solid var(--color-white);
+    border: 4px solid var(--color-white);
     border-radius: var(--radius-2xl);
+    box-sizing: border-box;
     background-color: var(--color-gray-700);
     display: grid;
     place-items: center;
+    overflow: hidden;
   }
 
-  .recruit-persona-card__media-label {
-    color: var(--color-white);
-    font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: var(--fs-400);
-    font-weight: var(--weight-normal);
-    line-height: 1;
-    text-align: center;
-    text-shadow: none;
-  }
-
-  @media (max-width: 425px) {
-    .recruit-persona__decorative,
-    .recruit-persona__container {
-      padding-inline: var(--space-5);
-    }
+  .recruit-persona-card__media--image {
+    background-image: var(--recruit-persona-card-media-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
 
   @media (max-width: 320px) {
@@ -466,7 +479,7 @@ const { cards } = Astro.props;
     }
   }
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1300px) {
     .recruit-persona__intro {
       flex-direction: column;
       align-items: flex-start;
@@ -491,7 +504,6 @@ const { cards } = Astro.props;
     .recruit-persona__title {
       display: grid;
       width: 100%;
-      font-size: var(--fs-650);
       max-width: max-content;
       margin-inline: 0;
       margin-top: var(--space-3);
@@ -557,9 +569,15 @@ const { cards } = Astro.props;
       max-width: 20rem;
     }
   }
+
+  @media (max-width: 768px) {
+    .recruit-persona__title {
+      font-size: clamp(1.5rem, calc(6.25vw + 0.25rem), 3rem);
+    }
+  }
+
   @media (max-width: 425px) {
     .recruit-persona__title {
-      font-size: clamp(1.5rem, calc(7.619047619vw - 0.023809524rem), 2rem);
       margin: auto;
     }
   }

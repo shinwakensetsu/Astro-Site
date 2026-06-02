@@ -40,9 +40,7 @@
         </svg>
       </a>
     </div>
-    <div class="recruit-header__hero">
-      <span class="recruit-header__hero-label">作業風景１</span>
-    </div>
+    <div class="recruit-header__hero"></div>
   </div>
 </section>
 
@@ -101,32 +99,35 @@
   /* Figma: CTAボタン 250×100, bg #448AAC, border 1px #5C5C5C, rounded 15px
      y=905 → ページ下部付近。margin-top: auto で下寄せ */
   .recruit-header__cta {
+    --recruit-header-cta-font-size: 1.625rem;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 15.625rem;
-    padding: var(--space-4) 1.6875rem;
+    width: 9.6153846154em;
+    padding: 0.6153846154em 1.0384615385em;
     margin-top: auto;
     margin-bottom: 0;
     background-color: var(--color-primary);
     border: 1px solid var(--color-gray-500);
-    border-radius: 0.9375rem;
+    border-radius: 0.5769230769em;
     text-decoration: none;
     color: var(--color-primary-light);
+    font-size: var(--recruit-header-cta-font-size);
   }
 
   .recruit-header__cta-text {
     display: flex;
     flex-direction: column;
     font-family: var(--font-serif);
-    font-size: var(--fs-450);
+    font-size: inherit;
     font-weight: var(--weight-semibold);
     line-height: var(--leading-tight);
   }
 
   .recruit-header__cta-arrow {
-    width: 0.875rem;
-    height: 1.4375rem;
+    width: 0.5384615385em;
+    height: 0.8846153846em;
     flex-shrink: 0;
   }
 
@@ -137,17 +138,13 @@
     max-width: 62rem;
     min-height: 53.1875rem;
     background-color: var(--color-white);
+    background-image: url("/images/recruit/recruit-header-hero.webp");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     border: 1px solid var(--color-black);
     border-radius: 1.875rem;
-    display: grid;
-    place-items: center;
     overflow: hidden;
-  }
-
-  .recruit-header__hero-label {
-    font-family: var(--font-serif);
-    font-size: var(--fs-400);
-    color: var(--color-text-muted);
   }
 
   @media (max-width: 1024px) {

@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import RecruitHeader from "../components/sections/recruit/RecruitHeader.astro";
 import RecruitPersona from "../components/sections/recruit/RecruitPersona.astro";
-import RecruitData from "../components/sections/recruit/RecruitData.astro";
 import RecruitJob from "../components/sections/recruit/RecruitJob.astro";
 import RecruitRequirements from "../components/sections/recruit/RecruitRequirements.astro";
 import RecruitFaq from "../components/sections/recruit/RecruitFaq.astro";
@@ -24,7 +23,7 @@ const personaCards = [
       "社寺建築は、一般的な建築とは異なり、細部に宿る美しさや正確さがそのまま建物の価値になります。1本の木材の選び方、1mmの仕口の調整、柱の立ち心地。それらの積み重ねが、百年後、二百年後まで残り続ける建築物をつくります。だからこそ、この仕事には「ごまかし」や「妥協」がありません。一度手を入れた部分はやり直しが効かないことも多く、一つひとつの判断に高い責任が伴います。",
       "そのため、技術力以上に求められるのは「誠実さ」と「丁寧に向き合う姿勢」です。",
     ],
-    mediaLabel: "作業風景2",
+    mediaSrc: "/images/recruit/persona-carpenter-craft.webp",
     mediaPosition: "start" as const,
   },
   {
@@ -34,22 +33,9 @@ const personaCards = [
       "社寺建築に携わるということは、「自分の手でつくったものが、100年後の景色にまだ存在している」という、他の仕事ではなかなか味わえない特別な体験につながります。今この瞬間の仕事が、未来の人々にとっての大切な拠り所となり続けるそれは大きな責任であると同時に、仕事の価値を深く実感できる喜びでもあります。",
       "責任の重さに怯えるのではなく、「未来に届ける文化を自分が担っている」という誇りを持てること。\n目の前の作業の先に、何十年先、何百年先の人々の暮らしや祈りがあることを想像しながら働けること。\nそれが、私たちが求める人物像のひとつです。",
     ],
-    mediaLabel: "作業風景2",
+    mediaSrc: "/images/recruit/persona-site-meeting.webp",
     mediaPosition: "end" as const,
   },
-];
-
-const dataItems = [
-  { label: "平均年齢", values: ["38歳"] },
-  {
-    label: "スタッフ人数",
-    values: ["大工：00人", "監督：00人"],
-    layout: "row" as const,
-  },
-  { label: "資格支援制度", values: ["あり"] },
-  { label: "教育制度", values: ["歴史的建築を学ぶ研修が充実"] },
-  { label: "社宅制度", values: ["あり"] },
-  { label: "技術手当", values: ["あり"] },
 ];
 
 const requirementRows = [
@@ -63,9 +49,8 @@ const requirementRows = [
   {
     label: "制度",
     value:
-      "諸手当通勤費負担\n出張手当\n技術手当\n超過勤務手当\n他昇給年1回賞与年2回勤務地京都\n長期地方勤務有り",
+      "諸手当通勤費負担\n出張手当\n技術手当\n超過勤務手当\n他昇給年1回賞与年2回勤務地京都\n長期地方勤務有り\n社宅あり（3万円のうち2万円は会社負担）",
   },
-  { label: "採用条件", value: "初任給当社規定により優遇いたします。" },
   {
     label: "勤務時間現場",
     value: "監督　8:30〜17:30\n大工　8:00〜17:00",
@@ -161,27 +146,26 @@ const faqItems = [
         <!-- ===== 2. 求める人物像 ===== -->
         <RecruitPersona cards={personaCards} />
 
-        <!-- ===== 3. 見える化 ===== -->
-        <RecruitData items={dataItems} />
-
         <!-- ===== 4a. 現場監督 ===== -->
         <RecruitJob
           id="supervisor"
           modifier="supervisor"
           decoLabel="現場監督"
-          titleHtml="千年先も残る建物を<br>いまの自分たちがつくっている"
-          profilePhotoLabel="監督"
-          profileRole="〇〇さん（〇〇歳）"
-          profileName="現場監督（〇〇年入社）"
-          videoLabel="Movie"
-          quoteHtml="社寺建築は一棟一棟が地域の象徴で、歴史そのもの。<br>伸和建設は150年続く技術と実績があり<br>「ここなら本物の仕事ができる」と感じて入社しました。"
-          messageHtml="<p>図面通りに造るだけではなく、大工や職人さんの技術を最大限に引き出しながら、一つの建物を完成させることにやりがいを感じています。社寺建築は前例のない納まりも多く、現場で考え、相談し、形にしていく。<br>完成したときに職人さんと一緒に見上げる本堂や門は、何度経験しても鳥肌が立ちます。</p><p>この仕事は派手ではありませんが、確実に日本の文化を支える仕事だと自負してます。<br>完成した建物を子どもや孫に見せられる。<br>そんな誇りを持てる仕事を、一緒にやりませんか。</p>"
+          titleHtml="全部を知る、<br>一番現場に近い存在。"
+          profilePhotoSrc="/images/recruit/supervisor-profile.webp"
+          profileText="現場監督：冨岡さん"
+          quoteHtml="何年も残るものを、<br>保存修理は何千年も残ってきているものに自分が入る。"
+          messageHtml="<p>監督は、<span class='recruit-job__message-accent'>現場のすべてに関わる仕事</span>です。<br>工程、職人さんとのやり取り、周囲への配慮まで幅広く見ていきます。最初は分からないことばかりですが、その分だけ学びがあります。大切なのは、素直に聞くことと、人との関係を大事にすること。私は、挨拶や一言の気遣いが、現場の空気を明るくすると学びました。少しずつでも理解を深めていける人であれば、必ず成長できる仕事です。</p><p>監督は全工程に関われて毎日が発見でとても充実しています。<br>社寺仏閣に興味があり、これが好きという軸がある人ぜひ一緒に働きませんか。</p>"
           sliderCards={[
-            { label: "作業姿1" },
-            { label: "作業姿2" },
-            { label: "作業姿3" },
+            { imageSrc: "/images/recruit/supervisor-work-slide-01.webp" },
+            { imageSrc: "/images/recruit/supervisor-work-slide-02.webp" },
+            { imageSrc: "/images/recruit/supervisor-work-slide-03.webp" },
           ]}
-          featurePhotoHtml="監督の仕事<br>（取材後予定）"
+          featurePhotoTitle="冨岡さんのある日の1日のスケジュール"
+          featurePhotoSrc="/images/recruit/supervisor-daily-schedule.png"
+          featurePhotoAlt="冨岡さんのある日の1日のスケジュール"
+          featurePhotoWidth={4760}
+          featurePhotoHeight={3152}
         />
 
         <!-- ===== 4b. 大工 ===== -->
@@ -189,17 +173,21 @@ const faqItems = [
           id="carpenter"
           modifier="carpenter"
           decoLabel="大工"
-          titleHtml="自分の手が、過去と現在と<br>未来の景色をつくる仕事"
-          profileRole="〇〇さん（〇〇歳）"
-          profileName="大工（〇〇年入社）"
-          quoteHtml="これほど誇れる仕事もありません。<br>一緒に自分の手で日本の文化を残しませんか。"
-          messageHtml="<p>子どもの頃、地元のお寺の修復工事を見たのがきっかけです。木だけで組み上がっていく姿に衝撃を受け、「これを仕事にしたい」と思いました。伸和建設は社寺建築一筋で、本物の技術が学べる環境だと思い入社しました。</p><p>すべてが一点ものです。木のクセを読み、手刻みで調整し、ピタッとはまった瞬間の快感は何年やっても変わりません。自分の名前は残らなくても、仕事は何百年も残る。それがこの仕事の最大の魅力です。</p>"
+          titleHtml="一つひとつの積み重ねが<br>技になる。"
+          profilePhotoSrc="/images/recruit/carpenter-profile.webp"
+          profileText="大工：川島さん"
+          quoteHtml="こだわりを出さないと誰も残したいと思わない。<br>一緒に自分の手で日本の文化を残しませんか。"
+          messageHtml="<p>大工の仕事は、<span class='recruit-job__message-accent'>日々の積み重ねによって技術を磨いていく仕事</span>です。</p><p>材料の扱い方や道具の使い方を基礎から学び、少しずつできることを増やしていきます。<br>社寺建築は毎回条件が異なるため、自ら考えながら取り組む姿勢が求められます。難しいことですが腕の見せどころで達成感があります。一朝一夕ではできないからこそやりがいがありますね。</p><p>時間をかけて確かな技術を身につけたい方、私たちと日本の文化を残す仕事をしませんか。</p>"
           sliderCards={[
-            { label: "作業姿1" },
-            { label: "作業姿2" },
-            { label: "作業姿3" },
+            { imageSrc: "/images/recruit/carpenter-work-slide-01.webp" },
+            { imageSrc: "/images/recruit/carpenter-work-slide-02.webp" },
+            { imageSrc: "/images/recruit/carpenter-work-slide-03.webp" },
           ]}
-          featurePhotoHtml="大工の仕事<br>（取材後予定）"
+          featurePhotoTitle="川島さんのある日の1日のスケジュール"
+          featurePhotoSrc="/images/recruit/carpenter-daily-schedule.png"
+          featurePhotoAlt="川島さんのある日の1日のスケジュール"
+          featurePhotoWidth={4760}
+          featurePhotoHeight={3164}
         />
 
         <!-- ===== 5. 募集要項 ===== -->
