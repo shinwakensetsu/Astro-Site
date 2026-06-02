@@ -2,7 +2,6 @@ import {
   createClient,
   type MicroCMSQueries,
   type MicroCMSImage,
-  type MicroCMSDate,
 } from "microcms-js-sdk";
 
 const serviceDomain = import.meta.env.MICROCMS_SERVICE_DOMAIN;
@@ -104,14 +103,6 @@ export type DiaryResponse = {
   contents: Diary[];
 };
 
-// トップページ関連
-
-export type TopPage = {
-  heroImage?: MicroCMSImage;
-  heroTitle?: string;
-  heroDescription?: string;
-} & MicroCMSDate;
-
 // --- API取得関数 ---
 
 // FAQ一覧を取得
@@ -119,33 +110,9 @@ export const getFaqs = async (queries?: MicroCMSQueries) => {
   return await client.get<FaqResponse>({ endpoint: "faq", queries });
 };
 
-// 詳細を取得する場合（例：ブログなど）
-export const getFaqDetail = async (
-  contentId: string,
-  queries?: MicroCMSQueries,
-) => {
-  return await client.getListDetail<Faq>({
-    endpoint: "faq",
-    contentId,
-    queries,
-  });
-};
-
 // ニュース一覧を取得
 export const getNews = async (queries?: MicroCMSQueries) => {
   return await client.get<NewsResponse>({ endpoint: "news", queries });
-};
-
-// ニュース詳細を取得
-export const getNewsDetail = async (
-  contentId: string,
-  queries?: MicroCMSQueries,
-) => {
-  return await client.getListDetail<News>({
-    endpoint: "news",
-    contentId,
-    queries,
-  });
 };
 
 // ニュースページ情報を取得
@@ -155,13 +122,4 @@ export const getNewsPage = async (queries?: MicroCMSQueries) => {
 
 export const getDiary = async (queries?: MicroCMSQueries) => {
   return await client.get<DiaryResponse>({ endpoint: "diary", queries });
-};
-
-// トップページ情報を取得
-export const getTopPage = async (queries?: MicroCMSQueries) => {
-  const response = await client.getList<TopPage>({
-    endpoint: "top-page",
-    queries,
-  });
-  return response.contents[0];
 };

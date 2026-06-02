@@ -6,7 +6,6 @@ interface Props {
     sub: string;
     text: string;
     imageSrc: string;
-    imageAlt: string;
     cardSide: "right" | "left";
   }[];
 }
@@ -212,7 +211,6 @@ const { items } = Astro.props;
 
   .services-kodawari__card {
     position: relative;
-    border: 1px solid var(--color-white);
     box-sizing: border-box;
     width: min(var(--services-kodawari-card-width), 100%);
     height: var(--services-kodawari-card-height);

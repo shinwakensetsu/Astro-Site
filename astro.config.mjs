@@ -2,10 +2,11 @@
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import srJoin from './src/integrations/sr-join.js';
+import securityHeaders from './src/integrations/security-headers.js';
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [srJoin()],
+    integrations: [srJoin(), securityHeaders()],
     adapter: cloudflare(),
 
     devToolbar: {

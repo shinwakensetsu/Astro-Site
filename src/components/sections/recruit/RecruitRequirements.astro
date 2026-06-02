@@ -46,16 +46,8 @@ const { rows } = Astro.props;
     display: grid;
   }
 
-  .recruit-requirements__decorative,
   .recruit-requirements__container {
     grid-area: 1 / 1;
-  }
-
-  /* Figma sideBox: 350px at 1920px */
-  .recruit-requirements__decorative {
-    background-color: var(--color-dark);
-    width: 350px;
-    justify-self: start;
   }
 
   .recruit-requirements__container {
@@ -123,10 +115,6 @@ const { rows } = Astro.props;
 
   /* --- MQ: ≤1024px --- */
   @media (max-width: 1024px) {
-    .recruit-requirements__decorative {
-      display: none;
-    }
-
     .recruit-requirements__container {
       padding-block: var(--space-12) var(--space-16);
     }

@@ -12,7 +12,6 @@
 
   /* --- Grayscale --- */
   --color-white: #ffffff;
-  --color-gray-50: #f8f9fa;
   --color-gray-100: #f1f3f5;
   --color-gray-200: #e9ecef;
   --color-gray-300: #dbdbdb;
@@ -40,11 +39,8 @@
   --gradient-page-header: linear-gradient(135deg, #333333, var(--color-dark));
 
   /* --- Status Colors --- */
-  --color-success: #00a859;
-  --color-warning: #ff9500;
   --color-error: #e03131;
   --color-error-bg: #fff5f5;
-  --color-info: var(--color-primary);
 
   /* --- News Category Colors (white text WCAG AA 4.5:1+) --- */
   --color-cat-notice: #0066cc; /* 5.40:1 */
@@ -66,7 +62,6 @@
   --text-xl: 1.25rem; /* 20px */
   --text-2xl: 1.5rem; /* 24px */
   --text-3xl: 1.875rem; /* 30px */
-  --text-4xl: 2.25rem; /* 36px */
   --text-5xl: 3rem; /* 48px */
   --text-heritage-title: clamp(
     1.5rem,
@@ -95,14 +90,7 @@
   --fs-900: clamp(2rem, 9vw, 4.375rem); /* 1rem=16px: 32–70px */
   --fs-1000: clamp(3rem, 7vw, 6rem); /* 1rem=16px: 48–96px */
 
-  --fs-caption: var(--fs-100); /* 12–18px */
   --fs-body: var(--fs-200); /* 16–18px */
-  --fs-body-lg: var(--fs-300); /* 14–20px */
-  --fs-title: var(--fs-400); /* 16–24px */
-  --fs-title-lg: var(--fs-500); /* 20–30px */
-  --fs-title-xl: var(--fs-600); /* 20–32px */
-  --fs-title-2xl: var(--fs-700); /* 20–36px */
-  --fs-display: var(--fs-800); /* 32–60px */
 
   /* --- Line Height --- */
   --leading-tight: 1.2;
@@ -117,7 +105,6 @@
   --weight-bold: 700;
 
   /* --- Spacing (4px base) --- */
-  --space-0: 0;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -132,10 +119,8 @@
 
   /* --- Content Width --- */
   --width-description: 600px;
-  --width-narrow: 640px;
   --width-content: 800px;
   --width-news: 900px;
-  --width-wide: 1000px;
   --width-max: 1200px;
   --width-layout: 1440px;
 
@@ -202,10 +187,6 @@
 
 .u-section-spacing-top-ex {
   padding-top: var(--space-16);
-}
-
-.u-bg-white {
-  background-color: var(--color-white);
 }
 
 .u-bg-primary-light {

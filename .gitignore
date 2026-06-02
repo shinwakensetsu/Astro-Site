@@ -54,3 +54,9 @@ README.md
 # Stray CSS (not part of project)
 media.css
 uni.css
+
+# Cloudflare local state
+.wrangler/
+
+# Editor (local settings only; shared extensions.json/launch.json stay tracked)
+.vscode/settings.json

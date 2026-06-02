@@ -105,59 +105,6 @@ select {
   user-select: none;
 }
 
-/* Utility: container */
-.container {
-  width: 100%;
-  max-width: var(--width-max);
-  margin-inline: auto;
-  padding-inline: var(--space-4);
-}
-
-.container--layout {
-  width: 100%;
-  max-width: var(--width-layout);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-}
-
-@media (max-width: 1440px) {
-  .container--layout {
-    padding-top: 50px;
-  }
-}
-
-/* Utility: blur shadow */
-.u-blur {
-  filter: drop-shadow(0 4px 0.4px rgba(0, 0, 0, 0.25));
-}
-
-.text-shadow {
-  text-shadow: 2px 2px 0.4px rgba(0, 0, 0, 0.25);
-}
-
-/* Utility: Responsive Font Size
-   VP幅に応じて滑らかに伸縮するフォントサイズユーティリティ。
-   汎用スケールは global.css の --fs-100 〜 --fs-900 を参照。
-*/
-.fs-100        { font-size: var(--fs-100); }        /* 12–18px */
-.fs-200        { font-size: var(--fs-200); }        /* 16–18px */
-.fs-300        { font-size: var(--fs-300); }        /* 14–20px */
-.fs-400        { font-size: var(--fs-400); }        /* 16–24px */
-.fs-500        { font-size: var(--fs-500); }        /* 20–30px */
-.fs-600        { font-size: var(--fs-600); }        /* 20–32px */
-.fs-700        { font-size: var(--fs-700); }        /* 20–36px */
-.fs-800        { font-size: var(--fs-800); }        /* 32–60px */
-.fs-900        { font-size: var(--fs-900); }        /* 32–70px */
-
-.fs-caption    { font-size: var(--fs-caption); }    /* 12–18px */
-.fs-body       { font-size: var(--fs-body); }       /* 16–18px */
-.fs-body-lg    { font-size: var(--fs-body-lg); }    /* 14–20px */
-.fs-title      { font-size: var(--fs-title); }      /* 16–24px */
-.fs-title-lg   { font-size: var(--fs-title-lg); }   /* 20–30px */
-.fs-title-xl   { font-size: var(--fs-title-xl); }   /* 20–32px */
-.fs-title-2xl  { font-size: var(--fs-title-2xl); }  /* 20–36px */
-.fs-display    { font-size: var(--fs-display); }    /* 32–60px */
-
 /* Utility: radius 20px */
 .u-radius-20 {
   border-radius: 20px;

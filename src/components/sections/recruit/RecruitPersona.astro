@@ -150,7 +150,6 @@ const { cards } = Astro.props;
   }
 
   /* l-containerと併記するセクション固有classを追加していく */
-  .recruit-persona__decorative,
   .recruit-persona__container {
     grid-area: 1 / 1;
     padding-inline: var(--space-10);
@@ -163,26 +162,10 @@ const { cards } = Astro.props;
   }
 
   @media (max-width: 1024px) {
-    .recruit-persona__decorative,
     .recruit-persona__container {
       padding-left: var(--space-10);
       box-sizing: border-box;
     }
-  }
-
-  .recruit-persona__decorative {
-    background-image: radial-gradient(
-      circle at 100% 100%,
-      rgba(92, 92, 92, 0.14) 0 1.375rem,
-      transparent 1.4375rem
-    );
-    background-position:
-      left top,
-      0 0;
-    background-repeat: no-repeat, repeat;
-    background-size:
-      auto,
-      var(--space-10) var(--space-10);
   }
 
   .recruit-persona__container {
@@ -473,7 +456,6 @@ const { cards } = Astro.props;
   }
 
   @media (max-width: 320px) {
-    .recruit-persona__decorative,
     .recruit-persona__container {
       padding-inline: var(--space-3);
     }
