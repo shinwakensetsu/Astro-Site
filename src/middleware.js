@@ -13,10 +13,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // 次の処理（ページ/API）を実行
   const response = await next();
 
-  // 単一ソースから全セキュリティヘッダを付与
-  // dev では CSP のインライン許可、本番では HSTS を有効化
+  // 単一ソースから全セキュリティヘッダを付与（CSP は dev/prod 同一、HSTS は本番のみ）
   for (const [name, value] of securityHeaders({
-    dev: import.meta.env.DEV,
     includeHsts: import.meta.env.PROD,
   })) {
     response.headers.set(name, value);

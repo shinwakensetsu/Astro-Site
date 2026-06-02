@@ -20,27 +20,21 @@
  *  - form-action は apex https://ssgform.com を必ず含む（フォーム送信先が apex。
  *    *.ssgform.com はサブドメインのみで apex に一致しない）
  *
- * @param {{ dev: boolean }} opts dev=true で HMR/devツールバー向けに 'unsafe-inline' を許可
+ *  - 'unsafe-inline'（script-src / style-src / style-src-elem）… 本サイトは
+ *    背景画像をインライン style 属性（例 style="--banner-bg: url(...)"）で渡し、
+ *    Astro は inlineStylesheets:'auto' でクリティカルCSSを inline <style> に、
+ *    小さなコンポーネントJSを inline <script type="module"> に埋め込む。
+ *    背景URLは動的（CMS/データ由来）でハッシュ化できないため、本番でも
+ *    inline 許可が必須。CSP は dev/prod 同一（HMR も unsafe-inline を要する）。
+ *
  * @returns {string} CSP ヘッダ値
  */
-export function buildCsp({ dev }) {
-  const scriptSrc = dev
-    ? "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com"
-    : "script-src 'self' https://www.google.com https://www.gstatic.com";
-
-  const styleSrc = dev
-    ? "style-src 'self' 'unsafe-inline'"
-    : "style-src 'self'";
-
-  const styleSrcElem = dev
-    ? "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com"
-    : "style-src-elem 'self' https://fonts.googleapis.com";
-
+export function buildCsp() {
   return [
     "default-src 'self'",
-    scriptSrc,
-    styleSrc,
-    styleSrcElem,
+    "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com",
+    "style-src 'self' 'unsafe-inline'",
+    "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: *.microcms.io *.microcms-assets.io",
     "font-src 'self' https://fonts.gstatic.com",
     "connect-src 'self' *.microcms.io *.ssgform.com https://www.google.com",
@@ -54,18 +48,17 @@ export function buildCsp({ dev }) {
 /**
  * 全セキュリティヘッダを [name, value] の配列で返す。
  *
- * @param {{ dev: boolean, includeHsts: boolean }} opts
- *   dev: CSP のインライン許可を切替。includeHsts: 本番のみ HSTS を付与。
+ * @param {{ includeHsts: boolean }} opts includeHsts: 本番のみ HSTS を付与。
  * @returns {Array<[string, string]>}
  */
-export function securityHeaders({ dev, includeHsts }) {
+export function securityHeaders({ includeHsts }) {
   const headers = [
     ["X-Content-Type-Options", "nosniff"],
     ["X-Frame-Options", "DENY"],
     ["X-XSS-Protection", "1; mode=block"],
     ["Referrer-Policy", "strict-origin-when-cross-origin"],
     ["Permissions-Policy", "geolocation=(), microphone=(), camera=()"],
-    ["Content-Security-Policy", buildCsp({ dev })],
+    ["Content-Security-Policy", buildCsp()],
   ];
 
   if (includeHsts) {

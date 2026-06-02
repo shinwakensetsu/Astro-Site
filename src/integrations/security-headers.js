@@ -18,7 +18,7 @@ export default function securityHeadersIntegration() {
     name: "security-headers",
     hooks: {
       "astro:build:done": async ({ dir, logger }) => {
-        const headers = securityHeaders({ dev: false, includeHsts: true });
+        const headers = securityHeaders({ includeHsts: true });
         const body =
           "/*\n" +
           headers.map(([name, value]) => `  ${name}: ${value}`).join("\n") +
