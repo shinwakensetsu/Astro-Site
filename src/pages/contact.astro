@@ -376,12 +376,33 @@ import Layout from "../layouts/Layout.astro";
           </div>
         </fieldset>
 
+        <div class="contact-form__consent">
+          <span class="contact-form__error" id="privacy-agree-error"></span>
+          <label class="contact-form__consent-label">
+            <input
+              class="contact-form__consent-checkbox"
+              type="checkbox"
+              id="privacy-agree"
+              aria-describedby="privacy-agree-error"
+            />
+            <span>
+              <a
+                class="contact-form__consent-link"
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer">プライバシーポリシー</a
+              >に同意します
+            </span>
+          </label>
+        </div>
+
         <div class="contact-form__actions">
           <button
-            class="contact-form__submit g-recaptcha"
+            class="contact-form__submit g-recaptcha is-disabled"
             data-sitekey="6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI"
             data-callback="onSubmit"
-            data-action="submit">送信する</button
+            data-action="submit"
+            aria-disabled="true">送信する</button
           >
         </div>
       </form>
@@ -402,6 +423,52 @@ import Layout from "../layouts/Layout.astro";
   const inquiryFieldset = document.getElementById(
     "inquiry-fieldset",
   ) as HTMLFieldSetElement;
+  const privacyAgree = document.getElementById(
+    "privacy-agree",
+  ) as HTMLInputElement;
+  const submitButton = form.querySelector(
+    ".contact-form__submit",
+  ) as HTMLButtonElement;
+
+  // --- 同意チェック: プライバシーポリシーに同意するまで送信を無効化 ---
+  // reCAPTCHA(g-recaptcha) はバインド時に button の disabled 属性を外すため、
+  // disabled 属性ではなく is-disabled クラス + click の capture 阻止で制御する。
+  const privacyAgreeError = document.getElementById(
+    "privacy-agree-error",
+  ) as HTMLSpanElement;
+
+  function syncConsentState(): void {
+    const agreed = privacyAgree.checked;
+    submitButton.classList.toggle("is-disabled", !agreed);
+    submitButton.setAttribute("aria-disabled", String(!agreed));
+    // 同意したらエラー表示を解除
+    if (agreed) {
+      privacyAgreeError.textContent = "";
+      privacyAgree.setAttribute("aria-invalid", "false");
+    }
+  }
+  privacyAgree.addEventListener("change", syncConsentState);
+
+  // 同意前のクリック（マウス／キーボードEnter）を capture 段階で先取りして阻止する。
+  // reCAPTCHA(api.js) は click を bubble 段階で拾うため、capture で
+  // stopImmediatePropagation すれば challenge を発火させずに止められる
+  // （この順序依存を壊さないよう、このボタンへ別の capture リスナーを足さないこと）。
+  // フィードバックは全体エラーサマリーへ飛ばさず、送信ボタン直上の
+  // チェックボックスにフォーカスを当ててその場で同意を促す。
+  submitButton.addEventListener(
+    "click",
+    (e) => {
+      if (!privacyAgree.checked) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        privacyAgreeError.textContent =
+          "プライバシーポリシーへの同意が必要です";
+        privacyAgree.setAttribute("aria-invalid", "true");
+        privacyAgree.focus();
+      }
+    },
+    true,
+  );
 
   // --- Enterキーによる意図しない送信を防止（送信ボタンのみ許可） ---
   form.addEventListener("keydown", (e) => {
@@ -549,6 +616,14 @@ import Layout from "../layouts/Layout.astro";
           message: "施工種別を選択してください",
         });
       }
+    }
+
+    // プライバシーポリシーへの同意（ボタンの disabled が外された場合の保険）
+    if (!privacyAgree.checked) {
+      errors.push({
+        fieldId: "privacy-agree",
+        message: "プライバシーポリシーへの同意が必要です",
+      });
     }
 
     return errors;
@@ -873,6 +948,45 @@ import Layout from "../layouts/Layout.astro";
 
   .contact-form__submit:hover {
     background-color: var(--color-dark);
+  }
+
+  .contact-form__submit.is-disabled,
+  .contact-form__submit.is-disabled:hover {
+    background-color: var(--color-gray-400);
+    cursor: not-allowed;
+  }
+
+  /* ===== Consent (privacy policy) ===== */
+  .contact-form__consent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  .contact-form__consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    cursor: pointer;
+    line-height: var(--leading-normal);
+    text-align: left;
+  }
+
+  .contact-form__consent-checkbox {
+    margin-top: 0.25em;
+    accent-color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .contact-form__consent-link {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .contact-form__consent-link:hover {
+    text-decoration: none;
   }
 
   /* ===== Responsive ===== */
