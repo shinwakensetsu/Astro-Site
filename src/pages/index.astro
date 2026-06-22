@@ -1100,6 +1100,11 @@ const newsList = newsResponse.contents;
       grid-row: 2;
       padding: var(--space-3);
     }
+
+    /* モバイル: 「企業情報」ボタンをセンター配置 */
+    .heritage__more {
+      margin-inline: auto;
+    }
   }
 
   /* heritage__bottom レスポンシブ: 425px以下 → テキスト縮小 */
@@ -1155,8 +1160,7 @@ const newsList = newsResponse.contents;
     display: flex;
     flex-direction: column;
     margin-block: 0;
-    mix-blend-mode: difference;
-    color: var(--color-white);
+    color: var(--color-text);
   }
 
   .services__lead-title {
@@ -1326,6 +1330,18 @@ const newsList = newsResponse.contents;
     }
     .services__heading {
       margin-bottom: var(--space-4);
+    }
+  }
+
+  @media (max-width: 768px) {
+    /* モバイル: 「想い」下の文章とボタンの間を詰める（初期値・要目視調整） */
+    .services__content {
+      margin-bottom: var(--space-4);
+    }
+
+    /* モバイル: 「仕事詳細」ボタンをセンター配置 */
+    .services__more {
+      margin-inline: auto;
     }
   }
 

@@ -86,6 +86,17 @@ const {
             />
           ))
         }
+        {
+          /* マーキー無限ループ用の複製セット（装飾のため aria-hidden）。
+             prefers-reduced-motion 時は display:none で非表示にし手動スクロールへ戻す。 */
+          sliderCards.map((card) => (
+            <div
+              class="recruit-job__slider-card recruit-job__slider-card--image recruit-job__slider-card--clone"
+              style={`--recruit-job-slider-image: url("${card.imageSrc}")`}
+              aria-hidden="true"
+            />
+          ))
+        }
       </div>
     </div>
 
@@ -264,12 +275,12 @@ const {
   .recruit-job__slider-wrap {
     --recruit-slider-card-width: clamp(15rem, calc(8.5rem + 32vw), 37.5rem);
     --recruit-slider-gap: 0.625rem;
+    /* マーキー一周の所要時間。「ゆっくり右→左」。要望に応じて微調整可 */
+    --recruit-slider-duration: 40s;
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    overscroll-behavior-x: contain;
     margin-top: 65px;
   }
 
@@ -278,16 +289,24 @@ const {
   }
 
   .recruit-job__slider-list {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: var(--recruit-slider-card-width);
-    gap: var(--recruit-slider-gap);
-    min-width: max-content;
+    display: flex;
+    width: max-content;
     margin: 0;
     padding: 0;
+    /* 複製セットを並べ、半分（=1セット分）移動でシームレスに無限ループ */
+    animation: recruit-job-slide-left var(--recruit-slider-duration) linear
+      infinite;
+  }
+
+  /* ホバー / キーボードフォーカス中は流れを止めて見やすくする */
+  .recruit-job__slider-wrap:hover .recruit-job__slider-list,
+  .recruit-job__slider-wrap:focus-within .recruit-job__slider-list {
+    animation-play-state: paused;
   }
 
   .recruit-job__slider-card {
+    flex: 0 0 var(--recruit-slider-card-width);
+    margin-inline-end: var(--recruit-slider-gap);
     aspect-ratio: 6 / 5;
     background-color: var(--color-gray-700);
     border: 4px solid var(--color-white);
@@ -304,6 +323,32 @@ const {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+  }
+
+  @keyframes recruit-job-slide-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* モーション抑制時は自動再生を止め、複製を隠して手動スクロールに戻す */
+  @media (prefers-reduced-motion: reduce) {
+    .recruit-job__slider-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .recruit-job__slider-list {
+      animation: none;
+    }
+
+    .recruit-job__slider-card--clone {
+      display: none;
+    }
   }
 
   /* --- 1日のスケジュール --- */

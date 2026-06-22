@@ -131,36 +131,12 @@ const flowCards = [
   },
 ];
 
-const fallbackDiaryEntries = [
-  {
-    title: `【本日の現場より：柱一本で変わる\u201C姿\u201D】`,
-    paragraphs: [
-      `今日は、〇〇市の社殿改修工事で「柱の建て起こし」作業を行いました。一見すると、ただ柱を立てているように見える工程ですが、社寺建築ではこの\u201C姿\u201Dが建物の印象を左右します。現場では、ベテランの大工が糸を張り、数ミリ単位で柱の角度を調整していました。新人のAくんが「こんなに微調整するんですか？」と驚いていましたが、先輩は黙って笑いながら、手元で木槌を軽く叩き、柱がスッと\u201C正しい位置\u201Dに収まる瞬間を見せてくれました。`,
-      "木の癖を読むこと。建物全体のバランスを頭の中で描くこと。こうした技は、図面だけでは学べません。",
-      "Aくんは作業後、「柱一本にも歴史が乗るんですね」とつぶやいていました。そんな気づきが、今日の成長だと思います。",
-    ],
-    date: "YYYY/MM/DD",
-    dateTime: "",
-  },
-  {
-    title: `【若手が初めて\u201C褒められた日\u201D】`,
-    paragraphs: [
-      `今日は、若手大工のBくんが大きな一歩を踏み出した日でした。午前中、社寺の階段部分に取り付ける\u201C段板\u201Dの微調整を担当したBくん。この作業は単純に見えて、段差の高さ、踏み面の角度、納まり…すべてが人の動作に直結するため、とても繊細な工程です。`,
-      "最初は先輩から細かい指摘が続き、表情も少し沈んでいました。しかし、昼過ぎには自分なりに段板のクセを読み、削り方を調整し、納まりが見事に決まりました。すると、普段あまり褒めるタイプではない棟梁が「お前、よう見たな。ええ仕事や。」と一言。",
-      "その瞬間のBくんの顔は、忘れられません。",
-      `技術は一日で身につきませんが、「見える力」が成長した瞬間ははっきり分かります。伝統技術とは、こうして\u201C人から人へ\u201D渡っていくものなのだと実感した一日でした。`,
-    ],
-    date: "YYYY/MM/DD",
-    dateTime: "",
-  },
-  {
-    title: `【なぜ社寺建築の木材は\u201C太い\u201Dのか？】`,
-    paragraphs: [
-      "社寺建築を見て、「柱が太い」「梁が大きい」と感じたことはありますか？今日は、その理由を少しご紹介します。",
-    ],
-    dateTime: "",
-  },
-];
+type DiaryEntry = {
+  title: string;
+  paragraphs: string[];
+  date?: string;
+  dateTime?: string;
+};
 
 const splitDiaryTextIntoParagraphs = (text: string) => {
   const normalizedText = text.replace(/\r\n?/g, "\n").trim();
@@ -174,22 +150,29 @@ const splitDiaryTextIntoParagraphs = (text: string) => {
   return rawParagraphs.map((paragraph) => paragraph.trim()).filter(Boolean);
 };
 
-let diaryEntries = fallbackDiaryEntries;
+// 業務日記は今後の更新まで非表示にする運用。
+// 公開する場合は DIARY_PUBLISHED を true にすると microCMS の記事が表示される。
+// （空のときは ServicesDiary セクションごと非表示）
+const DIARY_PUBLISHED: boolean = false;
 
-try {
-  const diaryResponse = await getDiary({
-    orders: "-publishedAt",
-    limit: 100,
-  });
+let diaryEntries: DiaryEntry[] = [];
 
-  diaryEntries = diaryResponse.contents.map((entry) => ({
-    title: entry.title,
-    paragraphs: splitDiaryTextIntoParagraphs(entry.text),
-    date: formatDateSlash(entry["posting-time"] || entry.publishedAt),
-    dateTime: entry["posting-time"] || entry.publishedAt,
-  }));
-} catch (error) {
-  console.error("Failed to fetch diary:", error);
+if (DIARY_PUBLISHED) {
+  try {
+    const diaryResponse = await getDiary({
+      orders: "-publishedAt",
+      limit: 100,
+    });
+
+    diaryEntries = diaryResponse.contents.map((entry) => ({
+      title: entry.title,
+      paragraphs: splitDiaryTextIntoParagraphs(entry.text),
+      date: formatDateSlash(entry["posting-time"] || entry.publishedAt),
+      dateTime: entry["posting-time"] || entry.publishedAt,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch diary:", error);
+  }
 }
 ---
 
@@ -214,7 +197,7 @@ try {
       cards={flowCards}
     />
 
-    <ServicesDiary entries={diaryEntries} />
+    {diaryEntries.length > 0 && <ServicesDiary entries={diaryEntries} />}
   </main>
 </Layout>
 

@@ -37,6 +37,49 @@ import Layout from "../layouts/Layout.astro";
           ※お送りいただいた内容をもとに担当者より折り返しご連絡のうえ、詳しい内容をおうかがいしてからご提案・お見積もりをいたします。
         </p>
 
+        <!-- お問い合わせの種別（最初に選択） -->
+        <fieldset class="contact-form__section" id="inquiry-fieldset">
+          <legend class="contact-form__legend">
+            お問い合わせの種別
+            <span class="contact-form__required">（必須）</span>
+          </legend>
+          <span class="contact-form__error" id="inquiry-error"></span>
+          <div class="contact-form__radio-group" id="inquiry-type-group">
+            <label class="contact-form__radio-label">
+              <input
+                class="contact-form__radio"
+                type="radio"
+                name="お問い合わせ内容"
+                value="施工のご依頼・ご相談・お見積もり"
+                id="inquiry-construction"
+                required
+                aria-required="true"
+              />
+              施工のご依頼・ご相談・お見積もり
+            </label>
+            <label class="contact-form__radio-label">
+              <input
+                class="contact-form__radio"
+                type="radio"
+                name="お問い合わせ内容"
+                value="採用"
+                id="inquiry-recruit"
+              />
+              採用
+            </label>
+            <label class="contact-form__radio-label">
+              <input
+                class="contact-form__radio"
+                type="radio"
+                name="お問い合わせ内容"
+                value="その他のお問い合わせ"
+                id="inquiry-other"
+              />
+              その他のお問い合わせ（協力会社／メディア／その他）
+            </label>
+          </div>
+        </fieldset>
+
         <!-- 基本情報 -->
         <fieldset class="contact-form__section">
           <legend class="contact-form__legend">基本情報</legend>
@@ -79,7 +122,7 @@ import Layout from "../layouts/Layout.astro";
           <div class="contact-form__group">
             <label>
               <span class="contact-form__label">
-                会社名・社寺名
+                会社名・社寺名・学校名
                 <span class="contact-form__required">（必須）</span>
               </span>
               <span class="contact-form__error" id="company-error"> </span>
@@ -189,41 +232,6 @@ import Layout from "../layouts/Layout.astro";
         <!-- お問い合わせ内容 -->
         <fieldset class="contact-form__section">
           <legend class="contact-form__legend">お問い合わせ内容</legend>
-
-          <fieldset
-            class="contact-form__group contact-form__sub-fieldset"
-            id="inquiry-fieldset"
-          >
-            <legend class="contact-form__sub-legend">
-              お問い合わせの種別
-              <span class="contact-form__required">（必須）</span>
-            </legend>
-            <span class="contact-form__error" id="inquiry-error"></span>
-            <div class="contact-form__radio-group" id="inquiry-type-group">
-              <label class="contact-form__radio-label">
-                <input
-                  class="contact-form__radio"
-                  type="radio"
-                  name="お問い合わせ内容"
-                  value="施工のご依頼・ご相談・お見積もり"
-                  id="inquiry-construction"
-                  required
-                  aria-required="true"
-                />
-                施工のご依頼・ご相談・お見積もり
-              </label>
-              <label class="contact-form__radio-label">
-                <input
-                  class="contact-form__radio"
-                  type="radio"
-                  name="お問い合わせ内容"
-                  value="その他のお問い合わせ"
-                  id="inquiry-other"
-                />
-                その他のお問い合わせ（採用／協力会社／メディア／その他）
-              </label>
-            </div>
-          </fieldset>
 
           <p id="field-error-live" class="sr-only" aria-live="polite"></p>
 
@@ -561,14 +569,14 @@ import Layout from "../layouts/Layout.astro";
       errors.push({ fieldId: "name", message: "氏名を入力してください" });
     }
 
-    // 会社名・社寺名
+    // 会社名・社寺名・学校名
     const company = (
       document.getElementById("company") as HTMLInputElement
     ).value.trim();
     if (!company) {
       errors.push({
         fieldId: "company",
-        message: "会社名・社寺名を入力してください",
+        message: "会社名・社寺名・学校名を入力してください",
       });
     }
 

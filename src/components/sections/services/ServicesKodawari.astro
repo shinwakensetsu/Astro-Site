@@ -13,9 +13,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<section
-  class="services-kodawari u-full-bleed u-bg-primary-light u-bg-noise-light"
->
+<section class="services-kodawari u-full-bleed u-bg-primary-light">
   <h2 class="services-section-display-title services-kodawari__display-title">
     <span class="services-display-title__line">こだ</span>
     <span class="services-display-title__line">わり</span>
@@ -315,6 +313,13 @@ const { items } = Astro.props;
       text-orientation: mixed;
       text-align: left;
       white-space: normal;
+    }
+
+    /* 縦積み時はカードの 4rem オフセットを解除し、写真をタイトル直下へ寄せる。
+       項目間は .services-kodawari__items の gap(4.375rem) で広く保たれ、
+       タイトルと写真のまとまり（くくり）が明確になる。 */
+    .services-kodawari__card {
+      top: 0;
     }
   }
 </style>
