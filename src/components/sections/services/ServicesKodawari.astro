@@ -321,5 +321,12 @@ const { items } = Astro.props;
     .services-kodawari__card {
       top: 0;
     }
+
+    /* 2枚目(歴史と文化への敬意)の写真は顔が右上寄り。中央クロップだと
+       右下のテキスト帯が顔に被るため、上寄せクロップで顔を帯から逃がす
+       （要望: 2枚目の写真の顔が文字に被らない） */
+    .services-kodawari__item:nth-child(2) .services-kodawari__card-media {
+      background-position: center top;
+    }
   }
 </style>

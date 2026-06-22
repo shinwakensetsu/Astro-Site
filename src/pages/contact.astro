@@ -19,6 +19,7 @@ import Layout from "../layouts/Layout.astro";
         id="contact-form"
         action="https://ssgform.com/s/gq1kv0ZvHNKt"
         method="post"
+        enctype="multipart/form-data"
         novalidate
       >
         <!-- エラーサマリー -->
@@ -382,6 +383,27 @@ import Layout from "../layouts/Layout.astro";
                 autocomplete="off"></textarea>
             </label>
           </div>
+
+          <!-- 添付ファイル（写真・図面・PDF） -->
+          <div class="contact-form__group">
+            <label>
+              <span class="contact-form__label">
+                写真・図面・PDFの添付
+                <span class="contact-form__optional">(任意)</span>
+              </span>
+              <span class="contact-form__error" id="attachment-error"></span>
+              <span class="contact-form__help">
+                現場写真・図面・PDFなどを添付できます（合計5MBまで）。5MBを超えると送信できません。
+              </span>
+              <input
+                class="contact-form__input contact-form__file"
+                type="file"
+                id="attachment"
+                name="添付ファイル"
+                accept="image/*,.pdf"
+              />
+            </label>
+          </div>
         </fieldset>
 
         <div class="contact-form__consent">
@@ -622,6 +644,21 @@ import Layout from "../layouts/Layout.astro";
         errors.push({
           fieldId: "construction-type",
           message: "施工種別を選択してください",
+        });
+      }
+    }
+
+    // 添付ファイル（任意・合計5MB上限。SSGForm 側も超過を弾くがUX向上のため事前チェック）
+    const attachmentInput = document.getElementById(
+      "attachment",
+    ) as HTMLInputElement;
+    const attachedFile = attachmentInput?.files?.[0];
+    if (attachedFile) {
+      const MAX_ATTACHMENT_BYTES = 5 * 1024 * 1024; // 5MB
+      if (attachedFile.size > MAX_ATTACHMENT_BYTES) {
+        errors.push({
+          fieldId: "attachment",
+          message: "添付ファイルは合計5MB以内にしてください",
         });
       }
     }
@@ -875,6 +912,28 @@ import Layout from "../layouts/Layout.astro";
 
   .contact-form__select {
     cursor: pointer;
+  }
+
+  /* ===== File input ===== */
+  .contact-form__file {
+    cursor: pointer;
+    line-height: var(--leading-normal);
+  }
+
+  .contact-form__file::file-selector-button {
+    margin-right: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--easing-default);
+  }
+
+  .contact-form__file::file-selector-button:hover {
+    background: var(--color-gray-200);
   }
 
   /* ===== Radio group ===== */

@@ -6,13 +6,19 @@
   <h2 class="sr-only">RECRUIT</h2>
   <div class="recruit-header__container">
     <div class="recruit-header__left">
-      <img
-        class="recruit-header__logo"
-        src="/images/util/SHINWA CONSTRUCTION CO.,LTD.svg"
-        alt="伸和建設株式会社"
-        width="302"
-        height="58"
-      />
+      <a
+        class="recruit-header__home-link"
+        href="/"
+        aria-label="本サイトトップへ戻る"
+      >
+        <img
+          class="recruit-header__logo"
+          src="/images/util/SHINWA CONSTRUCTION CO.,LTD.svg"
+          alt="伸和建設株式会社"
+          width="302"
+          height="58"
+        />
+      </a>
       <img
         class="recruit-header__recruit-svg"
         src="/images/recruit/recruit.svg"
@@ -75,6 +81,17 @@
   .recruit-header__logo {
     width: 18.875rem;
     height: auto;
+  }
+
+  /* ロゴをクリックで本サイトトップへ戻る導線（recruit から本サイトに戻れない問題への対応） */
+  .recruit-header__home-link {
+    display: inline-block;
+    width: fit-content;
+    transition: opacity var(--duration-fast) var(--easing-default);
+  }
+
+  .recruit-header__home-link:hover {
+    opacity: 0.8;
   }
 
   /* Figma: RECRUIT SVG — 295×59, x=65, y=152 → margin-top = 152-67-58 = 27px */

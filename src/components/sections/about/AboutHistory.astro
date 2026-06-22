@@ -233,10 +233,14 @@ const { items } = Astro.props;
     overflow: hidden;
   }
 
+  /* 沿革画像の表示を揃える: 元写真のアスペクト比差を cover で吸収し、
+     object-position で被写体(顔)の縦位置を統一（要望: 沿革内の画像位置を揃える） */
   .about-history__item-media :global(img) {
-    min-width: 0;
+    width: 100%;
     height: 100%;
-    object-fit: fill;
+    min-width: 0;
+    object-fit: cover;
+    object-position: center 30%;
   }
 
   .about-history__scrollbar {

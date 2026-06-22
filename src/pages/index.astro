@@ -752,6 +752,16 @@ const newsList = newsResponse.contents;
     .news__card {
       width: min(320px, 100%);
     }
+
+    /* モバイル: 「お知らせ」見出しを小さめに（要望: 動画下の見出しが大きい） */
+    .news__heading {
+      font-size: var(--text-lg);
+    }
+
+    /* モバイル: 「お知らせは」ボタンをセンター配置 */
+    .news__more {
+      justify-self: center;
+    }
   }
 
   /* ---------- 3. Heritage ---------- */
@@ -1346,60 +1356,16 @@ const newsList = newsResponse.contents;
   }
 
   @media (max-width: 425px) {
+    /* 掘る/打ち/削り/整え: 小画面でもPC同様の縦書き縦長バーを維持（要望: PC版のように縦に）。
+       横長ピル化は廃止し、バー間隔・フォント・内側余白のみ詰める。 */
     .services__banners {
-      display: grid;
-      grid-template-columns: 1fr;
       --banner-gap: 12px;
       --services-banner-fs: var(--text-xl);
     }
 
-    .services__banner:nth-child(2),
-    .services__banner:nth-child(3),
-    .services__banner:nth-child(4) {
-      margin-top: 0;
-    }
-
     .services__banner {
-      width: 100%;
-      flex: none;
-      height: 90px;
-      min-height: max(
-        90px,
-        calc((var(--banner-label-size) * 1.4) + var(--space-10))
-      );
-      --banner-inner-top: var(--space-3);
-      --banner-inner-bottom: var(--space-3);
-      --banner-inner-left: var(--space-3);
-      --banner-inner-right: var(--space-3);
-    }
-
-    .services__banner-inner {
-      inset: var(--banner-inner-top) var(--banner-inner-right) auto
-        var(--banner-inner-left);
-      flex-direction: row;
-      align-items: center;
-      gap: var(--space-3);
-      max-inline-size: calc(
-        100% - var(--banner-inner-left) - var(--banner-inner-right)
-      );
-      max-block-size: none;
-      direction: ltr;
-    }
-
-    .services__banner-label {
-      writing-mode: horizontal-tb;
-      line-height: 1.2;
-      letter-spacing: 0.12em;
-    }
-
-    .services__banner-dash {
-      width: auto;
-      height: 1px;
-      flex: 1;
-      min-width: 0;
-      min-height: auto;
-      transform: scaleX(0.9);
-      transform-origin: left;
+      --banner-inner-left: var(--space-2);
+      --banner-inner-right: var(--space-2);
     }
 
     .services__lead {
