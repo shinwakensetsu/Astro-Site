@@ -21,39 +21,43 @@ const newsList = newsResponse.contents;
   <main>
     <!-- ===================== 1. Hero ===================== -->
     <section class="hero" id="hero" aria-label="トップビジュアル">
-      <video
-        class="hero__movie"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster="/images/top-hero.jpeg"
-        aria-hidden="true"
-      >
-        <source src="/images/index/hero__movie.mp4" type="video/mp4" />
-      </video>
+      <div class="hero__frame">
+        <div class="hero__media">
+          <video
+            class="hero__movie"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/images/top-hero.jpeg"
+            aria-hidden="true"
+          >
+            <source src="/images/index/hero__movie.mp4" type="video/mp4" />
+          </video>
 
-      <div class="hero__inner">
-        <!-- ロゴ: 上中央 -->
-        <div class="hero__logo-wrap">
-          <ShinwaLogo strokeShadow />
-        </div>
+          <div class="hero__inner">
+            <!-- ロゴ: 上中央 -->
+            <div class="hero__logo-wrap">
+              <ShinwaLogo strokeShadow />
+            </div>
 
-        <!-- コピー: 左上 -->
-        <div class="hero__copy">
-          <p class="hero__copy-main" data-sr-join>
-            社寺建設の継承と更なる<span class="hero__copy-break"
-              >発展をめざして</span
-            >
-          </p>
-          <p class="hero__copy-sub">
-            受け継がれた高度な大工技術や文化的価値の高い施工力を。
-          </p>
+            <!-- コピー: 左上 -->
+            <div class="hero__copy">
+              <p class="hero__copy-main" data-sr-join>
+                社寺建設の継承と更なる<span class="hero__copy-break"
+                  >発展をめざして</span
+                >
+              </p>
+              <p class="hero__copy-sub">
+                受け継がれた高度な大工技術や文化的価値の高い施工力を。
+              </p>
+            </div>
+          </div>
+
+          <ScrollIndicator />
         </div>
       </div>
-
-      <ScrollIndicator />
     </section>
 
     <!-- ===================== 2. お知らせ ===================== -->
@@ -462,11 +466,50 @@ const newsList = newsResponse.contents;
     position: relative;
     width: 100%;
     max-width: 100%;
-    display: grid;
-    background-color: var(--color-dark);
+    background-color: var(--color-black);
     line-height: 0;
+    padding-block: clamp(var(--space-10), 5vw, var(--space-16));
     --hero-logo-width: clamp(110px, 15.5vw, 223px);
     --hero-copy-offset-x: clamp(16px, 5vw, 60px);
+  }
+
+  /* recruit__inner 相当: コンテンツ幅を制御し、両脇に #000 余白を作る */
+  .hero__frame {
+    width: 100%;
+    max-width: 80%;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+  }
+
+  /* recruit__card 相当: 動画カード本体。grid 親として movie/inner/ScrollIndicator を 1/1 で重ねる */
+  .hero__media {
+    --hero-card-radius: 50px;
+    position: relative;
+    display: grid;
+    width: 100%;
+    max-width: 1307px;
+    margin-inline: auto;
+    aspect-ratio: 2 / 1;
+    border-radius: var(--hero-card-radius);
+    isolation: isolate;
+    overflow: visible;
+  }
+
+  /* 動画カード背後のぼかしグロー（recruit__card::after 相当）。
+     カード外周へはみ出して光らせる重ね表現のため absolute が必要。
+     #000 背景で視認できない場合は opacity/mix-blend-mode で強める。 */
+  .hero__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/top-hero.jpeg");
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--hero-card-radius);
+    filter: grayscale(100%) blur(8px);
+    opacity: 0.7;
+    z-index: -1;
+    transform: scale(1.051, 1.1);
   }
 
   .hero__inner {
@@ -481,11 +524,10 @@ const newsList = newsResponse.contents;
     grid-area: 1 / 1;
     display: block;
     width: 100%;
-    height: auto;
-    aspect-ratio: 2 / 1; /* 1920×960 相当 */
-    max-height: 90svh;
+    height: 100%;
     object-fit: cover;
     object-position: center;
+    border-radius: var(--hero-card-radius);
   }
 
   /* ロゴ: 上中央 — 全幅で不変 */
@@ -523,14 +565,21 @@ const newsList = newsResponse.contents;
       margin-top: auto;
       margin-bottom: clamp(20px, 5vw, 60px);
       inline-size: auto;
-      max-width: 80vw;
+      max-width: 100%;
       container-type: normal;
     }
   }
 
   @media (max-width: 768px) {
-    .hero__movie {
-      height: 300px;
+    .hero__frame {
+      max-width: 90%;
+    }
+
+    /* カードは比率固定をやめ、オーバーレイが収まる高さを確保（旧モバイル高さと同値） */
+    .hero__media {
+      aspect-ratio: auto;
+      min-height: 18.75rem;
+      --hero-card-radius: 30px;
     }
 
     .hero__logo-wrap {
@@ -540,6 +589,16 @@ const newsList = newsResponse.contents;
     .hero__copy {
       margin-top: calc(70px + clamp(50px, 7vw, 100px) + var(--space-4));
       margin-bottom: 0;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .hero__frame {
+      max-width: 100%;
+    }
+
+    .hero__media {
+      --hero-card-radius: 24px;
     }
   }
 
