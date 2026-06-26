@@ -256,10 +256,12 @@ const faqItems = [
     flex-shrink: 0;
   }
 
-  /* 背景画像 — Figma: 492px, 1440pxで半分(246px)に縮小 */
+  /* 背景画像 — 要望によりW350×H492で固定（2026-06-24）。
+     サイドバー幅(320px)を超える分・VP高によっては下部メニューが
+     見切れるが、要望どおりサイズを優先する。 */
   .recruit-sidebar__photo {
-    width: 100%;
-    height: auto;
+    width: 21.875rem; /* 350px */
+    height: 30.75rem; /* 492px */
     overflow: hidden;
     flex-shrink: 0;
   }

@@ -102,16 +102,43 @@ const {
 
     <div class="recruit-job__feature-photo">
       <h3 class="recruit-job__feature-photo-title">{featurePhotoTitle}</h3>
-      <img
-        class="recruit-job__feature-photo-image"
-        src={featurePhotoSrc}
-        alt={featurePhotoAlt}
-        width={featurePhotoWidth}
-        height={featurePhotoHeight}
-        loading="lazy"
-        decoding="async"
-      />
+      <button
+        class="recruit-job__feature-photo-button js-schedule-zoom"
+        type="button"
+        data-zoom-target={`${id}-schedule-modal`}
+        aria-label={`${featurePhotoTitle}を拡大表示する`}
+      >
+        <img
+          class="recruit-job__feature-photo-image"
+          src={featurePhotoSrc}
+          alt={featurePhotoAlt}
+          width={featurePhotoWidth}
+          height={featurePhotoHeight}
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="recruit-job__feature-photo-hint" aria-hidden="true">
+          クリックで拡大
+        </span>
+      </button>
     </div>
+
+    <dialog id={`${id}-schedule-modal`} class="recruit-job__modal">
+      <div class="recruit-job__modal-inner">
+        <button
+          class="recruit-job__modal-close"
+          type="button"
+          aria-label="閉じる">&times;</button
+        >
+        <img
+          class="recruit-job__modal-image"
+          src={featurePhotoSrc}
+          alt={featurePhotoAlt}
+          width={featurePhotoWidth}
+          height={featurePhotoHeight}
+        />
+      </div>
+    </dialog>
   </div>
 </section>
 
@@ -371,10 +398,119 @@ const {
     line-height: 1.5;
   }
 
-  .recruit-job__feature-photo-image {
-    display: block;
+  /* 画像をクリック拡大できるボタン化。寸法はボタン側へ移し画像は内側で100% */
+  .recruit-job__feature-photo-button {
     justify-self: center;
     width: min(90%, 75.625rem);
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: zoom-in;
+    position: relative;
+  }
+
+  .recruit-job__feature-photo-image {
+    display: block;
+    width: 100%;
     height: auto;
   }
+
+  /* 拡大ヒント（装飾）。画像隅に浮かせるバッジのため position:absolute を使用 */
+  .recruit-job__feature-photo-hint {
+    position: absolute;
+    right: var(--space-3);
+    bottom: var(--space-3);
+    padding: 0.35em 0.85em;
+    font-size: var(--fs-100);
+    color: var(--color-white);
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: var(--radius-full);
+    pointer-events: none;
+  }
+
+  .recruit-job__feature-photo-button:hover .recruit-job__feature-photo-hint,
+  .recruit-job__feature-photo-button:focus-visible
+    .recruit-job__feature-photo-hint {
+    background: rgba(0, 0, 0, 0.78);
+  }
+
+  /* --- スケジュール拡大モーダル（ネイティブ dialog） --- */
+  .recruit-job__modal {
+    width: min(95vw, 75rem);
+    max-width: 95vw;
+    max-height: 95vh;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .recruit-job__modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .recruit-job__modal-inner {
+    position: relative;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .recruit-job__modal-image {
+    display: block;
+    width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  /* モーダル隅に浮かせる閉じるボタンのため position:absolute を使用 */
+  .recruit-job__modal-close {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--color-white);
+    font-size: var(--text-2xl);
+    line-height: 1;
+  }
+
+  .recruit-job__modal-close:hover {
+    background: rgba(0, 0, 0, 0.78);
+  }
 </style>
+
+<script>
+  // スケジュール画像のクリック拡大。RecruitJob が複数回使われても
+  // Astro が <script> を 1 度だけバンドルするため document 全体で一括初期化する。
+  function initScheduleZoom() {
+    const buttons =
+      document.querySelectorAll<HTMLButtonElement>(".js-schedule-zoom");
+    buttons.forEach((btn) => {
+      const targetId = btn.dataset.zoomTarget;
+      if (!targetId) return;
+      const dialog = document.getElementById(targetId);
+      if (!(dialog instanceof HTMLDialogElement)) return;
+
+      btn.addEventListener("click", () => dialog.showModal());
+
+      const closeBtn = dialog.querySelector(".recruit-job__modal-close");
+      closeBtn?.addEventListener("click", () => dialog.close());
+
+      // backdrop（dialog 自身）クリックで閉じる
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
+  }
+
+  initScheduleZoom();
+</script>

@@ -64,7 +64,7 @@ const { rows } = Astro.props;
   }
 
   .about-company__table {
-    inline-size: 56.25rem;
+    inline-size: min(56.25rem, 100%);
     margin-inline: auto;
     table-layout: fixed;
     border-collapse: collapse;
@@ -76,7 +76,9 @@ const { rows } = Astro.props;
     background-image: url("/images/about/about-table-bg.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    /* 画像(540×1127)の比率を保って箱を覆う。超過分は箱内でクリップされ
+       テーブル外へは出ない（縦横独立の 100% 100% だと縮小時に潰れるため） */
+    background-size: cover;
   }
 
   .about-company__label,
@@ -102,5 +104,41 @@ const { rows } = Astro.props;
   .about-company__row:last-child .about-company__label,
   .about-company__row:last-child .about-company__value {
     border-bottom: none;
+  }
+
+  /* モバイル: 2列テーブルを縦積みにして横スクロールを解消（要望）。
+     項目名の下に値を置き、行ごとに区切り線を引く。 */
+  @media (max-width: 768px) {
+    .about-company__table,
+    .about-company__table tbody,
+    .about-company__row,
+    .about-company__label,
+    .about-company__value {
+      display: block;
+      inline-size: 100%;
+    }
+
+    .about-company__label,
+    .about-company__value {
+      padding-block: 0;
+      border-bottom: none;
+    }
+
+    .about-company__label {
+      padding-top: 1.25rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .about-company__value {
+      padding-bottom: 1.25rem;
+    }
+
+    .about-company__row {
+      border-bottom: 1px solid #e0dfdf;
+    }
+
+    .about-company__row:last-child {
+      border-bottom: none;
+    }
   }
 </style>

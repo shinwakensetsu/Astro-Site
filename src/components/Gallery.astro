@@ -13,21 +13,6 @@ const catNav = categories
     return { ...cat, firstThumb, count: catItems.length };
   })
   .filter((c) => c.count > 0);
-
-// Group consecutive items by layout within a category
-function groupByLayout(catItems: typeof items) {
-  const groups: { layout: string; items: typeof items }[] = [];
-  for (const item of catItems) {
-    const layout = (item.layout as string | undefined) || "single";
-    const last = groups[groups.length - 1];
-    if (last && last.layout === layout) {
-      last.items.push(item);
-    } else {
-      groups.push({ layout, items: [item] });
-    }
-  }
-  return groups;
-}
 ---
 
 <section class="gallery">
@@ -66,7 +51,6 @@ function groupByLayout(catItems: typeof items) {
         categories.map((cat, i) => {
           const catItems = items.filter((item) => item.category === cat.id);
           if (catItems.length === 0) return null;
-          const layoutGroups = groupByLayout(catItems);
           return (
             <div
               class:list={["gallery__section", { "is-hidden": i !== 0 }]}
@@ -76,26 +60,20 @@ function groupByLayout(catItems: typeof items) {
                 {cat.label}
                 <span>{cat.labelEn}</span>
               </h3>
-              {layoutGroups.map((group) => (
-                <div class={`gallery__grid gallery__grid--${group.layout}`}>
-                  {group.items.map((item) => (
-                    <GalleryItem
-                      title={item.title}
-                      src={item.src}
-                      thumbnail={item.thumbnail}
-                      text={item.text}
-                      category={item.category}
-                      layout={
-                        (item.layout as
-                          | "single"
-                          | "grid-2"
-                          | "grid-3"
-                          | undefined) || "single"
-                      }
-                    />
-                  ))}
-                </div>
-              ))}
+              {/* 要望: 施工事例を一律4列グリッドで整然と並べる（上4・下4…）。
+                  各アイテムの layout="grid-3" は表示画像にサムネイルを選ぶ指定。 */}
+              <div class="gallery__grid gallery__grid--grid-4">
+                {catItems.map((item) => (
+                  <GalleryItem
+                    title={item.title}
+                    src={item.src}
+                    thumbnail={item.thumbnail}
+                    text={item.text}
+                    category={item.category}
+                    layout="grid-3"
+                  />
+                ))}
+              </div>
             </div>
           );
         })
@@ -242,19 +220,18 @@ function groupByLayout(catItems: typeof items) {
     margin-bottom: 0;
   }
 
-  .gallery__grid--single {
-    grid-template-columns: 1fr;
+  .gallery__grid--grid-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .gallery__grid--grid-2 {
-    grid-template-columns: repeat(2, 1fr);
+  /* Desktop-down: 4 → 3 列 */
+  @media (max-width: 1024px) {
+    .gallery__grid--grid-4 {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
-  .gallery__grid--grid-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* Tablet: sidebar on top, 2-col cat-list */
+  /* Tablet: sidebar on top, 2-col cat-list / 4 → 2 列 */
   @media (max-width: 767px) {
     .gallery__layout {
       grid-template-columns: 1fr;
@@ -269,16 +246,9 @@ function groupByLayout(catItems: typeof items) {
       grid-template-columns: repeat(2, 1fr);
       padding-bottom: var(--space-2);
     }
-  }
 
-  /* Mobile: grid-3 → 2 columns */
-  @media (max-width: 479px) {
-    .gallery__grid--grid-3 {
+    .gallery__grid--grid-4 {
       grid-template-columns: repeat(2, 1fr);
-    }
-
-    .gallery__grid--grid-2 {
-      grid-template-columns: 1fr;
     }
   }
 </style>
