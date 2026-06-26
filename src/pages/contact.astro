@@ -426,17 +426,24 @@ import Layout from "../layouts/Layout.astro";
           </label>
         </div>
 
+        <input
+          type="hidden"
+          name="g-recaptcha-response"
+          id="g-recaptcha-response"
+        />
+
         <div class="contact-form__actions">
           <button
-            class="contact-form__submit g-recaptcha is-disabled"
-            data-sitekey="6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI"
-            data-callback="onSubmit"
-            data-action="submit"
+            class="contact-form__submit is-disabled"
+            type="submit"
             aria-disabled="true">送信する</button
           >
         </div>
       </form>
-      <script is:inline src="https://www.google.com/recaptcha/api.js"></script>
+      <script
+        is:inline
+        src="https://www.google.com/recaptcha/api.js?render=6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI"
+      ></script>
     </div>
   </main>
 </Layout>
@@ -480,9 +487,8 @@ import Layout from "../layouts/Layout.astro";
   privacyAgree.addEventListener("change", syncConsentState);
 
   // 同意前のクリック（マウス／キーボードEnter）を capture 段階で先取りして阻止する。
-  // reCAPTCHA(api.js) は click を bubble 段階で拾うため、capture で
-  // stopImmediatePropagation すれば challenge を発火させずに止められる
-  // （この順序依存を壊さないよう、このボタンへ別の capture リスナーを足さないこと）。
+  // v3 では submit イベント側でトークン取得・送信を行うため、ここでは
+  // preventDefault で既定の送信を止め、未同意のまま送られないようにする。
   // フィードバックは全体エラーサマリーへ飛ばさず、送信ボタン直上の
   // チェックボックスにフォーカスを当ててその場で同意を促す。
   submitButton.addEventListener(
@@ -724,19 +730,20 @@ import Layout from "../layouts/Layout.astro";
     errorSummary.focus();
   }
 
-  // --- フォールバック: reCAPTCHA 未読み込み時のセーフティネット ---
+  // --- 送信: バリデーション → reCAPTCHA v3 トークン取得 → 送信 ---
+  const RECAPTCHA_SITE_KEY = "6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI";
+  const recaptchaTokenInput = document.getElementById(
+    "g-recaptcha-response",
+  ) as HTMLInputElement;
+
+  interface Grecaptcha {
+    ready: (cb: () => void) => void;
+    execute: (siteKey: string, opts: { action: string }) => Promise<string>;
+  }
+
   form.addEventListener("submit", (e) => {
-    clearErrors();
-    const errors = validateForm();
-
-    if (errors.length > 0) {
-      e.preventDefault();
-      showErrors(errors);
-    }
-  });
-
-  // --- reCAPTCHA v3 callback（グローバル公開） ---
-  (window as unknown as Record<string, unknown>).onSubmit = function () {
+    // v3 はトークンを取得してから送るため、常に既定の送信を止めて制御する
+    e.preventDefault();
     clearErrors();
     const errors = validateForm();
 
@@ -744,8 +751,24 @@ import Layout from "../layouts/Layout.astro";
       showErrors(errors);
       return;
     }
-    form.submit();
-  };
+
+    const grecaptcha = (window as unknown as { grecaptcha?: Grecaptcha })
+      .grecaptcha;
+    if (!grecaptcha || typeof grecaptcha.execute !== "function") {
+      // reCAPTCHA 未読み込み時はトークンなしで送信し、SSGForm 側の判定に委ねる
+      form.submit();
+      return;
+    }
+
+    grecaptcha.ready(() => {
+      grecaptcha
+        .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
+        .then((token) => {
+          if (recaptchaTokenInput) recaptchaTokenInput.value = token;
+          form.submit();
+        });
+    });
+  });
 </script>
 
 <style>
