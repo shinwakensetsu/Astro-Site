@@ -426,12 +426,6 @@ import Layout from "../layouts/Layout.astro";
           </label>
         </div>
 
-        <input
-          type="hidden"
-          name="g-recaptcha-response"
-          id="g-recaptcha-response"
-        />
-
         <div class="contact-form__actions">
           <button
             class="contact-form__submit is-disabled"
@@ -440,10 +434,6 @@ import Layout from "../layouts/Layout.astro";
           >
         </div>
       </form>
-      <script
-        is:inline
-        src="https://www.google.com/recaptcha/api.js?render=6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI"
-      ></script>
     </div>
   </main>
 </Layout>
@@ -730,44 +720,17 @@ import Layout from "../layouts/Layout.astro";
     errorSummary.focus();
   }
 
-  // --- 送信: バリデーション → reCAPTCHA v3 トークン取得 → 送信 ---
-  const RECAPTCHA_SITE_KEY = "6Lf_k3AsAAAAAOd4vs1ndvjrvyS6NW7PXOnNKFZI";
-  const recaptchaTokenInput = document.getElementById(
-    "g-recaptcha-response",
-  ) as HTMLInputElement;
-
-  interface Grecaptcha {
-    ready: (cb: () => void) => void;
-    execute: (siteKey: string, opts: { action: string }) => Promise<string>;
-  }
-
+  // --- 送信: バリデーション通過時のみ SSGForm へ通常 POST する ---
   form.addEventListener("submit", (e) => {
-    // v3 はトークンを取得してから送るため、常に既定の送信を止めて制御する
-    e.preventDefault();
     clearErrors();
     const errors = validateForm();
 
     if (errors.length > 0) {
+      // 不備があれば送信を止めてエラー表示。なければ既定の送信
+      // （action への multipart/form-data POST）をそのまま続行する。
+      e.preventDefault();
       showErrors(errors);
-      return;
     }
-
-    const grecaptcha = (window as unknown as { grecaptcha?: Grecaptcha })
-      .grecaptcha;
-    if (!grecaptcha || typeof grecaptcha.execute !== "function") {
-      // reCAPTCHA 未読み込み時はトークンなしで送信し、SSGForm 側の判定に委ねる
-      form.submit();
-      return;
-    }
-
-    grecaptcha.ready(() => {
-      grecaptcha
-        .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
-        .then((token) => {
-          if (recaptchaTokenInput) recaptchaTokenInput.value = token;
-          form.submit();
-        });
-    });
   });
 </script>
 
