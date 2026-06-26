@@ -458,8 +458,7 @@ import Layout from "../layouts/Layout.astro";
   ) as HTMLButtonElement;
 
   // --- 同意チェック: プライバシーポリシーに同意するまで送信を無効化 ---
-  // reCAPTCHA(g-recaptcha) はバインド時に button の disabled 属性を外すため、
-  // disabled 属性ではなく is-disabled クラス + click の capture 阻止で制御する。
+  // JSが動かない環境でもSSGformへのPOST経路を残すため、disabled属性は使わない。
   const privacyAgreeError = document.getElementById(
     "privacy-agree-error",
   ) as HTMLSpanElement;
@@ -477,8 +476,6 @@ import Layout from "../layouts/Layout.astro";
   privacyAgree.addEventListener("change", syncConsentState);
 
   // 同意前のクリック（マウス／キーボードEnter）を capture 段階で先取りして阻止する。
-  // v3 では submit イベント側でトークン取得・送信を行うため、ここでは
-  // preventDefault で既定の送信を止め、未同意のまま送られないようにする。
   // フィードバックは全体エラーサマリーへ飛ばさず、送信ボタン直上の
   // チェックボックスにフォーカスを当ててその場で同意を促す。
   submitButton.addEventListener(
@@ -720,14 +717,12 @@ import Layout from "../layouts/Layout.astro";
     errorSummary.focus();
   }
 
-  // --- 送信: バリデーション通過時のみ SSGForm へ通常 POST する ---
+  // --- 送信: バリデーション通過時のみSSGformへ通常POSTする ---
   form.addEventListener("submit", (e) => {
     clearErrors();
     const errors = validateForm();
 
     if (errors.length > 0) {
-      // 不備があれば送信を止めてエラー表示。なければ既定の送信
-      // （action への multipart/form-data POST）をそのまま続行する。
       e.preventDefault();
       showErrors(errors);
     }

@@ -13,7 +13,6 @@
  * Content-Security-Policy 文字列を組み立てる。
  *
  * 許可の根拠:
- *  - script/frame/connect の www.google.com + gstatic.com … reCAPTCHA (contact.astro)
  *  - frame-src www.google.com … Google Maps 埋め込み (AboutAccess.astro) も同ホスト
  *  - style-src-elem fonts.googleapis.com / font-src fonts.gstatic.com … Google Fonts
  *  - *.microcms.io / *.microcms-assets.io … microCMS API・画像
@@ -32,12 +31,12 @@
 export function buildCsp() {
   return [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com",
+    "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: *.microcms.io *.microcms-assets.io",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' *.microcms.io *.ssgform.com https://www.google.com",
+    "connect-src 'self' *.microcms.io *.ssgform.com",
     "frame-src 'self' https://www.google.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
