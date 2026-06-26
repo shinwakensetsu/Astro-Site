@@ -328,8 +328,13 @@ const canonicalUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
     width: 100%;
     max-width: 100%;
     min-width: 0;
+    min-height: 100%;
     overflow-x: hidden;
     background-color: var(--color-bg);
+    background-image: url("/images/util/drawer-bg.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     border-top: 1px solid var(--color-gray-300);
   }
 
