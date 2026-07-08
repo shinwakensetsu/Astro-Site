@@ -210,3 +210,15 @@
   background-repeat: repeat;
   background-size: 300px 300px;
 }
+
+/* ===================================================
+   Responsive — sm (max-width: 768px)
+   スマートフォン全般。デスクトップファースト基準の上書き。
+   =================================================== */
+
+@media (max-width: 768px) {
+  .u-section-spacing {
+  padding-block: 30px;
+}
+}
+
