@@ -234,7 +234,10 @@ const faqItems = [
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    /* 縦に短い画面でメニュー下部が見切れないよう、あふれた分は
+       サイドバー内スクロールで到達可能にする（横は装飾はみ出し防止で hidden） */
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   /* 戻りリンク */
@@ -341,6 +344,24 @@ const faqItems = [
   @media (min-width: 120rem) {
     .recruit-sidebar__inner {
       left: calc((100vw - 120rem) / 2);
+    }
+  }
+
+  /* 縦に短い画面（低解像度ノート等）向け: 装飾まわりの余白を圧縮して
+     下部メニューの見切れを抑える。これでも足りない極端な高さは
+     .recruit-sidebar__inner の内部スクロールで到達を担保する。 */
+  @media (max-height: 800px) {
+    .recruit-sidebar__back {
+      padding-block: var(--space-5);
+    }
+
+    .recruit-sidebar__stripes {
+      height: 3.75rem;
+    }
+
+    .recruit-sidebar__menu {
+      margin-top: var(--space-4);
+      gap: var(--space-4);
     }
   }
 </style>
