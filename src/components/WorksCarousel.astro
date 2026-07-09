@@ -61,6 +61,24 @@ const slides = [...baseSlides, ...baseSlides];
     const dots =
       dotsContainer.querySelectorAll<HTMLButtonElement>("[data-dot-index]");
 
+    // --- 開発用トグル ---------------------------------------------------
+    // 開発環境で自動スクロールを止めてドラッグ操作を確認したいときは false にする。
+    // 本番ビルド（import.meta.env.PROD）では常に有効で、このフラグは無視される。
+    const ENABLE_AUTO_SCROLL_IN_DEV = true;
+    const autoScrollEnabled = import.meta.env.PROD || ENABLE_AUTO_SCROLL_IN_DEV;
+    // -------------------------------------------------------------------
+
+    const plugins = autoScrollEnabled
+      ? [
+          AutoScroll({
+            speed: 1,
+            startDelay: 0,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true,
+          }),
+        ]
+      : [];
+
     const embla = EmblaCarousel(
       viewport,
       {
@@ -69,14 +87,7 @@ const slides = [...baseSlides, ...baseSlides];
         containScroll: false,
         align: "start",
       },
-      [
-        AutoScroll({
-          speed: 1,
-          startDelay: 0,
-          stopOnInteraction: false,
-          stopOnMouseEnter: true,
-        }),
-      ],
+      plugins,
     );
 
     function updateDots() {
