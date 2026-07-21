@@ -9,6 +9,8 @@ interface Location {
   telHref: string;
   faxLabel: string;
   faxHref: string;
+  emailLabel: string;
+  emailHref: string;
 }
 
 interface Props {
@@ -76,6 +78,15 @@ const { locations } = Astro.props;
                 <span class="about-access__contact-label">FAX</span>
                 <span class="about-access__contact-value">
                   {location.faxLabel}
+                </span>
+              </a>
+              <a
+                class="about-access__contact-link about-access__contact-link--mail"
+                href={location.emailHref}
+              >
+                <span class="about-access__contact-label">MAIL</span>
+                <span class="about-access__contact-value">
+                  {location.emailLabel}
                 </span>
               </a>
             </div>
@@ -260,6 +271,16 @@ const { locations } = Astro.props;
   .about-access__contact-value {
     display: block;
     margin: auto;
+  }
+
+  /* メールアドレスは横幅が長いため 2 カラム時は全幅で表示し、折り返しを許可する */
+  .about-access__contact-link--mail {
+    grid-column: 1 / -1;
+  }
+
+  .about-access__contact-link--mail .about-access__contact-value {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: 1024px) {

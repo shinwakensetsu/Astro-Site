@@ -104,28 +104,44 @@ function initGalleryModal() {
 function initGalleryFilters() {
   var buttons = document.querySelectorAll(".gallery__cat-btn");
   var sections = document.querySelectorAll(".gallery__section");
+  if (!buttons.length) return;
+
+  function activateCategory(filter) {
+    var matched = false;
+
+    buttons.forEach(function (b) {
+      var isTarget = b.dataset.filter === filter;
+      b.classList.toggle("is-active", isTarget);
+      if (isTarget) matched = true;
+    });
+
+    sections.forEach(function (section) {
+      if (section.dataset.category === filter) {
+        section.classList.remove("is-hidden");
+        section.style.animation = "none";
+        void section.offsetHeight;
+        section.style.animation = "";
+      } else {
+        section.classList.add("is-hidden");
+      }
+    });
+
+    return matched;
+  }
 
   buttons.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var filter = btn.dataset.filter || "";
-
-      buttons.forEach(function (b) {
-        b.classList.remove("is-active");
-      });
-      btn.classList.add("is-active");
-
-      sections.forEach(function (section) {
-        if (section.dataset.category === filter) {
-          section.classList.remove("is-hidden");
-          section.style.animation = "none";
-          void section.offsetHeight;
-          section.style.animation = "";
-        } else {
-          section.classList.add("is-hidden");
-        }
-      });
+      activateCategory(btn.dataset.filter || "");
     });
   });
+
+  // Deep-link: /works#<category-id> でカテゴリを直接開く（フッター等のリンク用）
+  function syncFromHash() {
+    var id = (window.location.hash || "").replace(/^#/, "");
+    if (id) activateCategory(id);
+  }
+  syncFromHash();
+  window.addEventListener("hashchange", syncFromHash);
 }
 
 initGalleryFallback();
