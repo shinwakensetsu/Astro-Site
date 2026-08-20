@@ -34,6 +34,11 @@
       "id": "church",
       "label": "教会",
       "labelEn": "Church"
+    },
+    {
+      "id": "palace",
+      "label": "御殿",
+      "labelEn": "Palace"
     }
   ],
   "items": [
@@ -556,6 +561,150 @@
       "text": "京都ハリストス正教会 大聖堂 修理 京都市 昭和63年 【京都市指定文化財】",
       "category": "church",
       "layout": "single"
+    },
+    {
+      "title": "本山寺 五重塔",
+      "src": "img/001_tou_012honzanji-l.jpg",
+      "thumbnail": "img/001_tou_012honzanji-s.jpg",
+      "text": "本山寺 五重塔",
+      "category": "tower",
+      "layout": "grid-3"
+    },
+    {
+      "title": "光泉寺 五重塔",
+      "src": "img/001_tou_013kousenji-l.jpg",
+      "thumbnail": "img/001_tou_013kousenji-s.jpg",
+      "text": "光泉寺 五重塔",
+      "category": "tower",
+      "layout": "grid-3"
+    },
+    {
+      "title": "成就院（外観）",
+      "src": "img/002_garan_031joujuingaikan-l.jpg",
+      "thumbnail": "img/002_garan_031joujuingaikan-s.jpg",
+      "text": "成就院（外観）",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "成就院（内観）",
+      "src": "img/002_garan_032joujuinnaikan-l.jpg",
+      "thumbnail": "img/002_garan_032joujuinnaikan-s.jpg",
+      "text": "成就院（内観）",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "平等院 鳳凰堂",
+      "src": "img/002_garan_033byodoin-l.jpg",
+      "thumbnail": "img/002_garan_033byodoin-s.jpg",
+      "text": "平等院 鳳凰堂",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "上善寺 地蔵堂",
+      "src": "img/002_garan_034jouzenji-l.jpg",
+      "thumbnail": "img/002_garan_034jouzenji-s.jpg",
+      "text": "上善寺 地蔵堂",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "詩仙堂",
+      "src": "img/002_garan_035shisendou-l.jpg",
+      "thumbnail": "img/002_garan_035shisendou-s.jpg",
+      "text": "詩仙堂",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "清水寺 舞台張替",
+      "src": "img/002_garan_036kiyomizubutai-l.jpg",
+      "thumbnail": "img/002_garan_036kiyomizubutai-s.jpg",
+      "text": "清水寺 舞台張替",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "曼殊院 宸殿",
+      "src": "img/002_garan_037manshuin-l.jpg",
+      "thumbnail": "img/002_garan_037manshuin-s.jpg",
+      "text": "曼殊院 宸殿",
+      "category": "temple",
+      "layout": "grid-3"
+    },
+    {
+      "title": "松尾大社 本殿",
+      "src": "img/003_jinja_021matsuo-l.jpg",
+      "thumbnail": "img/003_jinja_021matsuo-s.jpg",
+      "text": "松尾大社 本殿",
+      "category": "shrine",
+      "layout": "grid-3"
+    },
+    {
+      "title": "長岡天満宮 本殿",
+      "src": "img/003_jinja_022nagaoka-l.jpg",
+      "thumbnail": "img/003_jinja_022nagaoka-s.jpg",
+      "text": "長岡天満宮 本殿",
+      "category": "shrine",
+      "layout": "grid-3"
+    },
+    {
+      "title": "金戒光明寺 山門",
+      "src": "img/004_mon_008konkai-l.jpg",
+      "thumbnail": "img/004_mon_008konkai-s.jpg",
+      "text": "金戒光明寺 山門",
+      "category": "gate",
+      "layout": "grid-3"
+    },
+    {
+      "title": "八坂神社 楼門",
+      "src": "img/004_mon_009yasaka-l.jpg",
+      "thumbnail": "img/004_mon_009yasaka-s.jpg",
+      "text": "八坂神社 楼門",
+      "category": "gate",
+      "layout": "grid-3"
+    },
+    {
+      "title": "上正寺 鐘楼",
+      "src": "img/005_shourou_006joushouji-l.jpg",
+      "thumbnail": "img/005_shourou_006joushouji-s.jpg",
+      "text": "上正寺 鐘楼",
+      "category": "belltower",
+      "layout": "grid-3"
+    },
+    {
+      "title": "二条城本丸御殿 玄関",
+      "src": "img/008_goten_001genkan-l.jpg",
+      "thumbnail": "img/008_goten_001genkan-s.jpg",
+      "text": "二条城本丸御殿 玄関",
+      "category": "palace",
+      "layout": "grid-3"
+    },
+    {
+      "title": "二条城本丸御殿 御書院",
+      "src": "img/008_goten_002shoin-l.jpg",
+      "thumbnail": "img/008_goten_002shoin-s.jpg",
+      "text": "二条城本丸御殿 御書院",
+      "category": "palace",
+      "layout": "grid-3"
+    },
+    {
+      "title": "二条城本丸御殿 御常御殿",
+      "src": "img/008_goten_003tsunegoten1-l.jpg",
+      "thumbnail": "img/008_goten_003tsunegoten1-s.jpg",
+      "text": "二条城本丸御殿 御常御殿",
+      "category": "palace",
+      "layout": "grid-3"
+    },
+    {
+      "title": "二条城本丸御殿 御常御殿",
+      "src": "img/008_goten_004tsunegoten2-l.jpg",
+      "thumbnail": "img/008_goten_004tsunegoten2-s.jpg",
+      "text": "二条城本丸御殿 御常御殿",
+      "category": "palace",
+      "layout": "grid-3"
     }
   ]
 }
