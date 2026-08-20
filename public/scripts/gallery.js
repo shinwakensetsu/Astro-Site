@@ -37,7 +37,8 @@ function initGalleryModal() {
     if (!btn) return;
 
     var fullSrc = btn.dataset.src || "";
-    var text = btn.dataset.text || "";
+    var title = btn.dataset.title || "";
+    var captionRaw = btn.dataset.caption || "";
 
     // Get thumbnail element from clicked item
     var thumb = btn.querySelector("img");
@@ -57,7 +58,22 @@ function initGalleryModal() {
     img.classList.add("is-lqip");
     img.src = thumbSrc;
     img.alt = "";
-    caption.textContent = text;
+
+    // Build caption: 物件名(strong) + 各行(span)。textContent 使用で XSS 安全。
+    caption.replaceChildren(); // 再オープン時の累積防止
+    if (title) {
+      var nameEl = document.createElement("strong");
+      nameEl.className = "gallery-modal__caption-name";
+      nameEl.textContent = title;
+      caption.appendChild(nameEl);
+    }
+    captionRaw.split("\n").forEach(function (line) {
+      if (!line) return; // 空行スキップ
+      var lineEl = document.createElement("span");
+      lineEl.className = "gallery-modal__caption-line";
+      lineEl.textContent = line;
+      caption.appendChild(lineEl);
+    });
     dialog.showModal();
 
     // Step 2: Preload full-size image in background

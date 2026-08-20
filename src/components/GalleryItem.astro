@@ -3,7 +3,7 @@ interface Props {
   title: string;
   src: string;
   thumbnail: string;
-  text: string;
+  captionLines?: string[];
   category: string;
   layout?: "single" | "grid-2" | "grid-3";
 }
@@ -12,7 +12,7 @@ const {
   title,
   src,
   thumbnail,
-  text,
+  captionLines = [],
   category,
   layout = "grid-3",
 } = Astro.props;
@@ -25,28 +25,15 @@ const fullPath = `/images/works/${srcFile}`;
 // single/grid-2 レイアウトではフルサイズ画像を表示
 const displayPath = layout === "grid-3" ? thumbPath : fullPath;
 
-// text を「寺名+建築物名」と「それ以降」に分離
-const normalize = (s: string) =>
-  s
-    .replace(/^>/, "")
-    .replace(/[\s\u3000]+/g, " ")
-    .trim();
-const normalizedTitle = normalize(title);
-const normalizedText = normalize(text);
-
-let textLine1 = normalizedTitle;
-let textLine2 = "";
-
-if (normalizedText.startsWith(normalizedTitle)) {
-  textLine2 = normalizedText.slice(normalizedTitle.length).trim();
-}
+// モーダルへは物件名と各行を渡す（gallery.js が \n 分割して DOM 生成）
+const captionData = captionLines.join("\n");
 ---
 
 <button
   class:list={["gallery-item", `gallery-item--${layout}`]}
   data-src={fullPath}
-  data-text={text}
   data-title={title}
+  data-caption={captionData}
   data-category={category}
   type="button"
 >
@@ -58,8 +45,12 @@ if (normalizedText.startsWith(normalizedTitle)) {
     data-fallback={fullPath}
   />
   <span class="gallery-item__text">
-    <span class="gallery-item__text-name">{textLine1}</span>
-    {textLine2 && <span class="gallery-item__text-detail">{textLine2}</span>}
+    <span class="gallery-item__text-name">{title}</span>
+    {
+      captionLines.map((line) => (
+        <span class="gallery-item__text-line">{line}</span>
+      ))
+    }
   </span>
 </button>
 
@@ -113,7 +104,7 @@ if (normalizedText.startsWith(normalizedTitle)) {
     color: var(--color-text);
   }
 
-  .gallery-item__text-detail {
+  .gallery-item__text-line {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
   }
