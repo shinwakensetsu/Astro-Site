@@ -70,6 +70,26 @@
       "captionLines": ["半解体修理 善通寺市 平成5年", "【重要文化財】"]
     },
     {
+      "title": "本山寺　五重塔",
+      "src": "img/001_tou_012honzanji-l.jpg",
+      "thumbnail": "img/001_tou_012honzanji-s.jpg",
+      "category": "tower",
+      "layout": "grid-3",
+      "captionLines": [
+        "解体修理 香川県三豊市 平成30年",
+        "撮影：淺川敏",
+        "【三豊市指定文化財】"
+      ]
+    },
+    {
+      "title": "光泉寺　五重塔",
+      "src": "img/001_tou_013kousenji-l.jpg",
+      "thumbnail": "img/001_tou_013kousenji-s.jpg",
+      "category": "tower",
+      "layout": "grid-3",
+      "captionLines": ["新築 群馬県 令和5年"]
+    },
+    {
       "title": "別格本山與田寺 多宝塔",
       "src": "img/001_tou_006yodaji-l.jpg",
       "thumbnail": "img/001_tou_006yodaji-s.jpg",
@@ -346,6 +366,122 @@
       "captionLines": ["新築 京都市 昭和63年", "設計：中村設計"]
     },
     {
+      "title": "成就院　本堂",
+      "src": "img/002_garan_031joujuingaikan-l.jpg",
+      "thumbnail": "img/002_garan_031joujuingaikan-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": [
+        "新築 鹿沼市 平成23年",
+        "設計：松本正巳建築事務所",
+        "監修：冨島義幸"
+      ]
+    },
+    {
+      "title": "成就院　本堂",
+      "src": "img/002_garan_032joujuinnaikan-l.jpg",
+      "thumbnail": "img/002_garan_032joujuinnaikan-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": [
+        "新築 鹿沼市 平成23年",
+        "設計：松本正巳建築事務所",
+        "監修：冨島義幸"
+      ]
+    },
+    {
+      "title": "平等院　鳳凰堂",
+      "src": "img/002_garan_033byodoin-l.jpg",
+      "thumbnail": "img/002_garan_033byodoin-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": ["修理 宇治市 平成26年", "【国宝】"]
+    },
+    {
+      "title": "上善寺　地蔵堂(六角堂)",
+      "src": "img/002_garan_034jouzenji-l.jpg",
+      "thumbnail": "img/002_garan_034jouzenji-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": ["新築 京都市 平成28年"]
+    },
+    {
+      "title": "史跡詩仙堂　凸凹窠",
+      "src": "img/002_garan_035shisendou-l.jpg",
+      "thumbnail": "img/002_garan_035shisendou-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": ["保存修理 京都市 平成30年"]
+    },
+    {
+      "title": "大本山清水寺　本堂舞台",
+      "src": "img/002_garan_036kiyomizubutai-l.jpg",
+      "thumbnail": "img/002_garan_036kiyomizubutai-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": ["保存修理 京都市 令和2年", "【国宝】"]
+    },
+    {
+      "title": "二条城　本丸御殿　玄関",
+      "src": "img/002_garan_038nijojogenkan-l.jpg",
+      "thumbnail": "img/002_garan_038nijojogenkan-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": [
+        "保存修理 京都市 令和1～6年",
+        "【重要文化財】",
+        "写真提供：元離宮二条城事務所",
+        "撮影：杉本和樹"
+      ]
+    },
+    {
+      "title": "二条城　本丸御殿　御書院",
+      "src": "img/002_garan_039nijojoshoin-l.jpg",
+      "thumbnail": "img/002_garan_039nijojoshoin-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": [
+        "保存修理 京都市 令和1～6年",
+        "【重要文化財】",
+        "写真提供：元離宮二条城事務所",
+        "撮影：杉本和樹"
+      ]
+    },
+    {
+      "title": "二条城　本丸御殿　御常御殿",
+      "src": "img/002_garan_040nijojotsunegoten1-l.jpg",
+      "thumbnail": "img/002_garan_040nijojotsunegoten1-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": [
+        "保存修理 京都市 令和1～6年",
+        "【重要文化財】",
+        "写真提供：元離宮二条城事務所",
+        "撮影：杉本和樹"
+      ]
+    },
+    {
+      "title": "二条城　本丸御殿　御常御殿",
+      "src": "img/002_garan_041nijojotsunegoten2-l.jpg",
+      "thumbnail": "img/002_garan_041nijojotsunegoten2-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": [
+        "保存修理 京都市 令和1～6年",
+        "【重要文化財】",
+        "写真提供：元離宮二条城事務所",
+        "撮影：杉本和樹"
+      ]
+    },
+    {
+      "title": "曼殊院門跡　宸殿",
+      "src": "img/002_garan_037manshuin-l.jpg",
+      "thumbnail": "img/002_garan_037manshuin-s.jpg",
+      "category": "temple",
+      "layout": "grid-3",
+      "captionLines": ["復興再建 京都市 令和4年"]
+    },
+    {
       "title": "平安神宮 内拝殿",
       "src": "img/003_jinja_001heiannaihai-l.jpg",
       "thumbnail": "img/003_jinja_001heiannaihai-s.jpg",
@@ -450,6 +586,27 @@
       "captionLines": ["修理 八幡市 平成22年", "【京都府指定文化財】"]
     },
     {
+      "title": "松尾大社　本殿",
+      "src": "img/003_jinja_021matsuo-l.jpg",
+      "thumbnail": "img/003_jinja_021matsuo-s.jpg",
+      "category": "shrine",
+      "layout": "grid-3",
+      "captionLines": ["修理(木工事) 京都市 平成30年", "【重要文化財】"]
+    },
+    {
+      "title": "長岡天満宮　本殿",
+      "src": "img/003_jinja_022nagaoka-l.jpg",
+      "thumbnail": "img/003_jinja_022nagaoka-s.jpg",
+      "category": "shrine",
+      "layout": "grid-3",
+      "captionLines": [
+        "移築(平安神宮旧本殿) 昭和16年",
+        "保存修理 令和7年",
+        "長岡京市",
+        "【京都府指定文化財】"
+      ]
+    },
+    {
       "title": "三千院門跡 山門",
       "src": "img/004_mon_001sanzenin-l.jpg",
       "thumbnail": "img/004_mon_001sanzenin-s.jpg",
@@ -510,6 +667,22 @@
       "captionLines": ["新築 高槻市 平成18年"]
     },
     {
+      "title": "大本山黒谷金戒光明寺　山門",
+      "src": "img/004_mon_008konkai-l.jpg",
+      "thumbnail": "img/004_mon_008konkai-s.jpg",
+      "category": "gate",
+      "layout": "grid-3",
+      "captionLines": ["修復 京都市 平成25年", "【京都府指定文化財】"]
+    },
+    {
+      "title": "八坂神社　南楼門",
+      "src": "img/004_mon_009yasaka-l.jpg",
+      "thumbnail": "img/004_mon_009yasaka-s.jpg",
+      "category": "gate",
+      "layout": "grid-3",
+      "captionLines": ["修復及び耐震補強 京都市 平成29年", "【重要文化財】"]
+    },
+    {
       "title": "恵日山 観音寺大宝院 鐘楼",
       "src": "img/005_shourou_004tsukannon-l.jpg",
       "thumbnail": "img/005_shourou_004tsukannon-s.jpg",
@@ -524,6 +697,14 @@
       "category": "belltower",
       "layout": "grid-2",
       "captionLines": ["新築 京都市 平成24年"]
+    },
+    {
+      "title": "上正寺　鐘楼",
+      "src": "img/005_shourou_006joushouji-l.jpg",
+      "thumbnail": "img/005_shourou_006joushouji-s.jpg",
+      "category": "belltower",
+      "layout": "grid-3",
+      "captionLines": ["新築 神奈川県茅ケ崎市 平成27年"]
     },
     {
       "title": "三千院門跡 円融蔵（RC造）",
@@ -584,187 +765,6 @@
       "category": "church",
       "layout": "single",
       "captionLines": ["修理 京都市 昭和63年", "【重要文化財】"]
-    },
-    {
-      "title": "本山寺　五重塔",
-      "src": "img/001_tou_012honzanji-l.jpg",
-      "thumbnail": "img/001_tou_012honzanji-s.jpg",
-      "category": "tower",
-      "layout": "grid-3",
-      "captionLines": [
-        "解体修理 香川県三豊市 平成30年",
-        "撮影：淺川敏",
-        "【三豊市指定文化財】"
-      ]
-    },
-    {
-      "title": "光泉寺　五重塔",
-      "src": "img/001_tou_013kousenji-l.jpg",
-      "thumbnail": "img/001_tou_013kousenji-s.jpg",
-      "category": "tower",
-      "layout": "grid-3",
-      "captionLines": ["新築 群馬県 令和5年"]
-    },
-    {
-      "title": "成就院　本堂",
-      "src": "img/002_garan_031joujuingaikan-l.jpg",
-      "thumbnail": "img/002_garan_031joujuingaikan-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": [
-        "新築 鹿沼市 平成23年",
-        "設計：松本正巳建築事務所",
-        "監修：冨島義幸"
-      ]
-    },
-    {
-      "title": "成就院　本堂",
-      "src": "img/002_garan_032joujuinnaikan-l.jpg",
-      "thumbnail": "img/002_garan_032joujuinnaikan-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": [
-        "新築 鹿沼市 平成23年",
-        "設計：松本正巳建築事務所",
-        "監修：冨島義幸"
-      ]
-    },
-    {
-      "title": "平等院　鳳凰堂",
-      "src": "img/002_garan_033byodoin-l.jpg",
-      "thumbnail": "img/002_garan_033byodoin-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": ["修理 宇治市 平成26年", "【国宝】"]
-    },
-    {
-      "title": "上善寺　地蔵堂(六角堂)",
-      "src": "img/002_garan_034jouzenji-l.jpg",
-      "thumbnail": "img/002_garan_034jouzenji-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": ["新築 京都市 平成28年"]
-    },
-    {
-      "title": "史跡詩仙堂　凸凹窠",
-      "src": "img/002_garan_035shisendou-l.jpg",
-      "thumbnail": "img/002_garan_035shisendou-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": ["保存修理 京都市 平成30年"]
-    },
-    {
-      "title": "大本山清水寺　本堂舞台",
-      "src": "img/002_garan_036kiyomizubutai-l.jpg",
-      "thumbnail": "img/002_garan_036kiyomizubutai-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": ["保存修理 京都市 令和2年", "【国宝】"]
-    },
-    {
-      "title": "曼殊院門跡　宸殿",
-      "src": "img/002_garan_037manshuin-l.jpg",
-      "thumbnail": "img/002_garan_037manshuin-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": ["復興再建 京都市 令和4年"]
-    },
-    {
-      "title": "松尾大社　本殿",
-      "src": "img/003_jinja_021matsuo-l.jpg",
-      "thumbnail": "img/003_jinja_021matsuo-s.jpg",
-      "category": "shrine",
-      "layout": "grid-3",
-      "captionLines": ["修理(木工事) 京都市 平成30年", "【重要文化財】"]
-    },
-    {
-      "title": "長岡天満宮　本殿",
-      "src": "img/003_jinja_022nagaoka-l.jpg",
-      "thumbnail": "img/003_jinja_022nagaoka-s.jpg",
-      "category": "shrine",
-      "layout": "grid-3",
-      "captionLines": [
-        "移築(平安神宮旧本殿) 昭和16年",
-        "保存修理 令和7年",
-        "長岡京市",
-        "【京都府指定文化財】"
-      ]
-    },
-    {
-      "title": "大本山黒谷金戒光明寺　山門",
-      "src": "img/004_mon_008konkai-l.jpg",
-      "thumbnail": "img/004_mon_008konkai-s.jpg",
-      "category": "gate",
-      "layout": "grid-3",
-      "captionLines": ["修復 京都市 平成25年", "【京都府指定文化財】"]
-    },
-    {
-      "title": "八坂神社　南楼門",
-      "src": "img/004_mon_009yasaka-l.jpg",
-      "thumbnail": "img/004_mon_009yasaka-s.jpg",
-      "category": "gate",
-      "layout": "grid-3",
-      "captionLines": ["修復及び耐震補強 京都市 平成29年", "【重要文化財】"]
-    },
-    {
-      "title": "上正寺　鐘楼",
-      "src": "img/005_shourou_006joushouji-l.jpg",
-      "thumbnail": "img/005_shourou_006joushouji-s.jpg",
-      "category": "belltower",
-      "layout": "grid-3",
-      "captionLines": ["新築 神奈川県茅ケ崎市 平成27年"]
-    },
-    {
-      "title": "二条城　本丸御殿　玄関",
-      "src": "img/002_garan_038nijojogenkan-l.jpg",
-      "thumbnail": "img/002_garan_038nijojogenkan-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": [
-        "保存修理 京都市 令和1～6年",
-        "【重要文化財】",
-        "写真提供：元離宮二条城事務所",
-        "撮影：杉本和樹"
-      ]
-    },
-    {
-      "title": "二条城　本丸御殿　御書院",
-      "src": "img/002_garan_039nijojoshoin-l.jpg",
-      "thumbnail": "img/002_garan_039nijojoshoin-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": [
-        "保存修理 京都市 令和1～6年",
-        "【重要文化財】",
-        "写真提供：元離宮二条城事務所",
-        "撮影：杉本和樹"
-      ]
-    },
-    {
-      "title": "二条城　本丸御殿　御常御殿",
-      "src": "img/002_garan_040nijojotsunegoten1-l.jpg",
-      "thumbnail": "img/002_garan_040nijojotsunegoten1-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": [
-        "保存修理 京都市 令和1～6年",
-        "【重要文化財】",
-        "写真提供：元離宮二条城事務所",
-        "撮影：杉本和樹"
-      ]
-    },
-    {
-      "title": "二条城　本丸御殿　御常御殿",
-      "src": "img/002_garan_041nijojotsunegoten2-l.jpg",
-      "thumbnail": "img/002_garan_041nijojotsunegoten2-s.jpg",
-      "category": "temple",
-      "layout": "grid-3",
-      "captionLines": [
-        "保存修理 京都市 令和1～6年",
-        "【重要文化財】",
-        "写真提供：元離宮二条城事務所",
-        "撮影：杉本和樹"
-      ]
     }
   ]
 }
