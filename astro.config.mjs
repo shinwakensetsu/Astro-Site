@@ -6,6 +6,9 @@ import securityHeaders from './src/integrations/security-headers.js';
 
 // https://astro.build/config
 export default defineConfig({
+    // 本番の正規URL（canonical / OGP / サイトマップ生成の基準）
+    site: 'https://www.sinwakensetu.co.jp',
+
     integrations: [srJoin(), securityHeaders()],
     adapter: cloudflare(),
 
